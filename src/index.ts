@@ -38,8 +38,8 @@ function makeResult<T, E>(error: E | undefined, data?: T): Result<T, E> {
   const tuple = [error, data] as any
 
   const methods: ResultMethods<T, E> = {
-    isOk() { return error === undefined },
-    isErr() { return error !== undefined },
+    isOk(): this is ResultSuccess<T> { return error === undefined },
+    isErr(): this is ResultFailure<E> { return error !== undefined },
     unwrap() {
       if (error !== undefined) throw error
       return data as T
