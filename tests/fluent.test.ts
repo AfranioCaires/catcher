@@ -21,10 +21,10 @@ describe('Fluent API', () => {
   })
 
   it('should support getOrElse', async () => {
-    const success = await catchError(Promise.resolve(10))
+    const success = await catchError<number>(Promise.resolve(10))
     expect(success.getOrElse(0)).toBe(10)
 
-    const failure = await catchError(Promise.reject('error'))
+    const failure = await catchError<number>(Promise.reject('error'))
     expect(failure.getOrElse(0)).toBe(0)
   })
 })
