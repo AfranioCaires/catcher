@@ -1,25 +1,25 @@
 /**
  * Result when the operation succeeds.
  */
-export type ResultSuccess<T> = readonly [error: undefined, data: T] & ResultMethods<T, never> & {
-  error: undefined
-  data: T
-}
+export type ResultSuccess<T, E = never> = {
+  readonly error: undefined
+  readonly data: T
+} & ResultMethods<T, E> & readonly [error: undefined, data: T]
 
 /**
  * Result when the operation fails.
  */
-export type ResultFailure<E> = readonly [error: E, data: undefined] & ResultMethods<never, E> & {
-  error: E
-  data: undefined
-}
+export type ResultFailure<T, E> = {
+  readonly error: E
+  readonly data: undefined
+} & ResultMethods<T, E> & readonly [error: E, data: undefined]
 
 /** Methods available on the Result object. */
 export interface ResultMethods<T, E> {
   /** Returns true if the result is a success. */
-  isOk(): this is ResultSuccess<T>
+  isOk(): this is ResultSuccess<T, E>
   /** Returns true if the result is a failure. */
-  isErr(): this is ResultFailure<E>
+  isErr(): this is ResultFailure<T, E>
   /** Returns the data if success, or throws the error if failure. */
   unwrap(): T
   /** Returns the data if success, or a default value if failure. */
@@ -27,19 +27,19 @@ export interface ResultMethods<T, E> {
 }
 
 /** Discriminated union narrowed by the presence of `error`. */
-export type Result<T, E = any> = ResultSuccess<T> | ResultFailure<E>
+export type Result<T, E = any> = ResultSuccess<T, E> | ResultFailure<T, E>
 
 /**
  * Internal helper to create a Result object/tuple.
  */
-function makeResult<T, E>(error: E, data: undefined): ResultFailure<E>
-function makeResult<T, E>(error: undefined, data: T): ResultSuccess<T>
+function makeResult<T, E>(error: E, data: undefined): ResultFailure<T, E>
+function makeResult<T, E>(error: undefined, data: T): ResultSuccess<T, E>
 function makeResult<T, E>(error: E | undefined, data?: T): Result<T, E> {
   const tuple = [error, data] as any
 
   const methods: ResultMethods<T, E> = {
-    isOk(): this is ResultSuccess<T> { return error === undefined },
-    isErr(): this is ResultFailure<E> { return error !== undefined },
+    isOk(): this is ResultSuccess<T, E> { return error === undefined },
+    isErr(): this is ResultFailure<T, E> { return error !== undefined },
     unwrap() {
       if (error !== undefined) throw error
       return data as T
