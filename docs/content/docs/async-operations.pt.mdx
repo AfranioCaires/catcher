@@ -1,0 +1,78 @@
+---
+title: Operações Assíncronas
+description: Manipulando promises e requisições concorrentes.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Operações Assíncronas
+
+A função `catchError` foi projetada para lidar com tarefas assíncronas encapsulando Promises e retornando um objeto Result padronizado.
+
+## Uso Padrão
+
+Você pode encapsular qualquer Promise, como requisições de rede ou consultas a banco de dados.
+
+```typescript
+import { catchError } from 'catch-error-lib';
+
+async function fetchUser(id: number) {
+  const [error, data] = await catchError(
+    fetch(`https://api.example.com/users/${id}`).then(res => res.json())
+  );
+
+  if (error) {
+    return null;
+  }
+  
+  return data;
+}
+```
+
+## Manipulando Concorrência
+
+Ao lidar com várias promises simultaneamente, você pode encapsular `Promise.all` ou `Promise.allSettled`.
+
+### Promise.all
+
+Se qualquer promise no array falhar, todo o `Promise.all` falha. O `catchError` irá capturar essa falha única.
+
+```typescript
+import { catchError } from 'catch-error-lib';
+
+const [error, data] = await catchError(Promise.all([
+  fetch('https://api.example.com/posts/1').then(res => res.json()),
+  fetch('https://api.example.com/posts/2').then(res => res.json())
+]));
+
+if (error) {
+  throw new Error('One or more requests failed');
+}
+
+console.log(data.length);
+```
+
+### Promise.allSettled
+
+O `Promise.allSettled` nunca é rejeitado. Ele é resolvido com um array de status. Você ainda pode encapsulá-lo com `catchError` para lidar com problemas estruturais ou inesperados.
+
+```typescript
+import { catchError } from 'catch-error-lib';
+
+const [error, settledData] = await catchError(Promise.allSettled([
+  fetch('https://api.example.com/posts/1').then(res => res.json()),
+  fetch('https://invalid-url.example').then(res => res.json())
+]));
+
+if (!error) {
+  const successes = settledData.filter(r => r.status === 'fulfilled');
+  const failures = settledData.filter(r => r.status === 'rejected');
+  
+  console.log(successes.length);
+  console.log(failures.length);
+}
+```
+
+<Callout title="Nota de Performance">
+O encapsulamento de Promises adiciona uma sobrecarga quase nula. É seguro para uso em ambientes de alto rendimento.
+</Callout>

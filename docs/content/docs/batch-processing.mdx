@@ -1,0 +1,61 @@
+---
+title: Batch Processing
+description: Execute multiple operations independently.
+---
+
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+
+# Batch Processing
+
+If you need to execute a list of operations and collect all their results—without letting a single failure stop the entire batch—you can use the batch utilities.
+
+<Tabs items={['Async Batch', 'Sync Batch']}>
+  <Tab value="Async Batch">
+    Use `batchCatch` for an array of Promises or asynchronous functions. It waits for all of them to finish and returns an array of Result objects.
+
+    ```typescript
+    import { batchCatch } from 'catch-error-lib';
+
+    async function processTasks() {
+      const tasks = [
+        () => Promise.resolve('Task 1 complete'),
+        () => Promise.reject(new Error('Task 2 failed')),
+        () => Promise.resolve('Task 3 complete')
+      ];
+
+      const results = await batchCatch(tasks);
+
+      results.forEach(result => {
+        if (result.isOk()) {
+          console.log(result.data);
+        } else {
+          console.error(result.error.message);
+        }
+      });
+    }
+    ```
+  </Tab>
+  <Tab value="Sync Batch">
+    Use `batchCatchSync` for an array of synchronous functions. It executes them sequentially and returns an array of Result objects.
+
+    ```typescript
+    import { batchCatchSync } from 'catch-error-lib';
+
+    function parseMultiple() {
+      const inputs = [
+        () => JSON.parse('{"a": 1}'),
+        () => JSON.parse('invalid'),
+        () => JSON.parse('{"c": 3}')
+      ];
+
+      const results = batchCatchSync(inputs);
+
+      const successfulParses = results
+        .filter(r => r.isOk())
+        .map(r => r.data);
+
+      console.log(successfulParses);
+    }
+    ```
+  </Tab>
+</Tabs>

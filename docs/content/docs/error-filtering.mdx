@@ -1,0 +1,58 @@
+---
+title: Error Filtering
+description: Catch specific errors and let others crash the app.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Error Filtering
+
+Sometimes you only want to catch specific types of errors, such as validation errors, while letting critical errors (like database connection failures) bubble up and crash the application.
+
+## Using Filters
+
+You can provide an array of Error classes as a secondary argument. If the thrown error is an instance of any class in the array, it will be caught. Otherwise, it will be thrown again.
+
+```typescript
+import { catchErrorSync } from 'catch-error-lib';
+
+class DatabaseError extends Error {
+  name = 'DatabaseError';
+}
+
+class ValidationError extends Error {
+  name = 'ValidationError';
+}
+
+function processUserData() {
+  const result = catchErrorSync(
+    () => {
+      throw new DatabaseError('Connection failed');
+    },
+    [ValidationError] 
+  );
+  
+  return result;
+}
+```
+
+<Callout title="Uncaught Exceptions" type="error">
+In the example above, the `DatabaseError` is not in the filter list `[ValidationError]`. Therefore, `catchErrorSync` will not return a Result object; instead, it will re-throw the `DatabaseError` and crash the program, which is often the desired behavior for fatal errors.
+</Callout>
+
+## Combining Filters
+
+You can pass multiple classes to handle different expected failure modes simultaneously.
+
+```typescript
+import { catchErrorSync } from 'catch-error-lib';
+
+const [error, data] = catchErrorSync(
+  () => performComplexTask(),
+  [ValidationError, DatabaseError, NetworkError]
+);
+
+if (error) {
+  console.log(error.name);
+}
+```

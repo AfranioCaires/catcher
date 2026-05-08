@@ -1,0 +1,78 @@
+---
+title: Async Operations
+description: Handling promises and concurrent requests.
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+
+# Asynchronous Operations
+
+The `catchError` function is designed to handle asynchronous tasks by wrapping Promises and returning a standardized Result object.
+
+## Standard Usage
+
+You can wrap any Promise, such as network requests or database queries.
+
+```typescript
+import { catchError } from 'catch-error-lib';
+
+async function fetchUser(id: number) {
+  const [error, data] = await catchError(
+    fetch(`https://api.example.com/users/${id}`).then(res => res.json())
+  );
+
+  if (error) {
+    return null;
+  }
+  
+  return data;
+}
+```
+
+## Handling Concurrency
+
+When dealing with multiple promises simultaneously, you can wrap `Promise.all` or `Promise.allSettled`.
+
+### Promise.all
+
+If any promise in the array fails, the entire `Promise.all` fails. `catchError` will catch that single failure.
+
+```typescript
+import { catchError } from 'catch-error-lib';
+
+const [error, data] = await catchError(Promise.all([
+  fetch('https://api.example.com/posts/1').then(res => res.json()),
+  fetch('https://api.example.com/posts/2').then(res => res.json())
+]));
+
+if (error) {
+  throw new Error('One or more requests failed');
+}
+
+console.log(data.length);
+```
+
+### Promise.allSettled
+
+`Promise.allSettled` never rejects. It resolves with an array of statuses. You can still wrap it with `catchError` to handle structural or unexpected issues.
+
+```typescript
+import { catchError } from 'catch-error-lib';
+
+const [error, settledData] = await catchError(Promise.allSettled([
+  fetch('https://api.example.com/posts/1').then(res => res.json()),
+  fetch('https://invalid-url.example').then(res => res.json())
+]));
+
+if (!error) {
+  const successes = settledData.filter(r => r.status === 'fulfilled');
+  const failures = settledData.filter(r => r.status === 'rejected');
+  
+  console.log(successes.length);
+  console.log(failures.length);
+}
+```
+
+<Callout title="Performance Note">
+Wrapping Promises adds negligible overhead. It is safe to use in high-throughput environments.
+</Callout>
