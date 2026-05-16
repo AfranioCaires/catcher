@@ -1,0 +1,98 @@
+---
+title: Processamento em Batch
+description: Execute múltiplas operações de forma independente.
+---
+
+Se você precisa executar uma lista de operações e coletar todos os seus resultados, sem deixar que uma única falha interrompa todo o Batch, você pode usar os utilitários de Batch.
+
+### Batch Assíncrono
+
+Use `catchErrorAll` para um array de Promises ou funções assíncronas. Ele aguarda a conclusão de todos e retorna um array de objetos Result.
+
+<CodeBlock
+  filename="batch-async.ts"
+  language="typescript"
+  code={`import { catchErrorAll } from 'Catcher';
+
+async function processTasks() {
+    const tasks = [
+        Promise.resolve('Task 1 complete'),
+        Promise.reject(new Error('Task 2 failed')),
+        Promise.resolve('Task 3 complete')
+    ];
+
+    const results = await catchErrorAll(tasks);
+
+    results.forEach(result => {
+        if (result.isOk()) {
+            console.log(result.data);
+        } else {
+            console.error(result.error.message);
+        }
+    });
+}`}
+/>
+
+### Batch Síncrono
+
+Use `catchErrorAllSync` para um array de funções síncronas. Ele as executa sequencialmente e retorna um array de objetos Result.
+
+<CodeBlock
+  filename="batch-sync.ts"
+  language="typescript"
+  code={`import { catchErrorAllSync } from 'Catcher';
+
+function parseMultiple() {
+    const inputs = [
+        () => JSON.parse('{"a": 1}'),
+        () => JSON.parse('invalid'),
+        () => JSON.parse('{"c": 3}')
+    ];
+
+    const results = catchErrorAllSync(inputs);
+
+    const successfulParses = results
+        .filter(r => r.isOk())
+        .map(r => r.data);
+
+    console.log(successfulParses);
+}`}
+/>
+
+## Props
+
+### catchErrorAll
+
+<PropTable
+  data={[
+    {
+      prop: "inputs",
+      type: "CatchErrorAllInput[]",
+      required: true,
+      description: "Um array de Promises, tuplas ou objetos de configuração.",
+    },
+    {
+      prop: "returns",
+      type: "Promise<Result<T, E>[]>",
+      description: "Um array de objetos Result correspondentes às entradas.",
+    },
+  ]}
+/>
+
+### catchErrorAllSync
+
+<PropTable
+  data={[
+    {
+      prop: "inputs",
+      type: "CatchErrorAllSyncInput[]",
+      required: true,
+      description: "Um array de funções, tuplas ou objetos de configuração.",
+    },
+    {
+      prop: "returns",
+      type: "Result<T, E>[]",
+      description: "Um array de objetos Result correspondentes às entradas.",
+    },
+  ]}
+/>

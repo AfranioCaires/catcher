@@ -1,23 +1,49 @@
-import { defineConfig, defineDocs } from 'fumadocs-mdx/config';
-import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
-
-// You can customize Zod schemas for frontmatter and `meta.json` here
-// see https://fumadocs.dev/docs/mdx/collections
-export const docs = defineDocs({
-  dir: 'content/docs',
-  docs: {
-    schema: pageSchema,
-    postprocess: {
-      includeProcessedMarkdown: true,
-    },
-  },
-  meta: {
-    schema: metaSchema,
-  },
-});
+import rehypeShiki from "@shikijs/rehype";
+import { rehypeToc } from "fumadocs-core/mdx-plugins";
+import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config";
+import { getSingletonHighlighter } from "shiki";
+import { z } from "zod";
+import { transformers } from "@/lib/shiki-transformers";
+import rehypeCodeStyleFilter from "./lib/rehype-code-style-filter";
 
 export default defineConfig({
   mdxOptions: {
-    // MDX options
+    rehypePlugins: [
+      rehypeToc,
+      [
+        rehypeShiki,
+        {
+          getHighlighter: () =>
+            getSingletonHighlighter({
+              themes: ["github-light", "github-dark"],
+              langs: ["tsx", "jsx", "css", "bash", "json", "typescript", "javascript", "markdown", "md"],
+            }),
+          themes: {
+            dark: "github-dark",
+            light: "github-light",
+          },
+          transformers,
+          defaultLang: "tsx",
+          inline: "tailing-curly-colon",
+        },
+      ],
+      rehypeCodeStyleFilter,
+    ],
+  },
+});
+
+export const docs = defineDocs({
+  dir: "./content",
+  docs: {
+    schema: frontmatterSchema.extend({
+      links: z
+        .object({
+          doc: z.string().optional(),
+          api: z.string().optional(),
+        })
+        .optional(),
+      components: z.array(z.string()).optional(),
+      motion: z.boolean().optional(),
+    }),
   },
 });

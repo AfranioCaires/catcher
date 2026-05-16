@@ -1,6 +1,6 @@
 ---
 title: Installation
-description: Get started with catch-error-lib.
+description: Get started with Catcher.
 ---
 
 import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
@@ -9,7 +9,7 @@ import { Step, Steps } from 'fumadocs-ui/components/steps';
 
 # Getting Started
 
-The **catch-error-lib** provides a robust way to handle errors using the Result pattern, eliminating the need for deeply nested control flow blocks.
+The **Catcher** provides a robust way to handle errors using the Result pattern, eliminating the need for deeply nested control flow blocks.
 
 <Steps>
 <Step>
@@ -20,22 +20,22 @@ Use your preferred package manager to add the library to your project.
 <Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
   <Tab value="npm">
     ```bash
-    npm install catch-error-lib
+    npm install Catcher
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add catch-error-lib
+    pnpm add Catcher
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add catch-error-lib
+    yarn add Catcher
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add catch-error-lib
+    bun add Catcher
     ```
   </Tab>
 </Tabs>
@@ -47,7 +47,7 @@ Use your preferred package manager to add the library to your project.
 Import the function and wrap your promise.
 
 ```typescript
-import { catchError } from 'catch-error-lib';
+import { catchError } from 'Catcher';
 
 async function fetchUser(userId: string) {
   const [error, data] = await catchError(fetch(`https://api.example.com/users/${userId}`));

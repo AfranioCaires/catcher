@@ -1,0 +1,31 @@
+---
+title: Express and Web Frameworks
+description: Integrating the Result pattern into route handlers using filtered catching.
+---
+
+## The Problem
+
+Most web frameworks rely on throwing exceptions to signal failures. Often, you only want to catch specific, expected errors like a "Not Found" state, while letting other unexpected critical failures bubble up to a global error handler.
+
+## The Solution
+
+Use the named catch pattern (tuple destructuring) combined with error filtering to only capture the `NotFoundError`. This keeps your logic focused strictly on expected failure modes.
+
+<CodeBlock
+    filename="server.ts"
+    language="typescript"
+    code={`app.get("/users/:id", async (req, res) => {
+    const [error, user] = await catchError(
+        userService.findById(req.params.id),
+        [NotFoundError]
+    );
+
+    if (error) {
+        return res.status(404).json({ error: error.message });
+    }
+
+    return res.status(200).json(user);
+});`}
+/>
+
+By providing an array of error classes as the second argument, you ensure that only those specific types are caught. Any other exception will still be thrown normally.

@@ -1,0 +1,427 @@
+---
+title: Agent Skills
+description: Copy this block to your agent's system prompt or skills.
+---
+
+Provide your AI agents with the full context, usage patterns, and API signatures of the Catcher library.
+
+### CLI Installation
+
+If you use a skill management tool, run the command below:
+
+<CodeBlockTabs>
+  <CodeBlockTabsList>
+    <CodeBlockTabsTrigger value="npm">npm</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="pnpm">pnpm</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="yarn">yarn</CodeBlockTabsTrigger>
+    <CodeBlockTabsTrigger value="bun">bun</CodeBlockTabsTrigger>
+  </CodeBlockTabsList>
+
+  <CodeBlockTab value="npm">
+    ```bash
+    npx skills add https://github.com/afraniocaires/catcher --skill --catcher
+    ```
+  </CodeBlockTab>
+
+  <CodeBlockTab value="pnpm">
+    ```bash
+    pnpm dlx skills add https://github.com/afraniocaires/catcher --skill --catcher
+    ```
+  </CodeBlockTab>
+
+  <CodeBlockTab value="yarn">
+    ```bash
+    yarn dlx skills add https://github.com/afraniocaires/catcher --skill --catcher
+    ```
+  </CodeBlockTab>
+
+  <CodeBlockTab value="bun">
+    ```bash
+    bun x skills add https://github.com/afraniocaires/catcher --skill --catcher
+    ```
+  </CodeBlockTab>
+</CodeBlockTabs>
+
+### Manual Installation
+
+If you prefer manual installation, copy the block below and add it to your agent's **System Prompt** or **Skills** section.
+
+<CodeBlock
+  filename="SKILL.md"
+  language="markdown"
+  code={`---
+name: Catcher
+description: >
+    Complete usage guide for the Catcher library for error handling with the Result pattern (Ok/Err) in TypeScript.
+    Use this skill ALWAYS whenever the user mentions catchError, catchErrorSync, catchErrorAll, Result, ok(), err(), combine, fromNullable, fromThrowable, fromPromise, or asks to handle errors without try/catch in TypeScript.
+    Also trigger when the user wants to convert Promises to Result, chain operations that can fail, combine multiple results, or use the Railway-Oriented Programming (ROP) pattern in the project.
+---
+
+# Catcher - Usage Guide
+
+TypeScript library for functional error handling using the Result<T, E> type.
+Eliminates try/catch blocks scattered throughout the code and makes the error flow explicit and composable.
+
+## Imports
+
+\`\`\`ts
+import {
+    catchError, catchErrorSync, catchErrorWithTimeout,
+    catchErrorAll, catchErrorAllSync,
+    combine, combineAll, partition,
+    fromNullable, fromThrowable, fromPromise,
+    ok, err,
+    Result, AsyncResult,
+} from "Catcher";
+\`\`\`
+
+---
+
+## 1. Fundamental Types
+
+| Type | Description |
+|------|-----------|
+| Result<T, E> | Success (ok) or failure (err) |
+| AsyncResult<T, E> | Promise<Result<T, E>> |
+| ResultSuccess<T, E> | Success result (type guard) |
+| ResultFailure<T, E> | Failure result (type guard) |
+
+\`\`\`ts
+const success = ok(42);
+const failure = err(new Error("Oops"));
+\`\`\`
+
+---
+
+## 2. Catching Errors
+
+### catchError - Promise → Result
+
+\`\`\`ts
+const result = await catchError(fetch("/api/data"));
+
+const result2 = await catchError(fetchUser(id), [NetworkError, TimeoutError]);
+\`\`\`
+
+### catchErrorWithTimeout - with timeout
+
+\`\`\`ts
+const result = await catchErrorWithTimeout(longOperation(), 5000);
+\`\`\`
+
+### catchErrorSync - synchronous function → Result
+
+\`\`\`ts
+const result = catchErrorSync(() => JSON.parse(rawJson));
+const result2 = catchErrorSync(() => riskyOp(), [TypeError]);
+\`\`\`
+
+---
+
+## 3. Checking and Extracting the Result
+
+\`\`\`ts
+const result = await catchError(getUser(id));
+
+if (result.isOk())  console.log(result.data);
+if (result.isErr()) console.log(result.error);
+
+const [error, data] = result;
+if (error) {  }
+
+result.data;
+result.error;
+
+const data = result.unwrap();
+const error = result.unwrapErr();
+
+const value = result.getOrElse(0);
+\`\`\`
+
+---
+
+## 4. Chaining (Fluent API)
+
+\`\`\`ts
+const result = await catchError(getUser(id))
+    .then(r => r
+        .map(user => user.name.toUpperCase())
+        .mapErr(e => new AppError("User not found"))
+        .andThen(name => validateName(name))
+        .tap(name => console.log("Name:", name))
+        .tapErr(e => logger.error(e))
+        .getOrElse("Anonymous")
+    );
+\`\`\`
+
+| Method | When to use |
+|--------|-------------|
+| .map(fn) | Transform the success value |
+| .mapErr(fn) | Transform the error |
+| .andThen(fn) / .flatMap(fn) | Chain operation that returns Result |
+| .orElse(fn) | Recover from an error with a new Result |
+| .tap(fn) | Side-effect on success (log, cache, etc.) |
+| .tapErr(fn) | Side-effect on error |
+| .toPromise() | Convert back to Promise (rejects if err) |
+
+---
+
+## 5. Batch Operations
+
+### catchErrorAll - multiple Promises in parallel
+
+\`\`\`ts
+const [r1, r2] = await catchErrorAll([
+    fetchUser(1),
+    fetchPosts(1),
+]);
+
+const results = await catchErrorAll([
+    fetchUser(1),
+    [fetchProfile(1), [NetworkError]],
+    [fetchSettings(1), [DBError], (e) => defaultSettings],
+    {
+        promise: longQuery(),
+        timeoutMs: 3000,
+        errorsToCatch: [TimeoutError],
+        handler: (e) => [],
+    },
+]);
+\`\`\`
+
+### catchErrorAllSync - multiple synchronous functions
+
+\`\`\`ts
+const [r1, r2, r3] = catchErrorAllSync([
+    () => JSON.parse(a),
+    [() => JSON.parse(b), [SyntaxError]],
+    { fn: () => riskyOp(), handler: (e) => fallback },
+]);
+\`\`\`
+
+---
+
+## 6. Combinators
+
+### combine - stops at the first error
+
+\`\`\`ts
+const result = combine([r1, r2, r3]);
+\`\`\`
+
+### combineAll - collects all errors
+
+\`\`\`ts
+const result = combineAll([r1, r2, r3]);
+\`\`\`
+
+### partition - separates ok and err
+
+\`\`\`ts
+const { ok: users, err: failures } = partition(results);
+\`\`\`
+
+---
+
+## 7. Utilities (Helpers)
+
+### fromNullable - null/undefined → Result
+
+\`\`\`ts
+const result = fromNullable(cache.get(key), new CacheError("miss"));
+\`\`\`
+
+### fromThrowable - wraps function that might throw
+
+\`\`\`ts
+const safeParseJSON = fromThrowable(JSON.parse, [SyntaxError]);
+const result = safeParseJSON('{"ok": true}');
+\`\`\`
+
+### fromPromise - readable alias for catchError
+
+\`\`\`ts
+const result = await fromPromise(axios.get("/api"), [AxiosError]);
+\`\`\`
+
+---
+
+## 8. Common Patterns
+
+### Sequential Chaining (Railway)
+
+\`\`\`ts
+async function registerUser(dto: RegisterDTO): AsyncResult<User, AppError> {
+    const emailResult = await catchError(checkEmailAvailable(dto.email));
+    if (emailResult.isErr()) return err(new AppError("Email in use"));
+
+    const hashResult = catchErrorSync(() => bcrypt.hashSync(dto.password, 10));
+    if (hashResult.isErr()) return err(new AppError("Error generating hash"));
+
+    return catchError(db.user.create({ ...dto, password: hashResult.data }));
+}
+\`\`\`
+
+### Parallel operations with fallback
+
+\`\`\`ts
+const [userResult, prefsResult] = await catchErrorAll([
+    fetchUser(id),
+    { promise: fetchPrefs(id), handler: () => defaultPrefs },
+]);
+
+if (userResult.isErr()) return handleError(userResult.error);
+const user = userResult.data;
+const prefs = prefsResult.getOrElse(defaultPrefs);
+\`\`\`
+
+### Validation accumulating errors
+
+\`\`\`ts
+const results = catchErrorAllSync([
+    [() => validateName(dto.name),   [ValidationError]],
+    [() => validateEmail(dto.email), [ValidationError]],
+    [() => validateAge(dto.age),     [ValidationError]],
+]);
+
+const { err: errors } = partition(results);
+if (errors.length > 0) return err(errors);
+\`\`\`
+
+---
+
+## 9. Signature Reference
+
+# API Reference - Catcher
+
+## catchError
+
+\`\`\`ts
+async function catchError<T, E extends ErrorClass>(
+    promise: Promise<T>,
+    errorsToCatch?: E[]
+): Promise<Result<T, InstanceType<E>>>
+\`\`\`
+
+## catchErrorWithTimeout
+
+\`\`\`ts
+async function catchErrorWithTimeout<T, E extends ErrorClass>(
+    promise: Promise<T>,
+    timeoutMs: number,
+    errorsToCatch?: E[]
+): Promise<Result<T, InstanceType<E> | Error>>
+\`\`\`
+
+## catchErrorSync
+
+\`\`\`ts
+function catchErrorSync<T, E extends ErrorClass>(
+    fn: () => T,
+    errorsToCatch?: E[]
+): Result<T, InstanceType<E>>
+\`\`\`
+
+## catchErrorAll
+
+\`\`\`ts
+type CatchErrorAllInput<T> =
+    | Promise<T>
+    | readonly [Promise<T>]
+    | readonly [Promise<T>, ErrorClass[]]
+    | readonly [Promise<T>, ErrorClass[], (error: any) => T | void]
+    | { promise: Promise<T>; timeoutMs?: number; errorsToCatch?: ErrorClass[]; handler?: (error: any) => T | void }
+
+function catchErrorAll<T extends readonly CatchErrorAllInput<any>[]>(
+    inputs: [...T]
+): Promise<{ [K in keyof T]: Result<InferInput<T[K]>, any> }>
+\`\`\`
+
+## catchErrorAllSync
+
+\`\`\`ts
+type CatchErrorAllSyncInput<T> =
+    | (() => T)
+    | readonly [() => T]
+    | readonly [() => T, ErrorClass[]]
+    | readonly [() => T, ErrorClass[], (error: any) => T | void]
+    | { fn: () => T; errorsToCatch?: ErrorClass[]; handler?: (error: any) => T | void }
+
+function catchErrorAllSync<T extends readonly CatchErrorAllSyncInput<any>[]>(
+    inputs: [...T]
+): { [K in keyof T]: Result<InferInputSync<T[K]>, any> }
+\`\`\`
+
+## combine
+
+\`\`\`ts
+function combine<T extends readonly Result<any, any>[]>(
+    results: [...T]
+): Result<{ [K in keyof T]: UnwrapOk<T[K]> }, UnwrapErr<T[number]>>
+\`\`\`
+
+## combineAll
+
+\`\`\`ts
+function combineAll<T extends readonly Result<any, any>[]>(
+    results: [...T]
+): Result<{ [K in keyof T]: UnwrapOk<T[K]> }, UnwrapErr<T[number]>[]>
+\`\`\`
+
+## partition
+
+\`\`\`ts
+function partition<T, E>(results: Result<T, E>[]): { ok: T[]; err: E[] }
+\`\`\`
+
+## fromNullable
+
+\`\`\`ts
+function fromNullable<T, E>(value: T | null | undefined, error: E): Result<T, E>
+\`\`\`
+
+## fromThrowable
+
+\`\`\`ts
+function fromThrowable<T, E extends ErrorClass, Args extends any[]>(
+    fn: (...args: Args) => T,
+    errorsToCatch?: E[]
+): (...args: Args) => Result<T, InstanceType<E>>
+\`\`\`
+
+## fromPromise
+
+\`\`\`ts
+function fromPromise<T, E extends ErrorClass>(
+    promise: Promise<T>,
+    errorsToCatch?: E[]
+): Promise<Result<T, InstanceType<E>>>
+\`\`\`
+
+## ok / err
+
+\`\`\`ts
+function ok<T>(data: T): Result<T, never>
+function err<E>(error: E): Result<never, E>
+\`\`\`
+
+## ResultMethods (methods on the Result object)
+
+\`\`\`ts
+interface ResultMethods<T, E> {
+    isOk(): this is ResultSuccess<T, E>
+    isErr(): this is ResultFailure<T, E>
+    unwrap(): T
+    unwrapErr(): E
+    getOrElse<D>(defaultValue: D): T | D
+    map<U>(fn: (data: T) => U): Result<U, E>
+    mapErr<F>(fn: (error: E) => F): Result<T, F>
+    andThen<U, F>(fn: (data: T) => Result<U, F>): Result<U, E | F>
+    flatMap<U, F>(fn: (data: T) => Result<U, F>): Result<U, E | F>
+    orElse<U, F>(fn: (error: E) => Result<U, F>): Result<T | U, F>
+    tap(fn: (data: T) => void): Result<T, E>
+    tapErr(fn: (error: E) => void): Result<T, E>
+    toPromise(): Promise<T>
+}
+\`\`\``}
+/>

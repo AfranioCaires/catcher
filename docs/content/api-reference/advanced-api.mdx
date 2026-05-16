@@ -1,0 +1,176 @@
+---
+title: Advanced Result API
+description: Chaining, mapping, and side-effects on Result objects.
+---
+
+The `Result` object provides a rich, fluent API heavily inspired by functional programming. These methods allow you to chain operations, transform data, and trigger side-effects without breaking the control flow.
+
+## Result Methods
+
+## Transformation Methods
+
+### `map`
+
+Transforms the success data using a provided function. If the result is an error, it ignores the function and returns the error as-is.
+
+<CodeBlock
+  filename="map-usage.ts"
+  language="typescript"
+  code={`import { catchErrorSync } from 'Catcher';
+
+const result = catchErrorSync(() => JSON.parse('{"count": 5}'));
+
+
+const doubled = result.map(data => data.count * 2);
+
+console.log(doubled.unwrap()); `}
+/>
+
+### `mapErr`
+
+Transforms the error using a provided function. If the result is a success, it returns the success as-is.
+
+<CodeBlock
+  filename="error-mapping.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => { throw new Error('Not found') });
+
+const customErrorResult = result.mapErr(err => new CustomError(err.message));`}
+/>
+
+## Chaining Methods
+
+### `andThen` / `flatMap`
+
+Chains another operation that also returns a `Result`. If the first operation fails, the chained operation is skipped. Both `andThen` and `flatMap` are identical aliases.
+
+<CodeBlock
+  filename="chaining.ts"
+  language="typescript"
+  code={`const processData = (raw: string) => {
+    return catchErrorSync(() => JSON.parse(raw))
+        .andThen(parsed => catchErrorSync(() => validateSchema(parsed)));
+};`}
+/>
+
+### `orElse`
+
+Recovers from an error by returning a new `Result`. If the original result is a success, it ignores the function and returns the success as-is.
+
+<CodeBlock
+  filename="recovery.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => fetchFromCache())
+    .orElse(() => catchErrorSync(() => fetchFromDatabase()));`}
+/>
+
+## Side-Effect Methods
+
+### `tap`
+
+Executes a side-effect (like logging) if the result is a success. It does not modify the `Result` and returns it unchanged, allowing further chaining.
+
+<CodeBlock
+  filename="side-effects.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => computeValue())
+    .tap(data => console.log('Successfully computed:', data))
+    .map(data => data * 2);`}
+/>
+
+### `tapErr`
+
+Executes a side-effect if the result is an error.
+
+<CodeBlock
+  filename="error-logging.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => riskyOperation())
+    .tapErr(err => console.error('Operation failed:', err.message));`}
+/>
+
+## Utility Methods
+
+### `unwrapErr`
+
+Returns the contained error if the result is a failure. Throws the contained data if it is a success (the opposite of `unwrap`).
+
+### `toPromise`
+
+Converts the `Result` back into a standard Promise. Resolves with the data on success, or rejects with the error on failure.
+
+<CodeBlock
+  filename="promise-conversion.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => 42);
+const value = await result.toPromise();`}
+/>
+
+## Props
+
+### Result Methods
+
+<PropTable
+  data={[
+    {
+      prop: "isOk()",
+      type: "boolean",
+      description: "Returns true if the result is a success. Acts as a type guard.",
+    },
+    {
+      prop: "isErr()",
+      type: "boolean",
+      description: "Returns true if the result is a failure. Acts as a type guard.",
+    },
+    {
+      prop: "unwrap()",
+      type: "T",
+      description: "Returns the data if success, throws the error if failure.",
+    },
+    {
+      prop: "unwrapErr()",
+      type: "E",
+      description: "Returns the error if failure, throws the data if success.",
+    },
+    {
+      prop: "getOrElse(defaultValue)",
+      type: "T | D",
+      description: "Returns data if success, or the provided default if failure.",
+    },
+    {
+      prop: "map(fn)",
+      type: "Result<U, E>",
+      description: "Transforms the success data using the provided function.",
+    },
+    {
+      prop: "mapErr(fn)",
+      type: "Result<T, F>",
+      description: "Transforms the error using the provided function.",
+    },
+    {
+      prop: "andThen(fn)",
+      type: "Result<U, E | F>",
+      description: "Chains another operation that returns a Result.",
+    },
+    {
+      prop: "orElse(fn)",
+      type: "Result<T | U, F>",
+      description: "Recovers from an error by returning a new Result.",
+    },
+    {
+      prop: "tap(fn)",
+      type: "Result<T, E>",
+      description: "Executes a side effect if success. Returns original Result.",
+    },
+    {
+      prop: "tapErr(fn)",
+      type: "Result<T, E>",
+      description: "Executes a side effect if failure. Returns original Result.",
+    },
+    {
+      prop: "toPromise()",
+      type: "Promise<T>",
+      description: "Converts the Result into a Promise (resolves data, rejects error).",
+    },
+  ]}
+/>

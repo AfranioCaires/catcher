@@ -1,0 +1,72 @@
+---
+title: Core Concepts
+description: Understanding the Result pattern and the dual API.
+---
+
+The `Catcher` is built around the Result pattern. Instead of throwing exceptions that interrupt the control flow, operations return a Result object that encapsulates either a successful outcome or an error.
+
+## Dual API
+
+The Result object returned by the library implements both standard object properties and iterator properties. This allows you to consume the result in two distinct ways, depending on your preference.
+
+### Destructuring (Tuple)
+
+This approach mimics the error handling style found in languages like Go.
+
+<CodeBlock
+  filename="tuple-usage.ts"
+  language="typescript"
+  code={`import { catchErrorSync } from 'Catcher';
+
+const [error, data] = catchErrorSync(() => JSON.parse('{"valid": true}'));
+
+if (error) {
+    throw new Error('Parse failed');
+}
+
+console.log(data.valid);`}
+/>
+
+### Object API
+
+This approach uses fluent methods to check the status and retrieve values.
+
+<CodeBlock
+  filename="object-api.ts"
+  language="typescript"
+  code={`import { catchErrorSync } from 'Catcher';
+
+const result = catchErrorSync(() => JSON.parse('{"valid": true}'));
+
+if (result.isOk()) {
+    console.log(result.data.valid);
+} else {
+    console.error(result.error);
+}`}
+/>
+
+## Fluent Methods
+
+When using the Object API, several helper methods are available on the Result object.
+
+### `getOrElse`
+
+Returns the successful data if the operation succeeded, or a provided fallback value if it failed.
+
+<CodeBlock
+  filename="get-or-else.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => JSON.parse('invalid'));
+const parsedData = result.getOrElse({ default: true });`}
+/>
+
+### `unwrap`
+
+Returns the successful data if the operation succeeded, but throws the encapsulated error if it failed.
+
+<CodeBlock
+  filename="unwrap.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => JSON.parse('{"valid": true}'));
+const data = result.unwrap();`}
+/>
