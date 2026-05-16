@@ -1,4 +1,4 @@
-.badge[data-slot="badge"] {
+.badge[data-slot='badge'] {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,23 +13,23 @@
   z-index: 1;
 }
 
-.badge[data-slot="badge"]:hover {
+.badge[data-slot='badge']:hover {
   background-color: var(--accent);
 }
 
-.badge[data-slot="badge"] svg {
+.badge[data-slot='badge'] svg {
   width: 14px;
   height: 12px;
   overflow: visible;
   transition: transform 150ms ease-in-out;
 }
 
-.badge[data-slot="badge"] svg path:first-child {
+.badge[data-slot='badge'] svg path:first-child {
   transition: transform 150ms ease-in;
   transform: translateX(0);
 }
 
-.badge[data-slot="badge"] svg path:last-child {
+.badge[data-slot='badge'] svg path:last-child {
   transition:
     opacity 150ms ease-in,
     transform 150ms ease-in;
@@ -37,11 +37,11 @@
   transform: translateX(0);
 }
 
-.badge[data-slot="badge"]:hover svg path:first-child {
+.badge[data-slot='badge']:hover svg path:first-child {
   transform: translateX(2px);
 }
 
-.badge[data-slot="badge"]:hover svg path:last-child {
+.badge[data-slot='badge']:hover svg path:last-child {
   opacity: 1;
   transform: translateX(-1px);
 }
@@ -126,19 +126,19 @@
   z-index: 1;
 }
 
-.buttonWrapper [data-slot="button"] {
+.buttonWrapper [data-slot='button'] {
   white-space: nowrap;
   border-radius: 2px;
 }
 
-.buttonWrapper [data-slot="button"]:first-of-type {
+.buttonWrapper [data-slot='button']:first-of-type {
   box-shadow:
     0px 0px 0px 1px rgba(255, 255, 255, 0.15) inset,
     0px 1px 2px 0px rgba(0, 0, 0, 0.2),
     0px 0px 0px 1px rgba(255, 255, 255, 0.5);
 }
 
-.buttonWrapper [data-slot="button"]:last-of-type {
+.buttonWrapper [data-slot='button']:last-of-type {
   box-shadow:
     0px 0px 0px 1px rgba(255, 255, 255, 0.07) inset,
     0px 1px 2px 0px rgba(0, 0, 0, 0.05),
@@ -175,8 +175,8 @@
   /* Use minmax to ensure rows have distinct height but can grow */
   grid-template-rows: repeat(2, minmax(200px, 1fr));
   grid-template-areas:
-    "expandable context popover"
-    "expandable badge chat";
+    'expandable context popover'
+    'expandable badge chat';
   gap: 16px; /* Increased gap slightly for elegance */
   margin-top: 64px;
   width: 100%;
@@ -205,19 +205,19 @@
 }
 
 /* Grid Areas */
-.bentoCard[data-size="large"] {
+.bentoCard[data-size='large'] {
   grid-area: expandable;
 }
-.bentoCard[data-size="medium"]:nth-of-type(2) {
+.bentoCard[data-size='medium']:nth-of-type(2) {
   grid-area: context;
 }
-.bentoCard[data-size="medium"]:nth-of-type(3) {
+.bentoCard[data-size='medium']:nth-of-type(3) {
   grid-area: popover;
 }
-.bentoCard[data-size="small"] {
+.bentoCard[data-size='small'] {
   grid-area: badge;
 }
-.bentoCard[data-size="wide"] {
+.bentoCard[data-size='wide'] {
   grid-area: chat;
 }
 
@@ -226,7 +226,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: "Geist Mono", monospace;
+  font-family: 'Geist Mono', monospace;
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -239,7 +239,7 @@
 
 /* Decorative dot for the label */
 .bentoLabel::before {
-  content: "";
+  content: '';
   display: block;
   width: 6px;
   height: 6px;
@@ -268,20 +268,20 @@
   mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 }
 
-.bentoCard[data-size="wide"] .bentoContent {
+.bentoCard[data-size='wide'] .bentoContent {
   mask-image: none;
 }
 
-.bentoCard[data-size="wide"] [data-slot="select-trigger"] {
+.bentoCard[data-size='wide'] [data-slot='select-trigger'] {
   min-width: unset;
   transition: none !important;
 }
 
-.bentoCard[data-size="wide"] [data-slot="select-trigger"][data-popup-open] {
+.bentoCard[data-size='wide'] [data-slot='select-trigger'][data-popup-open] {
   background-color: var(--accent) !important;
 }
 
-.bentoCard[data-size="wide"] [data-slot="select-trigger"] [data-slot="select-value"] + span {
+.bentoCard[data-size='wide'] [data-slot='select-trigger'] [data-slot='select-value'] + span {
   display: none;
 }
 
@@ -293,13 +293,13 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto; /* Let rows size naturally */
     grid-template-areas:
-      "expandable expandable"
-      "context popover"
-      "chat badge";
+      'expandable expandable'
+      'context popover'
+      'chat badge';
   }
 
   /* Force the large card to have a minimum height */
-  .bentoCard[data-size="large"] {
+  .bentoCard[data-size='large'] {
     min-height: 300px;
   }
 }
@@ -309,11 +309,11 @@
     /* Single column for mobile */
     grid-template-columns: 1fr;
     grid-template-areas:
-      "expandable"
-      "context"
-      "popover"
-      "chat"
-      "badge";
+      'expandable'
+      'context'
+      'popover'
+      'chat'
+      'badge';
     gap: 12px;
     margin-top: 48px;
   }
@@ -323,11 +323,11 @@
     padding: 16px;
   }
 
-  .bentoCard[data-size="large"] {
+  .bentoCard[data-size='large'] {
     min-height: 400px;
   }
 
-  .bentoCard[data-size="large"] .bentoContent {
+  .bentoCard[data-size='large'] .bentoContent {
     align-items: flex-start;
     padding-top: 1rem;
     mask-image: none;

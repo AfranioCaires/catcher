@@ -14,7 +14,7 @@
   --space-3xl: 80px;
 }
 
-html[data-theme="light"] {
+html[data-theme='light'] {
   --docs-heading: oklch(0.2 0 0);
 }
 

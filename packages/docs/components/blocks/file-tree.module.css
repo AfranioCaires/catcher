@@ -2,7 +2,7 @@
   padding: 0.5rem;
   font-size: 0.8125rem;
   font-family:
-    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 }
 
 .node {

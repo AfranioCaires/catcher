@@ -1,29 +1,31 @@
-"use client";
+'use client'
 
-import { SunMoon } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button/button";
-import styles from "./theme-switcher.module.css";
+import { SunMoon } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
+
+import { Button } from '@/components/ui/button/button'
+
+import styles from './theme-switcher.module.css'
 
 export function ThemeSwitcher() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    setMounted(true)
+  }, [])
 
   const handleThemeToggle = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-  };
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(newTheme)
+  }
 
-  const ariaLabel = theme === "light" ? "Switch to dark mode" : "Switch to light mode";
+  const ariaLabel = theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'
 
   return (
     <Button
-      aria-label={mounted ? ariaLabel : "Toggle theme"}
+      aria-label={mounted ? ariaLabel : 'Toggle theme'}
       className={styles.button}
       onClick={handleThemeToggle}
       size="icon"
@@ -31,5 +33,5 @@ export function ThemeSwitcher() {
     >
       <SunMoon size={18} />
     </Button>
-  );
+  )
 }

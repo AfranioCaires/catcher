@@ -1,120 +1,122 @@
-"use client";
+'use client'
 
-import { useParams } from "next/navigation";
-import type { ReactNode } from "react";
+import { useParams } from 'next/navigation'
+import type { ReactNode } from 'react'
+
 import {
   Collapsible,
   CollapsiblePanel,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible/collapsible";
-import styles from "./prop-table.module.css";
+} from '@/components/ui/collapsible/collapsible'
+
+import styles from './prop-table.module.css'
 
 type PropRow = {
-  prop: string;
-  type: string;
-  default?: string;
-  description: string | ReactNode;
-};
+  prop: string
+  type: string
+  default?: string
+  description: string | ReactNode
+}
 
 type PropTableProps = {
-  data: PropRow[];
-};
+  data: PropRow[]
+}
 
 const CLASS_TYPES = new Set([
-  "ReactNode",
-  "ReactElement",
-  "HTMLElement",
-  "HTMLProps",
-  "MouseEvent",
-  "ChangeEvent",
-  "KeyboardEvent",
-  "FocusEvent",
-  "FormEvent",
-]);
+  'ReactNode',
+  'ReactElement',
+  'HTMLElement',
+  'HTMLProps',
+  'MouseEvent',
+  'ChangeEvent',
+  'KeyboardEvent',
+  'FocusEvent',
+  'FormEvent',
+])
 
-const SEPARATORS = new Set(["|", "&", "(", ")", "<", ">", "[", "]", ",", " "]);
+const SEPARATORS = new Set(['|', '&', '(', ')', '<', '>', '[', ']', ',', ' '])
 
 function isSeparator(char: string): boolean {
-  return SEPARATORS.has(char);
+  return SEPARATORS.has(char)
 }
 
 function isPascalCase(text: string): boolean {
   if (text.length === 0) {
-    return false;
+    return false
   }
-  const firstChar = text[0];
+  const firstChar = text[0]
   const isFirstCharUppercase =
-    firstChar === firstChar.toUpperCase() && firstChar !== firstChar.toLowerCase();
+    firstChar === firstChar.toUpperCase() && firstChar !== firstChar.toLowerCase()
   const hasOnlyLetters = text
-    .split("")
-    .every((char) => (char >= "a" && char <= "z") || (char >= "A" && char <= "Z"));
-  return isFirstCharUppercase && hasOnlyLetters;
+    .split('')
+    .every((char) => (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z'))
+  return isFirstCharUppercase && hasOnlyLetters
 }
 
 function isNumber(value: string): boolean {
   if (value.length === 0) {
-    return false;
+    return false
   }
 
-  let startIndex = 0;
-  if (value[0] === "-") {
+  let startIndex = 0
+  if (value[0] === '-') {
     if (value.length === 1) {
-      return false;
+      return false
     }
-    startIndex = 1;
+    startIndex = 1
   }
 
-  let hasDecimal = false;
+  let hasDecimal = false
   for (let i = startIndex; i < value.length; i++) {
-    const char = value[i];
-    if (char === ".") {
+    const char = value[i]
+    if (char === '.') {
       if (hasDecimal) {
-        return false; // Multiple decimals
+        return false // Multiple decimals
       }
-      hasDecimal = true;
-    } else if (char < "0" || char > "9") {
-      return false;
+      hasDecimal = true
+    } else if (char < '0' || char > '9') {
+      return false
     }
   }
 
-  return true;
+  return true
 }
 
 function splitTypeString(typeString: string): string[] {
-  const parts: string[] = [];
-  let current = "";
+  const parts: string[] = []
+  let current = ''
 
   for (const char of typeString) {
     if (isSeparator(char)) {
       if (current) {
-        parts.push(current);
-        current = "";
+        parts.push(current)
+        current = ''
       }
-      parts.push(char);
+      parts.push(char)
     } else {
-      current += char;
+      current += char
     }
   }
 
   if (current) {
-    parts.push(current);
+    parts.push(current)
   }
 
-  return parts;
+  return parts
 }
 
 function highlightType(typeString: string) {
-  const parts = splitTypeString(typeString);
+  const parts = splitTypeString(typeString)
 
   return parts.map((part, index) => {
-    const key = `${part}-${index}`;
+    const key = `${part}-${index}`
 
     if (isSeparator(part)) {
       return (
         <span className={styles.separator} key={key}>
           {part}
         </span>
-      );
+      )
     }
 
     if (CLASS_TYPES.has(part) || isPascalCase(part)) {
@@ -122,94 +124,94 @@ function highlightType(typeString: string) {
         <span className={styles.typeClass} key={key}>
           {part}
         </span>
-      );
+      )
     }
 
     switch (part) {
-      case "boolean":
+      case 'boolean':
         return (
           <span className={styles.booleanValue} key={key}>
             {part}
           </span>
-        );
-      case "number":
+        )
+      case 'number':
         return (
           <span className={styles.numberValue} key={key}>
             {part}
           </span>
-        );
-      case "function":
-      case "void":
+        )
+      case 'function':
+      case 'void':
         return (
           <span className={styles.functionValue} key={key}>
             {part}
           </span>
-        );
+        )
       default:
-        return <span key={key}>{part}</span>;
+        return <span key={key}>{part}</span>
     }
-  });
+  })
 }
 
 function getSimpleType(typeString: string): string {
-  const pipeIndex = typeString.indexOf("|");
-  const firstType = pipeIndex !== -1 ? typeString.slice(0, pipeIndex).trim() : typeString.trim();
+  const pipeIndex = typeString.indexOf('|')
+  const firstType = pipeIndex !== -1 ? typeString.slice(0, pipeIndex).trim() : typeString.trim()
 
   if (firstType.startsWith('"') && firstType.endsWith('"')) {
-    return "string";
+    return 'string'
   }
 
-  return firstType;
+  return firstType
 }
 
 function renderDefaultValue(defaultValue?: string) {
   if (!defaultValue) {
-    return <span className={styles.defaultEmpty}>-</span>;
+    return <span className={styles.defaultEmpty}>-</span>
   }
 
   if (defaultValue.startsWith('"') && defaultValue.endsWith('"')) {
-    return <span className={styles.stringValue}>{defaultValue}</span>;
+    return <span className={styles.stringValue}>{defaultValue}</span>
   }
 
-  if (defaultValue === "true" || defaultValue === "false") {
-    return <span className={styles.booleanValue}>{defaultValue}</span>;
+  if (defaultValue === 'true' || defaultValue === 'false') {
+    return <span className={styles.booleanValue}>{defaultValue}</span>
   }
 
   if (isNumber(defaultValue)) {
-    return <span className={styles.numberValue}>{defaultValue}</span>;
+    return <span className={styles.numberValue}>{defaultValue}</span>
   }
 
-  return defaultValue;
+  return defaultValue
 }
 
 export function PropTable({ data }: PropTableProps) {
-  const { lang } = useParams();
+  const { lang } = useParams()
 
   const t = {
     en: {
-      prop: "Prop",
-      type: "Type",
-      default: "Default",
-      name: "Name",
-      description: "Description",
-      heading: "Component props",
+      prop: 'Prop',
+      type: 'Type',
+      default: 'Default',
+      name: 'Name',
+      description: 'Description',
+      heading: 'Component props',
     },
     pt: {
-      prop: "Propriedade",
-      type: "Tipo",
-      default: "Padrão",
-      name: "Nome",
-      description: "Descrição",
-      heading: "Propriedades do componente",
+      prop: 'Propriedade',
+      type: 'Tipo',
+      default: 'Padrão',
+      name: 'Nome',
+      description: 'Descrição',
+      heading: 'Propriedades do componente',
     },
-  }[lang as "en" | "pt"] || {
-    prop: "Prop",
-    type: "Type",
-    default: "Default",
-    name: "Name",
-    description: "Description",
-    heading: "Component props",
-  };
+  }[lang as 'en' | 'pt'] || {
+    prop: 'Prop',
+    type: 'Type',
+    default: 'Default',
+    name: 'Name',
+    description: 'Description',
+    heading: 'Component props',
+  }
 
   return (
     <section aria-labelledby="props-heading" className={styles.container}>
@@ -272,5 +274,5 @@ export function PropTable({ data }: PropTableProps) {
         ))}
       </div>
     </section>
-  );
+  )
 }

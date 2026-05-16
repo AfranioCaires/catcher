@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 .root {
   isolation: isolate;
@@ -56,7 +56,7 @@
 }
 
 .light,
-[data-theme="light"],
+[data-theme='light'],
 :root {
   --radius: 0.563rem;
   --radius-lg: 1.2rem;
@@ -118,7 +118,7 @@
 
 @layer fallbacks {
   .light,
-  [data-theme="light"],
+  [data-theme='light'],
   :root {
     --mix-card-5-bg: oklch(0.985 0 0);
     --mix-card-15-bg: oklch(0.98 0 0);
@@ -131,7 +131,7 @@
   }
 
   .dark,
-  [data-theme="dark"] {
+  [data-theme='dark'] {
     --mix-card-5-bg: oklch(0.16 0 0);
     --mix-card-15-bg: oklch(0.17 0 0);
     --mix-card-33-bg: oklch(0.185 0 0);
@@ -159,7 +159,7 @@
 }
 
 .dark,
-[data-theme="dark"] {
+[data-theme='dark'] {
   --border-subtle: oklch(from var(--border) l c h / 0.7);
 
   --background: oklch(0.15 0 0);
@@ -266,7 +266,7 @@
   }
 
   .hit-area-extend::before {
-    content: "";
+    content: '';
     position: absolute;
     display: block;
     top: 50%;
@@ -280,8 +280,8 @@
 }
 
 /* Psevdaryiros Palette (hue: 270, chroma: 0.005) */
-.light[data-palette="psevdaryiros"],
-[data-theme="light"][data-palette="psevdaryiros"] {
+.light[data-palette='psevdaryiros'],
+[data-theme='light'][data-palette='psevdaryiros'] {
   --background: oklch(0.98 0.005 270);
   --foreground: oklch(0.18 0.005 270);
   --card: oklch(0.96 0.005 270);
@@ -300,8 +300,8 @@
   --ring: oklch(0.55 0.005 270);
 }
 
-.dark[data-palette="psevdaryiros"],
-[data-theme="dark"][data-palette="psevdaryiros"] {
+.dark[data-palette='psevdaryiros'],
+[data-theme='dark'][data-palette='psevdaryiros'] {
   --background: oklch(0.13 0.007 270);
   --foreground: oklch(0.94 0 0);
   --card: oklch(0.21 0.007 270);

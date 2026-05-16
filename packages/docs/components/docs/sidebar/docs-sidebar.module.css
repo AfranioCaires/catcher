@@ -76,11 +76,11 @@
   font-weight: 400;
 }
 
-.sidebar [data-slot="sidebar-group"] {
+.sidebar [data-slot='sidebar-group'] {
   padding: 0;
 }
 
-.sidebar [data-slot="sidebar-menu-button"] {
+.sidebar [data-slot='sidebar-menu-button'] {
   height: 2rem;
   padding-inline: 0.5rem;
   font-size: 0.8125rem;

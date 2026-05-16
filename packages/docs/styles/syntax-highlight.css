@@ -17,11 +17,11 @@
   --code-arg-color: #9ecbff;
 }
 
-html[data-theme="dark"] {
+html[data-theme='dark'] {
   --linenumber: oklch(0.7604 0 0 / 30%);
 }
 
-html[data-theme="light"] {
+html[data-theme='light'] {
   --code-footer-bg: oklch(0.97 0 0);
   /* Prop table syntax colors - light theme */
   --prop-code-color: oklch(50% 0.1 264);
@@ -37,12 +37,12 @@ html[data-theme="light"] {
   --code-arg-color: #005cc5;
 }
 
-html[data-theme="light"][data-palette="psevdaryiros"] {
+html[data-theme='light'][data-palette='psevdaryiros'] {
   --code-header-bg: oklch(0.97 0.005 270);
   --code-footer-bg: oklch(0.96 0.005 270);
 }
 
-html[data-theme="dark"][data-palette="psevdaryiros"] {
+html[data-theme='dark'][data-palette='psevdaryiros'] {
   --code-header-bg: oklch(0.18 0.007 270);
   --code-footer-bg: oklch(0.2 0.007 270);
 }
@@ -70,7 +70,7 @@ html[data-theme="dark"][data-palette="psevdaryiros"] {
   color: var(--shiki-light);
 }
 
-html[data-theme="dark"] [data-line] span {
+html[data-theme='dark'] [data-line] span {
   color: var(--shiki-dark);
 }
 
@@ -85,7 +85,7 @@ html[data-theme="dark"] [data-line] span {
 pre code {
   white-space: pre-wrap;
   font-family:
-    "Geist Mono", "SF Mono", Monaco, "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+    'Geist Mono', 'SF Mono', Monaco, 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
   font-size: 12px;
   line-height: 1.4rem;
   font-weight: 400;
@@ -103,7 +103,7 @@ pre code {
       font-size: 12px;
       -webkit-text-size-adjust: none;
       font-family:
-        "Geist Mono", "SF Mono", Monaco, "Inconsolata", "Roboto Mono", "Source Code Pro", monospace;
+        'Geist Mono', 'SF Mono', Monaco, 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
     }
   }
 }
@@ -139,10 +139,10 @@ pre code {
   display: none !important;
 }
 
-[data-style="css-modules"] .code-container[data-if="css-modules"] {
+[data-style='css-modules'] .code-container[data-if='css-modules'] {
   display: block !important;
 }
 
-[data-style="tailwind"] .code-container[data-if="tailwind"] {
+[data-style='tailwind'] .code-container[data-if='tailwind'] {
   display: block !important;
 }

@@ -108,21 +108,21 @@ O encapsulamento de Promises adiciona uma sobrecarga quase nula. É seguro para 
 <PropTable
   data={[
     {
-      prop: "promise",
-      type: "Promise<T>",
+      prop: 'promise',
+      type: 'Promise<T>',
       required: true,
-      description: "A Promise a ser executada e da qual os erros potenciais serão capturados.",
+      description: 'A Promise a ser executada e da qual os erros potenciais serão capturados.',
     },
     {
-      prop: "errorsToCatch",
-      type: "ErrorClass[]",
+      prop: 'errorsToCatch',
+      type: 'ErrorClass[]',
       description:
-        "Array opcional de classes de Erro para capturar especificamente. Se omitido, todos os erros são capturados.",
+        'Array opcional de classes de Erro para capturar especificamente. Se omitido, todos os erros são capturados.',
     },
     {
-      prop: "returns",
-      type: "Promise<Result<T, E>>",
-      description: "Um objeto Result contendo os dados resolvidos ou o erro capturado.",
+      prop: 'returns',
+      type: 'Promise<Result<T, E>>',
+      description: 'Um objeto Result contendo os dados resolvidos ou o erro capturado.',
     },
   ]}
 />
@@ -132,26 +132,26 @@ O encapsulamento de Promises adiciona uma sobrecarga quase nula. É seguro para 
 <PropTable
   data={[
     {
-      prop: "promise",
-      type: "Promise<T>",
+      prop: 'promise',
+      type: 'Promise<T>',
       required: true,
-      description: "A Promise a ser executada.",
+      description: 'A Promise a ser executada.',
     },
     {
-      prop: "timeoutMs",
-      type: "number",
+      prop: 'timeoutMs',
+      type: 'number',
       required: true,
-      description: "Duração do timeout em milissegundos.",
+      description: 'Duração do timeout em milissegundos.',
     },
     {
-      prop: "errorsToCatch",
-      type: "ErrorClass[]",
-      description: "Array opcional de classes de Erro para capturar.",
+      prop: 'errorsToCatch',
+      type: 'ErrorClass[]',
+      description: 'Array opcional de classes de Erro para capturar.',
     },
     {
-      prop: "returns",
-      type: "Promise<Result<T, E | Error>>",
-      description: "Retorna um erro se o timeout for atingido antes da promise ser resolvida.",
+      prop: 'returns',
+      type: 'Promise<Result<T, E | Error>>',
+      description: 'Retorna um erro se o timeout for atingido antes da promise ser resolvida.',
     },
   ]}
 />

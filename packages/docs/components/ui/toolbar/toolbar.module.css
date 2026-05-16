@@ -6,7 +6,7 @@
   background-color: var(--mix-card-33-bg);
   border: 0.5px solid oklch(from var(--border) l c h / 0.9);
 
-  &[data-orientation="vertical"] {
+  &[data-orientation='vertical'] {
     flex-direction: column;
     align-items: stretch;
   }
@@ -49,7 +49,7 @@
     cursor: not-allowed;
   }
 
-  &[data-state="pressed"] {
+  &[data-state='pressed'] {
     background-color: var(--accent);
     color: var(--accent-foreground);
   }
@@ -131,7 +131,7 @@
   border-radius: calc(var(--radius) - 2px);
   background-color: var(--card);
 
-  .root[data-orientation="vertical"] & {
+  .root[data-orientation='vertical'] & {
     flex-direction: column;
     align-items: stretch;
   }
@@ -149,7 +149,7 @@
   flex-shrink: 0;
   margin: 0 0.25rem;
 
-  .root[data-orientation="vertical"] & {
+  .root[data-orientation='vertical'] & {
     width: 100%;
     height: 1px;
     margin: 0.25rem 0;

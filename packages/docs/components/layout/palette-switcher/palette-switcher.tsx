@@ -1,28 +1,30 @@
-"use client";
+'use client'
 
-import { Palette } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Palette } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
 import {
   type ColorPalette,
   usePalette,
   VALID_PALETTES,
-} from "@/components/providers/palette-provider";
-import { SelectMenu, type SelectMenuOption } from "@/components/shared/select-menu/select-menu";
-import { Button } from "@/components/ui/button/button";
-import styles from "./palette-switcher.module.css";
+} from '@/components/providers/palette-provider'
+import { SelectMenu, type SelectMenuOption } from '@/components/shared/select-menu/select-menu'
+import { Button } from '@/components/ui/button/button'
+
+import styles from './palette-switcher.module.css'
 
 const paletteOptions: SelectMenuOption<ColorPalette>[] = VALID_PALETTES.map((p) => ({
   value: p,
-  label: p === "default" ? "Default" : "Psevdaryiros",
-}));
+  label: p === 'default' ? 'Default' : 'Psevdaryiros',
+}))
 
 export function PaletteSwitcher() {
-  const { palette, setPalette } = usePalette();
-  const [mounted, setMounted] = useState(false);
+  const { palette, setPalette } = usePalette()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    setMounted(true)
+  }, [])
 
   if (!mounted) {
     return (
@@ -34,7 +36,7 @@ export function PaletteSwitcher() {
       >
         <Palette size={18} />
       </Button>
-    );
+    )
   }
 
   return (
@@ -55,5 +57,5 @@ export function PaletteSwitcher() {
       }
       value={palette}
     />
-  );
+  )
 }

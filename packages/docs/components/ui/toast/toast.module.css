@@ -85,22 +85,22 @@
   &[data-ending-style] {
     opacity: 0;
 
-    &[data-swipe-direction="up"] {
+    &[data-swipe-direction='up'] {
       transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
     }
-    &[data-swipe-direction="left"] {
+    &[data-swipe-direction='left'] {
       transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction="right"] {
+    &[data-swipe-direction='right'] {
       transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
     }
-    &[data-swipe-direction="down"] {
+    &[data-swipe-direction='down'] {
       transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
     }
   }
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 100%;
     width: 100%;
@@ -149,19 +149,19 @@
   border-radius: var(--radius);
 }
 
-.statusPill[data-type="success"] {
+.statusPill[data-type='success'] {
   background-color: var(--success);
 }
 
-.statusPill[data-type="error"] {
+.statusPill[data-type='error'] {
   background-color: var(--destructive);
 }
 
-.statusPill[data-type="warning"] {
+.statusPill[data-type='warning'] {
   background-color: var(--warning);
 }
 
-.statusPill[data-type="info"] {
+.statusPill[data-type='info'] {
   background-color: var(--info);
 }
 
@@ -259,7 +259,7 @@
     opacity 0.15s;
 
   &::before {
-    content: "";
+    content: '';
     pointer-events: none;
     position: absolute;
     inset: 0;

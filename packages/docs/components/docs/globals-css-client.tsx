@@ -1,34 +1,35 @@
-"use client";
+'use client'
 
-import codeTabsStyles from "@/components/docs/code-tabs/code-tabs-shared.module.css";
-import { PaletteSelector } from "@/components/docs/palette-selector/palette-selector";
-import { usePalette } from "@/components/providers/palette-provider";
-import { useStyle } from "@/components/providers/style-provider";
-import { CopyButton } from "@/components/ui/copy-button/copy-button";
+import { PaletteSelector } from '@/components/docs/palette-selector/palette-selector'
+import { usePalette } from '@/components/providers/palette-provider'
+import { useStyle } from '@/components/providers/style-provider'
+import { CopyButton } from '@/components/ui/copy-button/copy-button'
+
+import codeTabsStyles from '@/components/docs/code-tabs/code-tabs-shared.module.css'
 
 type PaletteVariants = {
-  default: string;
-  psevdaryiros: string;
-};
+  default: string
+  psevdaryiros: string
+}
 
 type GlobalsCSSClientProps = {
   variants: {
-    cssModules: PaletteVariants;
-    tailwind: PaletteVariants;
-  };
+    cssModules: PaletteVariants
+    tailwind: PaletteVariants
+  }
   highlighted: {
-    cssModules: PaletteVariants;
-    tailwind: PaletteVariants;
-  };
-};
+    cssModules: PaletteVariants
+    tailwind: PaletteVariants
+  }
+}
 
 export function GlobalsCSSClient({ variants, highlighted }: GlobalsCSSClientProps) {
-  const { style } = useStyle();
-  const { palette } = usePalette();
+  const { style } = useStyle()
+  const { palette } = usePalette()
 
-  const styleKey = style === "tailwind" ? "tailwind" : "cssModules";
-  const content = variants[styleKey][palette];
-  const highlightedCode = highlighted[styleKey][palette];
+  const styleKey = style === 'tailwind' ? 'tailwind' : 'cssModules'
+  const content = variants[styleKey][palette]
+  const highlightedCode = highlighted[styleKey][palette]
 
   return (
     <div className={codeTabsStyles.wrapper}>
@@ -46,5 +47,5 @@ export function GlobalsCSSClient({ variants, highlighted }: GlobalsCSSClientProp
         dangerouslySetInnerHTML={{ __html: highlightedCode }}
       />
     </div>
-  );
+  )
 }

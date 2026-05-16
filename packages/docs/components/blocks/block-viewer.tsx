@@ -1,43 +1,46 @@
-"use client";
+'use client'
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { CodeBlock } from "@/components/docs/code-block/code-block";
-import { useStyle } from "@/components/providers/style-provider";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs/tabs";
-import { anchoredToastManager } from "@/components/ui/toast/toast";
-import styles from "./block-viewer.module.css";
-import { buildFileTree, FileTree } from "./file-tree";
+import { useEffect, useMemo, useRef, useState } from 'react'
+
+import { CodeBlock } from '@/components/docs/code-block/code-block'
+import { useStyle } from '@/components/providers/style-provider'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs/tabs'
+import { anchoredToastManager } from '@/components/ui/toast/toast'
+
+import { buildFileTree, FileTree } from './file-tree'
+
+import styles from './block-viewer.module.css'
 
 function InstallButton({ name }: { name: string }) {
-  const { style } = useStyle();
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const suffix = style === "tailwind" ? "-tailwind" : "";
-  const command = `npx shadcn@latest add Catcher/${name}${suffix}`;
+  const { style } = useStyle()
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const suffix = style === 'tailwind' ? '-tailwind' : ''
+  const command = `npx shadcn@latest add Catcher/${name}${suffix}`
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(command);
+      await navigator.clipboard.writeText(command)
       anchoredToastManager.add({
-        title: "Copied!",
+        title: 'Copied!',
         timeout: 800,
         positionerProps: {
           anchor: buttonRef.current,
-          side: "top",
+          side: 'top',
           sideOffset: 6,
         },
-      });
+      })
     } catch {
       anchoredToastManager.add({
-        title: "Failed to copy",
+        title: 'Failed to copy',
         timeout: 2000,
         positionerProps: {
           anchor: buttonRef.current,
-          side: "top",
+          side: 'top',
           sideOffset: 6,
         },
-      });
+      })
     }
-  };
+  }
 
   return (
     <button
@@ -49,24 +52,24 @@ function InstallButton({ name }: { name: string }) {
     >
       <code className={styles.installCode}>{command}</code>
     </button>
-  );
+  )
 }
 
 type FileData = {
-  name: string;
-  path: string;
-  content: string;
-  highlightedContent: string;
-};
+  name: string
+  path: string
+  content: string
+  highlightedContent: string
+}
 
 type BlockViewerProps = {
-  name: string;
-  cssModulesFiles: FileData[];
-  tailwindFiles: FileData[];
-  children: React.ReactNode;
-  full?: boolean;
-  toolbar?: React.ReactNode;
-};
+  name: string
+  cssModulesFiles: FileData[]
+  tailwindFiles: FileData[]
+  children: React.ReactNode
+  full?: boolean
+  toolbar?: React.ReactNode
+}
 
 export function BlockViewer({
   name,
@@ -76,31 +79,31 @@ export function BlockViewer({
   full = false,
   toolbar,
 }: BlockViewerProps) {
-  const { style } = useStyle();
-  const [mounted, setMounted] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<string | null>(null);
+  const { style } = useStyle()
+  const [mounted, setMounted] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<string | null>(null)
 
   const files = useMemo(
-    () => (style === "tailwind" ? tailwindFiles : cssModulesFiles),
+    () => (style === 'tailwind' ? tailwindFiles : cssModulesFiles),
     [style, tailwindFiles, cssModulesFiles],
-  );
+  )
 
   const currentFile = useMemo(
     () => files.find((f) => f.path === selectedFile),
     [files, selectedFile],
-  );
+  )
 
-  const fileTree = useMemo(() => buildFileTree(files.map((f) => f.path)), [files]);
+  const fileTree = useMemo(() => buildFileTree(files.map((f) => f.path)), [files])
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (mounted) {
-      setSelectedFile(files[0]?.path ?? null);
+      setSelectedFile(files[0]?.path ?? null)
     }
-  }, [mounted, files]);
+  }, [mounted, files])
 
   return (
     <div className={styles.viewer}>
@@ -143,7 +146,7 @@ export function BlockViewer({
                       aria-label="Select file"
                       className={styles.mobileFileSelect}
                       onChange={(e) => setSelectedFile(e.target.value)}
-                      value={selectedFile ?? ""}
+                      value={selectedFile ?? ''}
                     >
                       {files.map((file) => (
                         <option key={file.path} value={file.path}>
@@ -166,5 +169,5 @@ export function BlockViewer({
         </TabsContent>
       </Tabs>
     </div>
-  );
+  )
 }

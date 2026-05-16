@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 0;
 
-  &[data-orientation="vertical"] {
+  &[data-orientation='vertical'] {
     flex-direction: row;
     gap: 1rem;
   }
@@ -29,7 +29,7 @@
   }
 }
 
-.root[data-orientation="vertical"] .list {
+.root[data-orientation='vertical'] .list {
   flex-direction: column;
   align-items: stretch;
   width: 200px;
@@ -77,7 +77,7 @@
   }
 }
 
-.root[data-orientation="vertical"] .trigger {
+.root[data-orientation='vertical'] .trigger {
   justify-content: flex-start;
   width: 100%;
 }
@@ -94,11 +94,11 @@
     outline: 2px solid var(--ring);
   }
 
-  &[data-state="inactive"] {
+  &[data-state='inactive'] {
     display: none;
   }
 
-  &[data-state="active"] {
+  &[data-state='active'] {
     display: block;
   }
 
@@ -108,7 +108,7 @@
   }
 }
 
-.root[data-orientation="vertical"] .content {
+.root[data-orientation='vertical'] .content {
   margin-top: 0;
   flex: 1;
 }

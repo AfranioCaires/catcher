@@ -1,19 +1,21 @@
-"use client";
+'use client'
 
-import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
-import type React from "react";
-import { cn } from "@/lib/utils";
-import styles from "./drawer.module.css";
+import { Drawer as DrawerPrimitive } from '@base-ui/react/drawer'
+import type React from 'react'
+
+import { cn } from '@/lib/utils'
+
+import styles from './drawer.module.css'
 
 function DrawerRoot({ ...props }: DrawerPrimitive.Root.Props) {
-  return <DrawerPrimitive.Root {...props} />;
+  return <DrawerPrimitive.Root {...props} />
 }
 
 function DrawerTrigger({ ...props }: DrawerPrimitive.Trigger.Props) {
-  return <DrawerPrimitive.Trigger {...props} />;
+  return <DrawerPrimitive.Trigger {...props} />
 }
 
-const DrawerPortal = DrawerPrimitive.Portal;
+const DrawerPortal = DrawerPrimitive.Portal
 
 function DrawerBackdrop({ className, ...props }: DrawerPrimitive.Backdrop.Props) {
   return (
@@ -22,7 +24,7 @@ function DrawerBackdrop({ className, ...props }: DrawerPrimitive.Backdrop.Props)
       data-slot="drawer-backdrop"
       {...props}
     />
-  );
+  )
 }
 
 function DrawerViewport({ className, ...props }: DrawerPrimitive.Viewport.Props) {
@@ -32,7 +34,7 @@ function DrawerViewport({ className, ...props }: DrawerPrimitive.Viewport.Props)
       data-slot="drawer-viewport"
       {...props}
     />
-  );
+  )
 }
 
 function DrawerPopup({ className, ...props }: DrawerPrimitive.Popup.Props) {
@@ -42,7 +44,7 @@ function DrawerPopup({ className, ...props }: DrawerPrimitive.Popup.Props) {
       data-slot="drawer-popup"
       {...props}
     />
-  );
+  )
 }
 
 function DrawerContent({ className, ...props }: DrawerPrimitive.Content.Props) {
@@ -52,7 +54,7 @@ function DrawerContent({ className, ...props }: DrawerPrimitive.Content.Props) {
       data-slot="drawer-content"
       {...props}
     />
-  );
+  )
 }
 
 function DrawerTitle({ className, ...props }: DrawerPrimitive.Title.Props) {
@@ -62,7 +64,7 @@ function DrawerTitle({ className, ...props }: DrawerPrimitive.Title.Props) {
       data-slot="drawer-title"
       {...props}
     />
-  );
+  )
 }
 
 function DrawerDescription({ className, ...props }: DrawerPrimitive.Description.Props) {
@@ -72,20 +74,20 @@ function DrawerDescription({ className, ...props }: DrawerPrimitive.Description.
       data-slot="drawer-description"
       {...props}
     />
-  );
+  )
 }
 
 function DrawerClose({ ...props }: DrawerPrimitive.Close.Props) {
-  return <DrawerPrimitive.Close {...props} />;
+  return <DrawerPrimitive.Close {...props} />
 }
 
-function DrawerHandle({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn(styles.handle, className)} {...props} />;
+function DrawerHandle({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div className={cn(styles.handle, className)} {...props} />
 }
 
-const DrawerProvider = DrawerPrimitive.Provider;
-const DrawerIndent = DrawerPrimitive.Indent;
-const DrawerIndentBackground = DrawerPrimitive.IndentBackground;
+const DrawerProvider = DrawerPrimitive.Provider
+const DrawerIndent = DrawerPrimitive.Indent
+const DrawerIndentBackground = DrawerPrimitive.IndentBackground
 
 export {
   DrawerRoot as Drawer,
@@ -103,4 +105,4 @@ export {
   DrawerTitle,
   DrawerTrigger,
   DrawerViewport,
-};
+}

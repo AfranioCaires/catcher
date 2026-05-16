@@ -33,7 +33,7 @@
   color: var(--foreground);
 }
 
-.tocItem[data-active="true"] {
+.tocItem[data-active='true'] {
   color: var(--primary);
   font-weight: 500;
 }

@@ -1,14 +1,16 @@
-"use client";
+'use client'
 
-import { SiteFooter } from "@/components/layout/site-footer/site-footer";
-import { SiteHeader } from "@/components/layout/site-header/site-header";
-import type { PageTree } from "@/lib/source-types";
-import { Hero } from "./hero/hero";
-import styles from "./home-page.module.css";
+import { SiteFooter } from '@/components/layout/site-footer/site-footer'
+import { SiteHeader } from '@/components/layout/site-header/site-header'
+import type { PageTree } from '@/lib/source-types'
+
+import { Hero } from './hero/hero'
+
+import styles from './home-page.module.css'
 
 type HomePageProps = {
-  pageTree: PageTree.Root;
-};
+  pageTree: PageTree.Root
+}
 
 export default function HomePage({ pageTree }: HomePageProps) {
   return (
@@ -25,5 +27,5 @@ export default function HomePage({ pageTree }: HomePageProps) {
       </div>
       <SiteFooter />
     </div>
-  );
+  )
 }

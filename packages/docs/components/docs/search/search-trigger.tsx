@@ -1,18 +1,20 @@
-"use client";
+'use client'
 
-import { useParams } from "next/navigation";
-import { Button } from "@/components/ui/button/button";
-import { Kbd } from "@/components/ui/kbd/kbd";
-import styles from "./search.module.css";
+import { useParams } from 'next/navigation'
+
+import { Button } from '@/components/ui/button/button'
+import { Kbd } from '@/components/ui/kbd/kbd'
+
+import styles from './search.module.css'
 
 type SearchTriggerProps = {
-  onClick?: () => void;
-};
+  onClick?: () => void
+}
 
 export function SearchTrigger({ onClick }: SearchTriggerProps) {
-  const { lang } = useParams();
+  const { lang } = useParams()
 
-  const searchText = lang === "pt" ? "Pesquisar" : "Search";
+  const searchText = lang === 'pt' ? 'Pesquisar' : 'Search'
 
   return (
     <Button className={styles.searchButton} onClick={onClick} variant="ghost">
@@ -46,5 +48,5 @@ export function SearchTrigger({ onClick }: SearchTriggerProps) {
         <Kbd size="sm">K</Kbd>
       </div>
     </Button>
-  );
+  )
 }

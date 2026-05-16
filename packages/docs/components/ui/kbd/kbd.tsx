@@ -1,7 +1,9 @@
-import { cva, type VariantProps } from "class-variance-authority";
-import { Command } from "lucide-react";
-import { cn } from "@/lib/utils";
-import styles from "./kbd.module.css";
+import { cva, type VariantProps } from 'class-variance-authority'
+import { Command } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
+
+import styles from './kbd.module.css'
 
 const kbdVariants = cva(styles.kbd, {
   variants: {
@@ -12,26 +14,26 @@ const kbdVariants = cva(styles.kbd, {
     },
   },
   defaultVariants: {
-    size: "md",
+    size: 'md',
   },
-});
+})
 
 function Kbd({
   className,
   size,
   children,
   ...props
-}: React.ComponentProps<"kbd"> & VariantProps<typeof kbdVariants>) {
+}: React.ComponentProps<'kbd'> & VariantProps<typeof kbdVariants>) {
   const isCommandKey =
-    typeof children === "string" && (children === "⌘" || children.toLowerCase() === "ctrl");
+    typeof children === 'string' && (children === '⌘' || children.toLowerCase() === 'ctrl')
 
   const sizeMap = {
     sm: 11,
     md: 13,
     lg: 15,
-  };
+  }
 
-  const iconSize = sizeMap[size || "md"];
+  const iconSize = sizeMap[size || 'md']
 
   return (
     <kbd
@@ -41,7 +43,7 @@ function Kbd({
     >
       {isCommandKey ? <Command size={iconSize} strokeWidth={2.5} /> : children}
     </kbd>
-  );
+  )
 }
 
-export { Kbd };
+export { Kbd }

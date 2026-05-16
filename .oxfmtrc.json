@@ -1,4 +1,15 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "ignorePatterns": []
+  "semi": false,
+  "singleQuote": true,
+  "sortImports": true,
+  "sortPackageJson": true,
+  "endOfLine": "lf",
+  "ignorePatterns": [
+    "build/**/*",
+    "!build/keep.js",
+    "dist/**/*",
+    "node_modules/**/*",
+    "!node_modules"
+  ]
 }

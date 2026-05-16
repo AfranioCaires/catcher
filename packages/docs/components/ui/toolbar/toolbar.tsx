@@ -1,10 +1,12 @@
-"use client";
+'use client'
 
-import { Toolbar } from "@base-ui/react/toolbar";
-import { cn } from "@/lib/utils";
-import styles from "./toolbar.module.css";
+import { Toolbar } from '@base-ui/react/toolbar'
 
-function ToolbarRoot({ className, orientation = "horizontal", ...props }: Toolbar.Root.Props) {
+import { cn } from '@/lib/utils'
+
+import styles from './toolbar.module.css'
+
+function ToolbarRoot({ className, orientation = 'horizontal', ...props }: Toolbar.Root.Props) {
   return (
     <Toolbar.Root
       className={cn(styles.root, className)}
@@ -13,23 +15,23 @@ function ToolbarRoot({ className, orientation = "horizontal", ...props }: Toolba
       orientation={orientation}
       {...props}
     />
-  );
+  )
 }
 
 function ToolbarButton({ className, ...props }: Toolbar.Button.Props) {
-  return <Toolbar.Button className={cn(styles.button, className)} {...props} />;
+  return <Toolbar.Button className={cn(styles.button, className)} {...props} />
 }
 
 function ToolbarLink({ className, ...props }: Toolbar.Link.Props) {
-  return <Toolbar.Link className={cn(styles.link, className)} {...props} />;
+  return <Toolbar.Link className={cn(styles.link, className)} {...props} />
 }
 
 function ToolbarInput({ className, ...props }: Toolbar.Input.Props) {
-  return <Toolbar.Input className={cn(styles.input, className)} {...props} />;
+  return <Toolbar.Input className={cn(styles.input, className)} {...props} />
 }
 
 function ToolbarGroup({ className, ...props }: Toolbar.Group.Props) {
-  return <Toolbar.Group className={cn(styles.group, className)} {...props} />;
+  return <Toolbar.Group className={cn(styles.group, className)} {...props} />
 }
 
 function ToolbarSeparator({ className, ...props }: Toolbar.Separator.Props) {
@@ -39,7 +41,7 @@ function ToolbarSeparator({ className, ...props }: Toolbar.Separator.Props) {
       data-slot="toolbar-separator"
       {...props}
     />
-  );
+  )
 }
 
 export {
@@ -49,4 +51,4 @@ export {
   ToolbarInput,
   ToolbarLink,
   ToolbarSeparator,
-};
+}

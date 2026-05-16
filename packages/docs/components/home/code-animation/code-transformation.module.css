@@ -29,7 +29,7 @@
 }
 
 .filename {
-  font-family: "Geist Mono", monospace;
+  font-family: 'Geist Mono', monospace;
   font-size: 0.75rem;
   color: var(--muted-foreground);
 }
@@ -43,7 +43,7 @@
 }
 
 .magicMove {
-  font-family: "Geist Mono", monospace;
+  font-family: 'Geist Mono', monospace;
   font-size: 0.95rem;
   line-height: 1.8;
   background: transparent !important;
@@ -56,7 +56,7 @@
 }
 
 .placeholder {
-  font-family: "Geist Mono", monospace;
+  font-family: 'Geist Mono', monospace;
   font-size: 0.95rem;
   line-height: 1.8;
   color: var(--muted-foreground);
