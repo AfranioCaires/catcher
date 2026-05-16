@@ -1,27 +1,29 @@
-import { findNeighbour } from "fumadocs-core/page-tree";
-import type { Metadata } from "next";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { TableOfContents } from "@/components/docs/toc/toc";
-import { FooterNav } from "@/components/layout/footer-nav/footer-nav";
-import { ArrowPointer, Button } from "@/components/ui/button/button";
-import { translations } from "@/lib/layout.shared";
-import { source, getPageImage } from "@/lib/source";
-import { mdxComponents } from "@/mdx-components";
-import styles from "./page.module.css";
+import { findNeighbour } from 'fumadocs-core/page-tree'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+
+import { TableOfContents } from '@/components/docs/toc/toc'
+import { FooterNav } from '@/components/layout/footer-nav/footer-nav'
+import { ArrowPointer, Button } from '@/components/ui/button/button'
+import { translations } from '@/lib/layout.shared'
+import { source, getPageImage } from '@/lib/source'
+import { mdxComponents } from '@/mdx-components'
+
+import styles from './page.module.css'
 
 export function generateStaticParams() {
-  return source.generateParams("slug", "lang");
+  return source.generateParams('slug', 'lang')
 }
 
 export async function generateMetadata(props: {
-  params: Promise<{ lang: string; slug?: string[] }>;
+  params: Promise<{ lang: string; slug?: string[] }>
 }): Promise<Metadata> {
-  const { lang, slug } = await props.params;
-  const page = source.getPage(slug, lang);
+  const { lang, slug } = await props.params
+  const page = source.getPage(slug, lang)
 
   if (!page) {
-    notFound();
+    notFound()
   }
 
   return {
@@ -30,27 +32,27 @@ export async function generateMetadata(props: {
     openGraph: {
       images: getPageImage(page).url,
     },
-  };
+  }
 }
 
 export default async function Page(props: { params: Promise<{ lang: string; slug?: string[] }> }) {
-  const { lang, slug } = await props.params;
-  const page = source.getPage(slug, lang);
+  const { lang, slug } = await props.params
+  const page = source.getPage(slug, lang)
   if (!page) {
-    notFound();
+    notFound()
   }
 
-  const doc = page.data;
-  const t = (translations as any)[lang] || translations.en;
+  const doc = page.data
+  const t = (translations as any)[lang] || translations.en
 
-  const MDX = doc.body;
-  const links = doc.links;
-  const components = doc.components;
-  const motion = doc.motion;
-  const toc = doc.toc;
+  const MDX = doc.body
+  const links = doc.links
+  const components = doc.components
+  const motion = doc.motion
+  const toc = doc.toc
 
-  const tree = (source.pageTree as any)[lang];
-  const neighbours = findNeighbour(tree, page.url);
+  const tree = (source.pageTree as any)[lang]
+  const neighbours = findNeighbour(tree, page.url)
 
   return (
     <>
@@ -74,7 +76,7 @@ export default async function Page(props: { params: Promise<{ lang: string; slug
                       size="sm"
                       variant="outline"
                     >
-                      {t.docs || "Docs"}
+                      {t.docs || 'Docs'}
                       <ArrowPointer pointExternal />
                     </Button>
                   ) : null}
@@ -86,7 +88,7 @@ export default async function Page(props: { params: Promise<{ lang: string; slug
                       size="sm"
                       variant="outline"
                     >
-                      {t.apiReference || "API Reference"}
+                      {t.apiReference || 'API Reference'}
                       <ArrowPointer pointExternal />
                     </Button>
                   ) : null}
@@ -147,5 +149,5 @@ export default async function Page(props: { params: Promise<{ lang: string; slug
         <TableOfContents toc={toc} />
       </aside>
     </>
-  );
+  )
 }

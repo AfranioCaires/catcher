@@ -83,7 +83,7 @@
     transform: scale(0.95);
   }
 
-  &[data-side="none"] {
+  &[data-side='none'] {
     transition: none;
     transform: none;
     opacity: 1;
@@ -116,7 +116,7 @@
     background-color: var(--muted);
   }
 
-  &[data-state="hidden"] {
+  &[data-state='hidden'] {
     display: none;
   }
 }

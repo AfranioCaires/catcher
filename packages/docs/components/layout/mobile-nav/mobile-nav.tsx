@@ -1,11 +1,12 @@
-"use client";
+'use client'
 
-import { X } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
-import { ThemeSwitcher } from "@/components/layout/theme-switcher/theme-switcher";
-import { GitHubIcon } from "@/components/shared/github-icon";
+import { X } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import React from 'react'
+
+import { ThemeSwitcher } from '@/components/layout/theme-switcher/theme-switcher'
+import { GitHubIcon } from '@/components/shared/github-icon'
 import {
   Drawer,
   DrawerBackdrop,
@@ -18,30 +19,31 @@ import {
   DrawerTitle,
   DrawerTrigger,
   DrawerViewport,
-} from "@/components/ui/drawer/drawer";
-import type { PageTree } from "@/lib/source-types";
-import styles from "./mobile-nav.module.css";
+} from '@/components/ui/drawer/drawer'
+import type { PageTree } from '@/lib/source-types'
+
+import styles from './mobile-nav.module.css'
 
 type NodeWithChildren = {
-  $id?: string;
-  name: React.ReactNode;
-  url?: string;
-  type: string;
-  children?: NodeWithChildren[];
-};
+  $id?: string
+  name: React.ReactNode
+  url?: string
+  type: string
+  children?: NodeWithChildren[]
+}
 
 type MobileNavProps = {
-  tree: PageTree.Root;
-};
+  tree: PageTree.Root
+}
 
 export function MobileNav({ tree }: MobileNavProps) {
-  const pathname = usePathname();
-  const [open, setOpen] = React.useState(false);
-  const [mounted, setMounted] = React.useState(false);
+  const pathname = usePathname()
+  const [open, setOpen] = React.useState(false)
+  const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
-    setMounted(true);
-  }, []);
+    setMounted(true)
+  }, [])
 
   if (!mounted) {
     return (
@@ -51,7 +53,7 @@ export function MobileNav({ tree }: MobileNavProps) {
           <span className={styles.menuLine} />
         </div>
       </button>
-    );
+    )
   }
 
   return (
@@ -94,8 +96,8 @@ export function MobileNav({ tree }: MobileNavProps) {
                   <div className={styles.menuSection}>
                     <div className={styles.groupTitle}>Menu</div>
                     <Link
-                      aria-current={pathname === "/" ? "page" : undefined}
-                      className={`${styles.pageLink} ${pathname === "/" ? styles.pageLinkActive : styles.pageLinkInactive}`}
+                      aria-current={pathname === '/' ? 'page' : undefined}
+                      className={`${styles.pageLink} ${pathname === '/' ? styles.pageLinkActive : styles.pageLinkInactive}`}
                       href="/"
                       onClick={() => setOpen(false)}
                     >
@@ -136,7 +138,7 @@ export function MobileNav({ tree }: MobileNavProps) {
         </DrawerViewport>
       </DrawerPortal>
     </Drawer>
-  );
+  )
 }
 
 function MobileSidebarGroup({
@@ -144,24 +146,24 @@ function MobileSidebarGroup({
   pathname,
   onNavigate,
 }: {
-  item: NodeWithChildren;
-  pathname: string;
-  onNavigate: () => void;
+  item: NodeWithChildren
+  pathname: string
+  onNavigate: () => void
 }) {
-  const hasChildren = item.children && item.children.length > 0;
-  const isActive = pathname === item.url;
+  const hasChildren = item.children && item.children.length > 0
+  const isActive = pathname === item.url
 
-  if (!hasChildren && item.type === "page" && item.url) {
+  if (!hasChildren && item.type === 'page' && item.url) {
     return (
       <Link
-        aria-current={isActive ? "page" : undefined}
+        aria-current={isActive ? 'page' : undefined}
         className={`${styles.pageLink} ${isActive ? styles.pageLinkActive : styles.pageLinkInactive}`}
         href={item.url}
         onClick={onNavigate}
       >
         {item.name}
       </Link>
-    );
+    )
   }
 
   return (
@@ -176,5 +178,5 @@ function MobileSidebarGroup({
         ))}
       </ul>
     </div>
-  );
+  )
 }

@@ -1,29 +1,31 @@
-"use client";
+'use client'
 
-import { createContext, useContext } from "react";
-import { CopyButton } from "@/components/ui/copy-button/copy-button";
-import { cn } from "@/lib/utils";
-import styles from "./code-block.module.css";
+import { createContext, useContext } from 'react'
+
+import { CopyButton } from '@/components/ui/copy-button/copy-button'
+import { cn } from '@/lib/utils'
+
+import styles from './code-block.module.css'
 
 type CodeBlockContextValue = {
-  code: string;
-  highlightedCode: string;
-};
-
-const CodeBlockContext = createContext<CodeBlockContextValue | null>(null);
-
-function useCodeBlock() {
-  const context = useContext(CodeBlockContext);
-  if (!context) {
-    throw new Error("CodeBlock components must be used within CodeBlock.Root");
-  }
-  return context;
+  code: string
+  highlightedCode: string
 }
 
-export type CodeBlockRootProps = React.ComponentProps<"div"> & {
-  code: string;
-  highlightedCode: string;
-};
+const CodeBlockContext = createContext<CodeBlockContextValue | null>(null)
+
+function useCodeBlock() {
+  const context = useContext(CodeBlockContext)
+  if (!context) {
+    throw new Error('CodeBlock components must be used within CodeBlock.Root')
+  }
+  return context
+}
+
+export type CodeBlockRootProps = React.ComponentProps<'div'> & {
+  code: string
+  highlightedCode: string
+}
 
 function Root({ code, highlightedCode, className, children, ...props }: CodeBlockRootProps) {
   return (
@@ -32,56 +34,56 @@ function Root({ code, highlightedCode, className, children, ...props }: CodeBloc
         {children}
       </div>
     </CodeBlockContext.Provider>
-  );
+  )
 }
 
-export type CodeBlockHeaderProps = React.ComponentProps<"div">;
+export type CodeBlockHeaderProps = React.ComponentProps<'div'>
 
 function Header({ className, children, ...props }: CodeBlockHeaderProps) {
   return (
     <div className={cn(styles.header, className)} data-slot="code-block-header" {...props}>
       {children}
     </div>
-  );
+  )
 }
 
-export type CodeBlockFilenameProps = React.ComponentProps<"span">;
+export type CodeBlockFilenameProps = React.ComponentProps<'span'>
 
 function Filename({ className, children, ...props }: CodeBlockFilenameProps) {
   return (
     <span className={cn(styles.filename, className)} data-slot="code-block-filename" {...props}>
       {children}
     </span>
-  );
+  )
 }
 
-export type CodeBlockCopyButtonProps = Omit<React.ComponentProps<typeof CopyButton>, "code">;
+export type CodeBlockCopyButtonProps = Omit<React.ComponentProps<typeof CopyButton>, 'code'>
 
 function CopyBtn({ className, ...props }: CodeBlockCopyButtonProps) {
-  const { code } = useCodeBlock();
+  const { code } = useCodeBlock()
   return (
     <div className={cn(styles.copyButtonWrapper, className)}>
       <CopyButton code={code} {...props} />
     </div>
-  );
+  )
 }
 
-export type CodeBlockContentProps = Omit<React.ComponentProps<"div">, "children">;
+export type CodeBlockContentProps = Omit<React.ComponentProps<'div'>, 'children'>
 
 function Content({ className, ...props }: CodeBlockContentProps) {
-  const { highlightedCode } = useCodeBlock();
+  const { highlightedCode } = useCodeBlock()
   return (
     <div
-      className={cn(styles.content, "code-container", className)}
+      className={cn(styles.content, 'code-container', className)}
       // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for Shiki syntax highlighting
       dangerouslySetInnerHTML={{ __html: highlightedCode }}
       data-slot="code-block-content"
       {...props}
     />
-  );
+  )
 }
 
-export type CodeBlockCollapsibleProps = React.ComponentProps<"details">;
+export type CodeBlockCollapsibleProps = React.ComponentProps<'details'>
 
 function Collapsible({ className, children, ...props }: CodeBlockCollapsibleProps) {
   return (
@@ -92,27 +94,27 @@ function Collapsible({ className, children, ...props }: CodeBlockCollapsibleProp
     >
       {children}
     </details>
-  );
+  )
 }
 
-export type CodeBlockSummaryProps = React.ComponentProps<"summary">;
+export type CodeBlockSummaryProps = React.ComponentProps<'summary'>
 
 function Summary({ className, children, ...props }: CodeBlockSummaryProps) {
   return (
     <summary className={cn(styles.summary, className)} data-slot="code-block-summary" {...props}>
       {children}
     </summary>
-  );
+  )
 }
 
-export type CodeBlockActionsProps = React.ComponentProps<"div">;
+export type CodeBlockActionsProps = React.ComponentProps<'div'>
 
 function Actions({ className, children, ...props }: CodeBlockActionsProps) {
   return (
     <div className={cn(styles.actions, className)} data-slot="code-block-actions" {...props}>
       {children}
     </div>
-  );
+  )
 }
 
 export const CodeBlock = {
@@ -124,7 +126,7 @@ export const CodeBlock = {
   Collapsible,
   Summary,
   Actions,
-};
+}
 
 export {
   Root as CodeBlockRoot,
@@ -136,4 +138,4 @@ export {
   Summary as CodeBlockSummary,
   Actions as CodeBlockActions,
   useCodeBlock,
-};
+}

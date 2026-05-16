@@ -1,6 +1,6 @@
-import { Result } from "../core/types";
-import { err, ok } from "../core/factories";
-import { catchErrorSync, catchError } from "../core/catchers";
+import { catchErrorSync, catchError } from '../core/catchers'
+import { err, ok } from '../core/factories'
+import { Result } from '../core/types'
 
 /**
  * Converts a nullable value (null or undefined) into a Result.
@@ -8,7 +8,7 @@ import { catchErrorSync, catchError } from "../core/catchers";
  * @param error The error to return if the value is null or undefined.
  */
 export function fromNullable<T, E>(value: T | null | undefined, error: E): Result<T, E> {
-  return value === null || value === undefined ? err(error) : ok(value);
+  return value === null || value === undefined ? err(error) : ok(value)
 }
 
 /**
@@ -20,7 +20,7 @@ export function fromThrowable<T, E extends new (...args: any[]) => Error, Args e
   fn: (...args: Args) => T,
   errorsToCatch?: E[],
 ): (...args: Args) => Result<T, InstanceType<E>> {
-  return (...args: Args) => catchErrorSync(() => fn(...args), errorsToCatch) as any;
+  return (...args: Args) => catchErrorSync(() => fn(...args), errorsToCatch) as any
 }
 
 /**
@@ -33,5 +33,5 @@ export function fromPromise<
   T,
   E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
 >(promise: Promise<T>, errorsToCatch?: E[]): Promise<Result<T, InstanceType<E>>> {
-  return catchError(promise, errorsToCatch);
+  return catchError(promise, errorsToCatch)
 }

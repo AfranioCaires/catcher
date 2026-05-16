@@ -1,38 +1,39 @@
-"use client";
+'use client'
 
-import { Droplets, Layers, Square } from "lucide-react";
-import type { ReactNode } from "react";
+import { Droplets, Layers, Square } from 'lucide-react'
+import type { ReactNode } from 'react'
 
-import type { BoundaryMode } from "./boundary-provider";
-import { useBoundaryMode } from "./boundary-provider";
-import styles from "./boundary-toggle.module.css";
+import type { BoundaryMode } from './boundary-provider'
+import { useBoundaryMode } from './boundary-provider'
+
+import styles from './boundary-toggle.module.css'
 
 const modes: { icon: ReactNode; label: string; mode: BoundaryMode }[] = [
   {
     icon: <Square className={styles.icon} />,
-    label: "Off",
-    mode: "off",
+    label: 'Off',
+    mode: 'off',
   },
   {
     icon: <Droplets className={styles.icon} />,
-    label: "Hydration",
-    mode: "hydration",
+    label: 'Hydration',
+    mode: 'hydration',
   },
   {
     icon: <Layers className={styles.icon} />,
-    label: "Rendering",
-    mode: "rendering",
+    label: 'Rendering',
+    mode: 'rendering',
   },
-];
+]
 
 export default function BoundaryToggle() {
-  const { mode, setMode } = useBoundaryMode();
+  const { mode, setMode } = useBoundaryMode()
 
   return (
     <div className={styles.container}>
       <div className={styles.toggleGroup}>
         {modes.map(({ icon, label, mode: modeOption }) => {
-          const isActive = mode === modeOption;
+          const isActive = mode === modeOption
 
           return (
             <button
@@ -45,9 +46,9 @@ export default function BoundaryToggle() {
               {icon}
               <span className={styles.label}>{label}</span>
             </button>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }

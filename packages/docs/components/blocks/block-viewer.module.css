@@ -5,49 +5,49 @@
   min-height: 0;
 }
 
-.tabs[data-slot="tabs-root"] {
+.tabs[data-slot='tabs-root'] {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 0;
 }
 
-.tabs [data-slot="tabs-content"][data-state="active"] {
+.tabs [data-slot='tabs-content'][data-state='active'] {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 0;
 }
 
-.previewPanel[data-slot="tabs-content"],
-.codePanel[data-slot="tabs-content"] {
+.previewPanel[data-slot='tabs-content'],
+.codePanel[data-slot='tabs-content'] {
   padding: 0;
   border: none;
   border-radius: 0;
   background: transparent;
 }
 
-.tabsHeader [data-slot="tabs-list"] {
+.tabsHeader [data-slot='tabs-list'] {
   border: none;
   background-color: transparent;
   padding: 0;
   border-radius: 0;
 }
 
-.tabsHeader [data-slot="tabs-trigger"] {
+.tabsHeader [data-slot='tabs-trigger'] {
   border-radius: 2px;
   font-size: 12px;
 }
 
-.tabsHeader [data-slot="tabs-trigger"]:first-child {
+.tabsHeader [data-slot='tabs-trigger']:first-child {
   margin-right: 0;
 }
 
-.tabsHeader [data-slot="tabs-trigger"]:not([data-active]) {
+.tabsHeader [data-slot='tabs-trigger']:not([data-active]) {
   border: 1px solid oklch(from var(--border) l c h / 0.5);
 }
 
-.tabsHeader [data-slot="tabs-trigger"][data-active] {
+.tabsHeader [data-slot='tabs-trigger'][data-active] {
   color: var(--foreground);
   border: 1px solid var(--border);
 }
@@ -155,7 +155,7 @@
   font-size: 0.75rem;
   font-weight: 400;
   font-family:
-    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   color: var(--muted-foreground);
 }
 
@@ -191,7 +191,7 @@
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
   font-family:
-    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   background: var(--background);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -215,7 +215,7 @@
   font-size: 0.75rem;
   font-weight: 400;
   font-family:
-    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   color: var(--muted-foreground);
 }
 
@@ -268,7 +268,7 @@
 
 .installCode {
   font-family:
-    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   color: var(--muted-foreground);
   transition: color 200ms ease-out;
 }

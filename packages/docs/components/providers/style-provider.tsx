@@ -1,28 +1,29 @@
-"use client";
+'use client'
 
-import type { ReactNode } from "react";
-import { createPreferenceProvider } from "./create-preference-provider";
+import type { ReactNode } from 'react'
 
-export type StyleVariant = "css-modules" | "tailwind";
+import { createPreferenceProvider } from './create-preference-provider'
 
-const VALID_STYLES = ["css-modules", "tailwind"] as const;
+export type StyleVariant = 'css-modules' | 'tailwind'
+
+const VALID_STYLES = ['css-modules', 'tailwind'] as const
 
 const { Provider, usePreference } = createPreferenceProvider<StyleVariant>({
-  storageKey: "preferred-style",
+  storageKey: 'preferred-style',
   validValues: VALID_STYLES,
-  dataAttribute: "data-style",
-});
+  dataAttribute: 'data-style',
+})
 
 type StyleProviderProps = {
-  children: ReactNode;
-  defaultValue?: StyleVariant;
-};
+  children: ReactNode
+  defaultValue?: StyleVariant
+}
 
-export function StyleProvider({ children, defaultValue = "css-modules" }: StyleProviderProps) {
-  return <Provider defaultValue={defaultValue}>{children}</Provider>;
+export function StyleProvider({ children, defaultValue = 'css-modules' }: StyleProviderProps) {
+  return <Provider defaultValue={defaultValue}>{children}</Provider>
 }
 
 export function useStyle() {
-  const { value, setValue } = usePreference();
-  return { style: value, setStyle: setValue };
+  const { value, setValue } = usePreference()
+  return { style: value, setStyle: setValue }
 }

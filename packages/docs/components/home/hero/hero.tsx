@@ -1,35 +1,38 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { Badge } from "@/components/ui/badge/badge";
-import { ArrowPointer, Button } from "@/components/ui/button/button";
-import { CodeTransformation } from "../code-animation/code-transformation";
-import styles from "./hero.module.css";
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+
+import { Badge } from '@/components/ui/badge/badge'
+import { ArrowPointer, Button } from '@/components/ui/button/button'
+
+import { CodeTransformation } from '../code-animation/code-transformation'
+
+import styles from './hero.module.css'
 
 export const Hero = () => {
-  const { lang } = useParams();
-  const base = lang ? `/${lang}` : "";
+  const { lang } = useParams()
+  const base = lang ? `/${lang}` : ''
 
   const content = {
     en: {
-      badge: "Version 1.0 is here",
-      heading: "Catcher",
-      subheading: "Standardized error handling for TypeScript inspired by Go and Rust.",
-      button: "Explore Docs",
+      badge: 'Version 1.0 is here',
+      heading: 'Catcher',
+      subheading: 'Standardized error handling for TypeScript inspired by Go and Rust.',
+      button: 'Explore Docs',
     },
     pt: {
-      badge: "Versão 1.0 disponível",
-      heading: "Catcher",
-      subheading: "Tratamento de erros padronizado para TypeScript inspirado em Go e Rust.",
-      button: "Explorar Docs",
+      badge: 'Versão 1.0 disponível',
+      heading: 'Catcher',
+      subheading: 'Tratamento de erros padronizado para TypeScript inspirado em Go e Rust.',
+      button: 'Explorar Docs',
     },
-  }[lang as "en" | "pt"] || {
-    badge: "Version 1.0 is here",
-    heading: "Catcher",
-    subheading: "Standardized error handling for TypeScript inspired by Go and Rust.",
-    button: "Explore Docs",
-  };
+  }[lang as 'en' | 'pt'] || {
+    badge: 'Version 1.0 is here',
+    heading: 'Catcher',
+    subheading: 'Standardized error handling for TypeScript inspired by Go and Rust.',
+    button: 'Explore Docs',
+  }
 
   return (
     <section aria-label="Hero section" className={styles.container}>
@@ -40,14 +43,14 @@ export const Hero = () => {
             <ArrowPointer />
           </Badge>
           <h1 className={styles.h1}>
-            {content.heading.split(" ").map((word, index) => (
+            {content.heading.split(' ').map((word, index) => (
               <span className={styles.wordContainer} key={`word-${word}`}>
                 <span
                   className={styles.wordWrapper}
-                  style={{ "--index": index } as React.CSSProperties}
+                  style={{ '--index': index } as React.CSSProperties}
                 >
                   {word}
-                  {index < content.heading.split(" ").length - 1 && " "}
+                  {index < content.heading.split(' ').length - 1 && ' '}
                 </span>
               </span>
             ))}
@@ -64,5 +67,5 @@ export const Hero = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}

@@ -1,7 +1,7 @@
 type GitHubIconProps = {
-  size?: number;
-  className?: string;
-};
+  size?: number
+  className?: string
+}
 
 export function GitHubIcon({ size = 18, className }: GitHubIconProps) {
   return (
@@ -20,5 +20,5 @@ export function GitHubIcon({ size = 18, className }: GitHubIconProps) {
         fillRule="evenodd"
       />
     </svg>
-  );
+  )
 }

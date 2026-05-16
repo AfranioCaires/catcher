@@ -30,7 +30,7 @@
   padding-right: 4px;
 }
 
-.packageList[data-slot="tabs-list"] {
+.packageList[data-slot='tabs-list'] {
   border-radius: 0;
   border: none;
   background-color: transparent;
@@ -44,15 +44,15 @@
   gap: 0.5rem;
 }
 
-.toolbar [data-slot="copy-button"] {
+.toolbar [data-slot='copy-button'] {
   border-radius: 0;
 }
 
-.packageTrigger[data-slot="tabs-trigger"] {
+.packageTrigger[data-slot='tabs-trigger'] {
   border-radius: 2px;
 }
 
-.installationList[data-slot="tabs-list"] {
+.installationList[data-slot='tabs-list'] {
   background-color: transparent;
   border: none;
   padding: 0;
@@ -60,25 +60,25 @@
   margin-bottom: 1.5rem;
 }
 
-.installationTrigger[data-slot="tabs-trigger"] {
+.installationTrigger[data-slot='tabs-trigger'] {
   background-color: transparent;
   padding: 0 0 0.25rem 0;
   margin: 0;
   border-radius: 0;
 }
 
-.installationTrigger[data-slot="tabs-trigger"],
-.installationTrigger[data-slot="tabs-trigger"][data-active] {
+.installationTrigger[data-slot='tabs-trigger'],
+.installationTrigger[data-slot='tabs-trigger'][data-active] {
   border-color: transparent;
 }
 
-.installationTrigger[data-slot="tabs-trigger"][data-active] {
+.installationTrigger[data-slot='tabs-trigger'][data-active] {
   border-radius: 0;
   background-color: transparent;
   border-bottom-color: var(--foreground);
 }
 
-.installationContent[data-slot="tabs-content"] {
+.installationContent[data-slot='tabs-content'] {
   margin: 0;
   padding: 0;
   border: none;
@@ -93,6 +93,6 @@
   padding: 0;
 }
 
-.installationContent[data-manual="true"] p {
+.installationContent[data-manual='true'] p {
   margin-bottom: 1rem;
 }

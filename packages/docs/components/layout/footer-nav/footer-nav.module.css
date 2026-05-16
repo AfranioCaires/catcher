@@ -10,15 +10,15 @@
   min-width: 0;
 }
 
-.navButton:first-child .navLink[data-slot="button"] {
+.navButton:first-child .navLink[data-slot='button'] {
   justify-content: flex-start;
 }
 
-.navButton:last-child .navLink[data-slot="button"] {
+.navButton:last-child .navLink[data-slot='button'] {
   justify-content: flex-end;
 }
 
-.navLink[data-slot="button"] {
+.navLink[data-slot='button'] {
   display: flex;
   align-items: center;
   width: 100%;
@@ -32,7 +32,7 @@
   font-weight: 400;
 }
 
-.navLink[data-slot="button"]:hover {
+.navLink[data-slot='button']:hover {
   background-color: var(--muted);
   border-color: var(--border);
   color: var(--foreground);

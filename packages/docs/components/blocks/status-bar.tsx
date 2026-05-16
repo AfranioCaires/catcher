@@ -1,26 +1,27 @@
-"use client";
+'use client'
 
-import { Toolbar, ToolbarButton, ToolbarGroup } from "@/components/ui/toolbar/toolbar";
-import { cn } from "@/lib/utils";
-import styles from "./status-bar.module.css";
+import { Toolbar, ToolbarButton, ToolbarGroup } from '@/components/ui/toolbar/toolbar'
+import { cn } from '@/lib/utils'
 
-export type BlockStatus = "success" | "warning" | "error";
+import styles from './status-bar.module.css'
+
+export type BlockStatus = 'success' | 'warning' | 'error'
 
 type StatusOption = {
-  value: BlockStatus;
-  label: string;
-};
+  value: BlockStatus
+  label: string
+}
 
 const statusOptions: StatusOption[] = [
-  { value: "success", label: "Success" },
-  { value: "warning", label: "Pending" },
-  { value: "error", label: "Error" },
-];
+  { value: 'success', label: 'Success' },
+  { value: 'warning', label: 'Pending' },
+  { value: 'error', label: 'Error' },
+]
 
 type StatusBarProps = {
-  status: BlockStatus;
-  onStatusChange: (status: BlockStatus) => void;
-};
+  status: BlockStatus
+  onStatusChange: (status: BlockStatus) => void
+}
 
 export function StatusBar({ status, onStatusChange }: StatusBarProps) {
   return (
@@ -30,7 +31,7 @@ export function StatusBar({ status, onStatusChange }: StatusBarProps) {
           <ToolbarButton
             aria-pressed={status === option.value}
             className={cn(styles.statusButton, styles[option.value])}
-            data-state={status === option.value ? "pressed" : undefined}
+            data-state={status === option.value ? 'pressed' : undefined}
             key={option.value}
             onClick={() => onStatusChange(option.value)}
           >
@@ -40,5 +41,5 @@ export function StatusBar({ status, onStatusChange }: StatusBarProps) {
         ))}
       </ToolbarGroup>
     </Toolbar>
-  );
+  )
 }

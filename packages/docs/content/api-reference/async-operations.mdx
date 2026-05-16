@@ -108,21 +108,21 @@ Wrapping Promises adds negligible overhead. It is safe to use in high-throughput
 <PropTable
   data={[
     {
-      prop: "promise",
-      type: "Promise<T>",
+      prop: 'promise',
+      type: 'Promise<T>',
       required: true,
-      description: "The Promise to execute and catch potential errors from.",
+      description: 'The Promise to execute and catch potential errors from.',
     },
     {
-      prop: "errorsToCatch",
-      type: "ErrorClass[]",
+      prop: 'errorsToCatch',
+      type: 'ErrorClass[]',
       description:
-        "Optional array of Error classes to specifically catch. If omitted, all errors are caught.",
+        'Optional array of Error classes to specifically catch. If omitted, all errors are caught.',
     },
     {
-      prop: "returns",
-      type: "Promise<Result<T, E>>",
-      description: "A Result object containing either the resolved data or the caught error.",
+      prop: 'returns',
+      type: 'Promise<Result<T, E>>',
+      description: 'A Result object containing either the resolved data or the caught error.',
     },
   ]}
 />
@@ -132,26 +132,26 @@ Wrapping Promises adds negligible overhead. It is safe to use in high-throughput
 <PropTable
   data={[
     {
-      prop: "promise",
-      type: "Promise<T>",
+      prop: 'promise',
+      type: 'Promise<T>',
       required: true,
-      description: "The Promise to execute.",
+      description: 'The Promise to execute.',
     },
     {
-      prop: "timeoutMs",
-      type: "number",
+      prop: 'timeoutMs',
+      type: 'number',
       required: true,
-      description: "Timeout duration in milliseconds.",
+      description: 'Timeout duration in milliseconds.',
     },
     {
-      prop: "errorsToCatch",
-      type: "ErrorClass[]",
-      description: "Optional array of Error classes to catch.",
+      prop: 'errorsToCatch',
+      type: 'ErrorClass[]',
+      description: 'Optional array of Error classes to catch.',
     },
     {
-      prop: "returns",
-      type: "Promise<Result<T, E | Error>>",
-      description: "Returns an error if the timeout is reached before the promise resolves.",
+      prop: 'returns',
+      type: 'Promise<Result<T, E | Error>>',
+      description: 'Returns an error if the timeout is reached before the promise resolves.',
     },
   ]}
 />

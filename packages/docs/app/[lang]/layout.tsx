@@ -1,57 +1,59 @@
-import { PaletteProvider } from "@/components/providers/palette-provider";
-import { StyleProvider } from "@/components/providers/style-provider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import "@/styles/globals.css";
-import "@/styles/syntax-highlight.css";
-import { Analytics } from "@vercel/analytics/next";
-import { RootProvider } from "fumadocs-ui/provider/next";
-import { GeistSans } from "geist/font/sans";
-import type { Metadata } from "next";
-import { i18nUI } from "@/lib/layout.shared";
+import { Analytics } from '@vercel/analytics/next'
+import { RootProvider } from 'fumadocs-ui/provider/next'
+import { GeistSans } from 'geist/font/sans'
+
+import '@/styles/globals.css'
+import '@/styles/syntax-highlight.css'
+import type { Metadata } from 'next'
+
+import { PaletteProvider } from '@/components/providers/palette-provider'
+import { StyleProvider } from '@/components/providers/style-provider'
+import { ThemeProvider } from '@/components/providers/theme-provider'
+import { i18nUI } from '@/lib/layout.shared'
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Catcher",
-    default: "Catcher - Standardized Error Handling",
+    template: '%s | Catcher',
+    default: 'Catcher - Standardized Error Handling',
   },
-  description: "Functional error handling with the Result pattern for TypeScript",
+  description: 'Functional error handling with the Result pattern for TypeScript',
   openGraph: {
-    title: "Catcher",
-    description: "Standardized Error Handling for TypeScript",
-    siteName: "Catcher",
+    title: 'Catcher',
+    description: 'Standardized Error Handling for TypeScript',
+    siteName: 'Catcher',
     images: [
       {
-        url: "/og",
+        url: '/og',
         width: 1200,
         height: 630,
       },
     ],
-    locale: "en_US",
-    type: "website",
+    locale: 'en_US',
+    type: 'website',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Catcher",
-    description: "Standardized Error Handling for TypeScript",
-    images: ["/og"],
+    card: 'summary_large_image',
+    title: 'Catcher',
+    description: 'Standardized Error Handling for TypeScript',
+    images: ['/og'],
   },
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "any" },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
     ],
-    shortcut: "/favicon.svg",
+    shortcut: '/favicon.svg',
   },
-};
+}
 
 export default async function RootLayout({
   params,
   children,
 }: {
-  params: Promise<{ lang: string }>;
-  children: React.ReactNode;
+  params: Promise<{ lang: string }>
+  children: React.ReactNode
 }) {
-  const lang = (await params).lang;
+  const lang = (await params).lang
 
   return (
     <html className={GeistSans.className} lang={lang} suppressHydrationWarning>
@@ -80,5 +82,5 @@ export default async function RootLayout({
         </div>
       </body>
     </html>
-  );
+  )
 }

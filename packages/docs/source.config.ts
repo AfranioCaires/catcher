@@ -1,10 +1,12 @@
-import rehypeShiki from "@shikijs/rehype";
-import { rehypeToc } from "fumadocs-core/mdx-plugins";
-import { defineConfig, defineDocs, frontmatterSchema } from "fumadocs-mdx/config";
-import { getSingletonHighlighter } from "shiki";
-import { z } from "zod";
-import { transformers } from "@/lib/shiki-transformers";
-import rehypeCodeStyleFilter from "./lib/rehype-code-style-filter";
+import rehypeShiki from '@shikijs/rehype'
+import { rehypeToc } from 'fumadocs-core/mdx-plugins'
+import { defineConfig, defineDocs, frontmatterSchema } from 'fumadocs-mdx/config'
+import { getSingletonHighlighter } from 'shiki'
+import { z } from 'zod'
+
+import { transformers } from '@/lib/shiki-transformers'
+
+import rehypeCodeStyleFilter from './lib/rehype-code-style-filter'
 
 export default defineConfig({
   mdxOptions: {
@@ -15,35 +17,35 @@ export default defineConfig({
         {
           getHighlighter: () =>
             getSingletonHighlighter({
-              themes: ["github-light", "github-dark"],
+              themes: ['github-light', 'github-dark'],
               langs: [
-                "tsx",
-                "jsx",
-                "css",
-                "bash",
-                "json",
-                "typescript",
-                "javascript",
-                "markdown",
-                "md",
+                'tsx',
+                'jsx',
+                'css',
+                'bash',
+                'json',
+                'typescript',
+                'javascript',
+                'markdown',
+                'md',
               ],
             }),
           themes: {
-            dark: "github-dark",
-            light: "github-light",
+            dark: 'github-dark',
+            light: 'github-light',
           },
           transformers,
-          defaultLang: "tsx",
-          inline: "tailing-curly-colon",
+          defaultLang: 'tsx',
+          inline: 'tailing-curly-colon',
         },
       ],
       rehypeCodeStyleFilter,
     ],
   },
-});
+})
 
 export const docs = defineDocs({
-  dir: "./content",
+  dir: './content',
   docs: {
     schema: frontmatterSchema.extend({
       links: z
@@ -56,4 +58,4 @@ export const docs = defineDocs({
       motion: z.boolean().optional(),
     }),
   },
-});
+})

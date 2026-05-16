@@ -1,6 +1,7 @@
-"use client";
+'use client'
 
-import type { ReactElement } from "react";
+import type { ReactElement } from 'react'
+
 import {
   Select,
   SelectIcon,
@@ -14,24 +15,24 @@ import {
   SelectSpacer,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select/select";
+} from '@/components/ui/select/select'
 
-import styles from "./select-menu.module.css";
+import styles from './select-menu.module.css'
 
 export type SelectMenuOption<T extends string = string> = {
-  value: T;
-  label: string;
-};
+  value: T
+  label: string
+}
 
 export type SelectMenuProps<T extends string = string> = {
-  options: SelectMenuOption<T>[];
-  value: T;
-  onValueChange: (value: T) => void;
-  ariaLabel: string;
-  align?: "start" | "center" | "end";
-  sideOffset?: number;
-  trigger?: ReactElement;
-};
+  options: SelectMenuOption<T>[]
+  value: T
+  onValueChange: (value: T) => void
+  ariaLabel: string
+  align?: 'start' | 'center' | 'end'
+  sideOffset?: number
+  trigger?: ReactElement
+}
 
 export function SelectMenu<T extends string = string>({
   options,
@@ -50,8 +51,8 @@ export function SelectMenu<T extends string = string>({
         <SelectTrigger aria-label={ariaLabel} className={styles.trigger}>
           <SelectValue>
             {(v) => {
-              const selected = options.find((opt) => opt.value === v);
-              return <span>{selected?.label}</span>;
+              const selected = options.find((opt) => opt.value === v)
+              return <span>{selected?.label}</span>
             }}
           </SelectValue>
           <SelectIcon />
@@ -74,5 +75,5 @@ export function SelectMenu<T extends string = string>({
         </SelectPositioner>
       </SelectPortal>
     </Select>
-  );
+  )
 }

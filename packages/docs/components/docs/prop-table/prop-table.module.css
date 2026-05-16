@@ -130,7 +130,7 @@
   justify-content: flex-start;
 }
 
-.panel[data-slot="collapsible-panel"] {
+.panel[data-slot='collapsible-panel'] {
   background-color: var(--mix-card-50-bg);
   display: flex;
   flex-direction: column;
@@ -235,13 +235,13 @@
 
 .code {
   font-size: 12px;
-  font-family: "Geist Mono", monospace;
+  font-family: 'Geist Mono', monospace;
   color: var(--prop-code-color);
 }
 
 .typeCode {
   font-size: 12px;
-  font-family: "Geist Mono", monospace;
+  font-family: 'Geist Mono', monospace;
   color: var(--prop-type-color);
 }
 

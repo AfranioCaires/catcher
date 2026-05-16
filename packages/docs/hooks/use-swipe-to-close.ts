@@ -1,12 +1,12 @@
-import type React from "react";
-import { useCallback } from "react";
+import type React from 'react'
+import { useCallback } from 'react'
 
 type UseSwipeToCloseOptions = {
   /** Threshold in pixels to trigger close (default: 32) */
-  threshold?: number;
+  threshold?: number
   /** Callback when swipe triggers close */
-  onClose: () => void;
-};
+  onClose: () => void
+}
 
 /**
  * Hook that handles swipe-down-to-close gesture for mobile drawers.
@@ -20,38 +20,38 @@ type UseSwipeToCloseOptions = {
 export function useSwipeToClose({ threshold = 32, onClose }: UseSwipeToCloseOptions) {
   const handleTouchStart: React.TouchEventHandler<HTMLDivElement> = useCallback(
     (event) => {
-      const viewport = event.currentTarget;
+      const viewport = event.currentTarget
 
       // Only handle gesture when at top of scroll
-      if (viewport.scrollTop > 0) return;
+      if (viewport.scrollTop > 0) return
 
       const handleTouchEnd = () => {
         // Check if user pulled down past threshold
-        if (viewport.scrollTop >= -threshold) return;
+        if (viewport.scrollTop >= -threshold) return
 
-        const scrollPosition = viewport.scrollTop;
+        const scrollPosition = viewport.scrollTop
 
         const handleNextScroll = () => {
           if (viewport.scrollTop < scrollPosition) {
             // Animate out and close
-            viewport.style.translate = `0px -${scrollPosition}px`;
-            viewport.style.transition = "400ms";
-            onClose();
+            viewport.style.translate = `0px -${scrollPosition}px`
+            viewport.style.transition = '400ms'
+            onClose()
           } else if (viewport.scrollTop === scrollPosition) {
             // Wait for next scroll event
-            viewport.addEventListener("scroll", handleNextScroll, {
+            viewport.addEventListener('scroll', handleNextScroll, {
               once: true,
-            });
+            })
           }
-        };
+        }
 
-        viewport.addEventListener("scroll", handleNextScroll, { once: true });
-      };
+        viewport.addEventListener('scroll', handleNextScroll, { once: true })
+      }
 
-      viewport.addEventListener("touchend", handleTouchEnd, { once: true });
+      viewport.addEventListener('touchend', handleTouchEnd, { once: true })
     },
     [threshold, onClose],
-  );
+  )
 
-  return { handleTouchStart };
+  return { handleTouchStart }
 }

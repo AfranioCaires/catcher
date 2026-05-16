@@ -71,7 +71,7 @@
   background-color: var(--background);
   padding: 0.125rem 0.5rem;
   font-family:
-    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   font-size: 0.75rem;
   font-weight: 400;
   text-transform: lowercase;
@@ -98,7 +98,7 @@
   background-color: var(--boundary-green-bg);
   padding: 0.125rem 0.5rem;
   font-family:
-    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   font-size: 0.75rem;
   font-weight: 400;
   text-transform: lowercase;

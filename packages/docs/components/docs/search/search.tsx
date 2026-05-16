@@ -1,11 +1,12 @@
-"use client";
+'use client'
 
-import { useDocsSearch } from "fumadocs-core/search/client";
-import { Component, FileText, Puzzle } from "lucide-react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { EnterArrowIcon } from "@/components/ui/arrow-icon/arrow-icon";
+import { useDocsSearch } from 'fumadocs-core/search/client'
+import { Component, FileText, Puzzle } from 'lucide-react'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+
+import { EnterArrowIcon } from '@/components/ui/arrow-icon/arrow-icon'
 import {
   Command,
   CommandCollection,
@@ -19,176 +20,178 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command/command";
-import { Kbd } from "@/components/ui/kbd/kbd";
-import { useKeyboardShortcut } from "@/hooks/use-keyboard-shortcut";
-import type { PageTree } from "@/lib/source-types";
-import styles from "./search.module.css";
-import { SearchTrigger } from "./search-trigger";
+} from '@/components/ui/command/command'
+import { Kbd } from '@/components/ui/kbd/kbd'
+import { useKeyboardShortcut } from '@/hooks/use-keyboard-shortcut'
+import type { PageTree } from '@/lib/source-types'
+
+import { SearchTrigger } from './search-trigger'
+
+import styles from './search.module.css'
 
 type SearchResult = {
-  id: string;
-  type: string;
-  content: string;
-  url: string;
-};
+  id: string
+  type: string
+  content: string
+  url: string
+}
 
 type TreeItem = {
-  id: string;
-  name: string;
-  url: string;
-  group: string;
-};
+  id: string
+  name: string
+  url: string
+  group: string
+}
 
 export type SearchProps = {
-  tree?: PageTree.Root;
-};
+  tree?: PageTree.Root
+}
 
 const getIcon = (url: string) => {
   switch (true) {
-    case url.includes("/ui/"):
-      return <Puzzle size={16} />;
-    case url.includes("/blocks/"):
-      return <Component size={16} />;
+    case url.includes('/ui/'):
+      return <Puzzle size={16} />
+    case url.includes('/blocks/'):
+      return <Component size={16} />
     default:
-      return <FileText size={16} />;
+      return <FileText size={16} />
   }
-};
+}
 
 export function Search({ tree }: SearchProps) {
-  const { lang } = useParams();
-  const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { lang } = useParams()
+  const [open, setOpen] = useState(false)
+  const [inputValue, setInputValue] = useState('')
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const { setSearch, query } = useDocsSearch({
-    type: "fetch",
-  });
+    type: 'fetch',
+  })
 
   const t = {
     en: {
-      placeholder: "Search documentation...",
-      searching: "Searching...",
-      noResults: "No results found.",
-      results: "Search Results",
-      footer: "Go to page",
+      placeholder: 'Search documentation...',
+      searching: 'Searching...',
+      noResults: 'No results found.',
+      results: 'Search Results',
+      footer: 'Go to page',
     },
     pt: {
-      placeholder: "Pesquisar documentação...",
-      searching: "Pesquisando...",
-      noResults: "Nenhum resultado encontrado.",
-      results: "Resultados da Pesquisa",
-      footer: "Ir para a página",
+      placeholder: 'Pesquisar documentação...',
+      searching: 'Pesquisando...',
+      noResults: 'Nenhum resultado encontrado.',
+      results: 'Resultados da Pesquisa',
+      footer: 'Ir para a página',
     },
-  }[lang as "en" | "pt"] || {
-    placeholder: "Search documentation...",
-    searching: "Searching...",
-    noResults: "No results found.",
-    results: "Search Results",
-    footer: "Go to page",
-  };
+  }[lang as 'en' | 'pt'] || {
+    placeholder: 'Search documentation...',
+    searching: 'Searching...',
+    noResults: 'No results found.',
+    results: 'Search Results',
+    footer: 'Go to page',
+  }
 
-  useKeyboardShortcut({ key: "k", metaKey: true, ctrlKey: true }, () => setOpen(true));
+  useKeyboardShortcut({ key: 'k', metaKey: true, ctrlKey: true }, () => setOpen(true))
 
   useEffect(
     () => () => {
       if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current);
+        clearTimeout(searchTimeoutRef.current)
       }
     },
     [],
-  );
+  )
 
   const handleOpenChange = useCallback(
     (isOpen: boolean) => {
-      setOpen(isOpen);
+      setOpen(isOpen)
       if (!isOpen) {
         setTimeout(() => {
-          setInputValue("");
-          setSearch("");
-        }, 150);
+          setInputValue('')
+          setSearch('')
+        }, 150)
       }
     },
     [setSearch],
-  );
+  )
 
   const handleValueChange = useCallback(
     (value: string) => {
-      setInputValue(value);
+      setInputValue(value)
 
       if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current);
+        clearTimeout(searchTimeoutRef.current)
       }
 
       searchTimeoutRef.current = setTimeout(() => {
-        setSearch(value);
-      }, 300);
+        setSearch(value)
+      }, 300)
     },
     [setSearch],
-  );
+  )
 
   const handleItemClick = useCallback(() => {
-    handleOpenChange(false);
-  }, [handleOpenChange]);
+    handleOpenChange(false)
+  }, [handleOpenChange])
 
   const treeGroups = useMemo(() => {
-    if (!tree?.children) return [];
+    if (!tree?.children) return []
 
-    const groups: { name: string; items: TreeItem[] }[] = [];
+    const groups: { name: string; items: TreeItem[] }[] = []
 
     tree.children.forEach((group: PageTree.Node) => {
-      if (group.type !== "folder") return;
+      if (group.type !== 'folder') return
 
       const items: TreeItem[] = (group.children as PageTree.Node[])
-        .filter((item: PageTree.Node): item is PageTree.Item => item.type === "page")
+        .filter((item: PageTree.Node): item is PageTree.Item => item.type === 'page')
         .map((item: PageTree.Item) => ({
           id: item.url,
-          name: item.name?.toString() || "",
+          name: item.name?.toString() || '',
           url: item.url,
-          group: group.name?.toString() || "",
-        }));
+          group: group.name?.toString() || '',
+        }))
 
       if (items.length > 0) {
         groups.push({
-          name: group.name?.toString() || "",
+          name: group.name?.toString() || '',
           items,
-        });
+        })
       }
-    });
+    })
 
-    return groups;
-  }, [tree]);
+    return groups
+  }, [tree])
 
   const searchResults = useMemo(() => {
-    if (!query.data || query.data === "empty" || !Array.isArray(query.data)) {
-      return [];
+    if (!query.data || query.data === 'empty' || !Array.isArray(query.data)) {
+      return []
     }
 
     return query.data.filter(
       (item, index, self) =>
-        !(item.type === "text" && item.content.trim().split(/\s+/).length <= 1) &&
+        !(item.type === 'text' && item.content.trim().split(/\s+/).length <= 1) &&
         index === self.findIndex((t) => t.content === item.content),
-    ) as SearchResult[];
-  }, [query.data]);
+    ) as SearchResult[]
+  }, [query.data])
 
   const itemToStringValue = useCallback((item: unknown) => {
-    if (!item || typeof item !== "object") return "";
-    if ("content" in item) return (item as SearchResult).content;
-    if ("name" in item) return (item as TreeItem).name;
-    return "";
-  }, []);
+    if (!item || typeof item !== 'object') return ''
+    if ('content' in item) return (item as SearchResult).content
+    if ('name' in item) return (item as TreeItem).name
+    return ''
+  }, [])
 
-  const showSearchResults = inputValue.trim().length > 0;
-  const isLoading = query.isLoading;
-  const hasSearchResults = searchResults.length > 0;
+  const showSearchResults = inputValue.trim().length > 0
+  const isLoading = query.isLoading
+  const hasSearchResults = searchResults.length > 0
 
   const allItems = useMemo(() => {
     if (showSearchResults) {
-      return searchResults;
+      return searchResults
     }
-    return treeGroups.flatMap((g) => g.items);
-  }, [showSearchResults, searchResults, treeGroups]);
+    return treeGroups.flatMap((g) => g.items)
+  }, [showSearchResults, searchResults, treeGroups])
 
   return (
     <>
@@ -268,5 +271,5 @@ export function Search({ tree }: SearchProps) {
         </CommandDialogPopup>
       </CommandDialog>
     </>
-  );
+  )
 }

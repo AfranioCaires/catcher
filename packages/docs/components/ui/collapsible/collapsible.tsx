@@ -1,11 +1,13 @@
-"use client";
+'use client'
 
-import { Collapsible } from "@base-ui/react/collapsible";
-import { cn } from "@/lib/utils";
-import styles from "./collapsible.module.css";
+import { Collapsible } from '@base-ui/react/collapsible'
+
+import { cn } from '@/lib/utils'
+
+import styles from './collapsible.module.css'
 
 function CollapsibleRoot({ className, ...props }: Collapsible.Root.Props) {
-  return <Collapsible.Root className={cn(styles.root, className)} {...props} />;
+  return <Collapsible.Root className={cn(styles.root, className)} {...props} />
 }
 
 function CollapsibleTrigger({ className, children, ...props }: Collapsible.Trigger.Props) {
@@ -36,7 +38,7 @@ function CollapsibleTrigger({ className, children, ...props }: Collapsible.Trigg
         />
       </svg>
     </Collapsible.Trigger>
-  );
+  )
 }
 
 function CollapsiblePanel({ className, ...props }: Collapsible.Panel.Props) {
@@ -46,7 +48,7 @@ function CollapsiblePanel({ className, ...props }: Collapsible.Panel.Props) {
       data-slot="collapsible-panel"
       {...props}
     />
-  );
+  )
 }
 
-export { CollapsibleRoot as Collapsible, CollapsiblePanel, CollapsibleTrigger };
+export { CollapsibleRoot as Collapsible, CollapsiblePanel, CollapsibleTrigger }

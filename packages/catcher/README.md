@@ -25,16 +25,16 @@ npm install @catcher/core
 This approach mimics the error handling style found in languages like Go.
 
 ```typescript
-import { catchErrorSync } from "@catcher/core";
+import { catchErrorSync } from '@catcher/core'
 
-const [error, data] = catchErrorSync(() => JSON.parse('{"valid": true}'));
+const [error, data] = catchErrorSync(() => JSON.parse('{"valid": true}'))
 
 if (error) {
-  console.error("Parse failed", error);
-  return;
+  console.error('Parse failed', error)
+  return
 }
 
-console.log(data.valid);
+console.log(data.valid)
 ```
 
 ### Fluent Object API
@@ -42,14 +42,14 @@ console.log(data.valid);
 This approach uses fluent methods to check the status and retrieve values.
 
 ```typescript
-import { catchError } from "@catcher/core";
+import { catchError } from '@catcher/core'
 
-const result = await catchError(fetchUser(1));
+const result = await catchError(fetchUser(1))
 
 if (result.isOk()) {
-  console.log(result.data.name);
+  console.log(result.data.name)
 } else {
-  console.error(result.error);
+  console.error(result.error)
 }
 ```
 
@@ -63,8 +63,8 @@ Wraps a Promise and returns a standardized Result object.
 
 ```typescript
 const [error, data] = await catchError(
-  fetch("https://api.example.com/data").then((res) => res.json()),
-);
+  fetch('https://api.example.com/data').then((res) => res.json()),
+)
 ```
 
 #### catchErrorWithTimeout(promise, timeoutMs, errorsToCatch?)
@@ -72,7 +72,7 @@ const [error, data] = await catchError(
 Handles operations that might hang by adding a timeout.
 
 ```typescript
-const [error, data] = await catchErrorWithTimeout(fetchData(), 5000);
+const [error, data] = await catchErrorWithTimeout(fetchData(), 5000)
 ```
 
 ### Sync Operations
@@ -82,7 +82,7 @@ const [error, data] = await catchErrorWithTimeout(fetchData(), 5000);
 Executes a synchronous function and catches any errors.
 
 ```typescript
-const [error, data] = catchErrorSync(() => JSON.parse(rawJson));
+const [error, data] = catchErrorSync(() => JSON.parse(rawJson))
 ```
 
 ### Result API

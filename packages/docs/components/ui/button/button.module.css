@@ -40,7 +40,7 @@
 .secondary:not(.icon)::before,
 .destructive:not(.icon)::before,
 .outline:not(.icon)::before {
-  content: "";
+  content: '';
   pointer-events: none;
   position: absolute;
   z-index: -1;
@@ -71,7 +71,7 @@
 }
 
 :global(.dark).primary,
-:global([data-theme="dark"]).primary {
+:global([data-theme='dark']).primary {
   box-shadow:
     0 1px 2px oklch(0 0 0 / 0.25),
     inset 0 1px oklch(1 0 0 / 0.06);
@@ -92,7 +92,7 @@
 }
 
 :global(.dark).secondary,
-:global([data-theme="dark"]).secondary {
+:global([data-theme='dark']).secondary {
   box-shadow:
     0 1px 2px oklch(0 0 0 / 0.2),
     inset 0 -1px oklch(1 0 0 / 0.03);
@@ -113,7 +113,7 @@
 }
 
 :global(.dark).destructive,
-:global([data-theme="dark"]).destructive {
+:global([data-theme='dark']).destructive {
   box-shadow:
     0 1px 2px oklch(0 0 0 / 0.25),
     inset 0 1px oklch(1 0 0 / 0.06);
@@ -145,13 +145,13 @@
 }
 
 :global(.dark).outline,
-:global([data-theme="dark"]).outline {
+:global([data-theme='dark']).outline {
   box-shadow:
     0 1px 2px oklch(0 0 0 / 0.2),
     inset 0 -1px oklch(1 0 0 / 0.03);
 }
 
-:global([data-theme="light"]).outline {
+:global([data-theme='light']).outline {
   background-clip: padding-box;
 }
 
@@ -203,7 +203,7 @@
 }
 
 .icon::before {
-  content: "";
+  content: '';
   position: absolute;
   display: block;
   top: 50%;

@@ -1,20 +1,21 @@
-import { DocsSidebar } from "@/components/docs/sidebar/docs-sidebar";
-import { SiteHeader } from "@/components/layout/site-header/site-header";
-import { DocsProvider } from "@/components/providers/docs-provider";
-import { AnchoredToastProvider } from "@/components/ui/toast/toast";
-import { source } from "@/lib/source";
-import "./layout.css";
-import styles from "./layout.module.css";
+import { DocsSidebar } from '@/components/docs/sidebar/docs-sidebar'
+import { SiteHeader } from '@/components/layout/site-header/site-header'
+import { DocsProvider } from '@/components/providers/docs-provider'
+import { AnchoredToastProvider } from '@/components/ui/toast/toast'
+import { source } from '@/lib/source'
+
+import './layout.css'
+import styles from './layout.module.css'
 
 export default async function DocsLayout({
   params,
   children,
 }: {
-  params: Promise<{ lang: string }>;
-  children: React.ReactNode;
+  params: Promise<{ lang: string }>
+  children: React.ReactNode
 }) {
-  const { lang } = await params;
-  const tree = source.getPageTree(lang);
+  const { lang } = await params
+  const tree = source.getPageTree(lang)
 
   return (
     <DocsProvider>
@@ -30,5 +31,5 @@ export default async function DocsLayout({
         </div>
       </AnchoredToastProvider>
     </DocsProvider>
-  );
+  )
 }

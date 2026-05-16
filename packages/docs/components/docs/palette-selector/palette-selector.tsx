@@ -1,15 +1,15 @@
-"use client";
+'use client'
 
-import { type ColorPalette, usePalette } from "@/components/providers/palette-provider";
-import { SelectMenu, type SelectMenuOption } from "@/components/shared/select-menu/select-menu";
+import { type ColorPalette, usePalette } from '@/components/providers/palette-provider'
+import { SelectMenu, type SelectMenuOption } from '@/components/shared/select-menu/select-menu'
 
 const paletteOptions: SelectMenuOption<ColorPalette>[] = [
-  { value: "default", label: "Default" },
-  { value: "psevdaryiros", label: "Psevdaryiros" },
-];
+  { value: 'default', label: 'Default' },
+  { value: 'psevdaryiros', label: 'Psevdaryiros' },
+]
 
 export function PaletteSelector() {
-  const { palette, setPalette } = usePalette();
+  const { palette, setPalette } = usePalette()
 
   return (
     <SelectMenu
@@ -18,5 +18,5 @@ export function PaletteSelector() {
       options={paletteOptions}
       value={palette}
     />
-  );
+  )
 }

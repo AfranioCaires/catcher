@@ -1,8 +1,10 @@
-import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import styles from "./badge.module.css";
+import { mergeProps } from '@base-ui/react/merge-props'
+import { useRender } from '@base-ui/react/use-render'
+import { cva, type VariantProps } from 'class-variance-authority'
+
+import { cn } from '@/lib/utils'
+
+import styles from './badge.module.css'
 
 const badgeVariants = cva(styles.badge, {
   variants: {
@@ -21,21 +23,21 @@ const badgeVariants = cva(styles.badge, {
     },
   },
   defaultVariants: {
-    variant: "default",
-    size: "md",
+    variant: 'default',
+    size: 'md',
   },
-});
+})
 
 function Badge({
   className,
-  variant = "default",
-  size = "md",
+  variant = 'default',
+  size = 'md',
   render,
   ...props
-}: useRender.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
+}: useRender.ComponentProps<'span'> & VariantProps<typeof badgeVariants>) {
   return useRender({
-    defaultTagName: "span",
-    props: mergeProps<"span">(
+    defaultTagName: 'span',
+    props: mergeProps<'span'>(
       {
         className: cn(badgeVariants({ variant, size, className })),
       },
@@ -43,17 +45,17 @@ function Badge({
     ),
     render,
     state: {
-      slot: "badge",
+      slot: 'badge',
       variant,
       size,
     },
-  });
+  })
 }
 
-function BadgeIcon({ className, render, ...props }: useRender.ComponentProps<"span">) {
+function BadgeIcon({ className, render, ...props }: useRender.ComponentProps<'span'>) {
   return useRender({
-    defaultTagName: "span",
-    props: mergeProps<"span">(
+    defaultTagName: 'span',
+    props: mergeProps<'span'>(
       {
         className: cn(styles.iconContainer, className),
       },
@@ -61,9 +63,9 @@ function BadgeIcon({ className, render, ...props }: useRender.ComponentProps<"sp
     ),
     render,
     state: {
-      slot: "badge-icon",
+      slot: 'badge-icon',
     },
-  });
+  })
 }
 
-export { Badge, BadgeIcon };
+export { Badge, BadgeIcon }

@@ -1,18 +1,20 @@
-import Link from "next/link";
-import { ArrowPointer, Button } from "@/components/ui/button/button";
-import { cn } from "@/lib/utils";
-import styles from "./footer-nav.module.css";
+import Link from 'next/link'
+
+import { ArrowPointer, Button } from '@/components/ui/button/button'
+import { cn } from '@/lib/utils'
+
+import styles from './footer-nav.module.css'
 
 type NavItem = {
-  url: string;
-  title: string;
-};
+  url: string
+  title: string
+}
 
 type FooterNavProps = {
-  previous?: NavItem | null;
-  next?: NavItem | null;
-  className?: string;
-};
+  previous?: NavItem | null
+  next?: NavItem | null
+  className?: string
+}
 
 export function FooterNav({ previous, next, className }: FooterNavProps) {
   return (
@@ -46,5 +48,5 @@ export function FooterNav({ previous, next, className }: FooterNavProps) {
         ) : null}
       </div>
     </nav>
-  );
+  )
 }

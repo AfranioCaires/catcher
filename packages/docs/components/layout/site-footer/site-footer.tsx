@@ -1,25 +1,27 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { GitHubIcon } from "@/components/shared/github-icon";
-import styles from "./site-footer.module.css";
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+
+import { GitHubIcon } from '@/components/shared/github-icon'
+
+import styles from './site-footer.module.css'
 
 export function SiteFooter() {
-  const { lang } = useParams();
+  const { lang } = useParams()
   const t = {
     en: {
-      builtBy: "Built by",
-      sourceCode: "Source Code",
+      builtBy: 'Built by',
+      sourceCode: 'Source Code',
     },
     pt: {
-      builtBy: "Criado por",
-      sourceCode: "Código Fonte",
+      builtBy: 'Criado por',
+      sourceCode: 'Código Fonte',
     },
-  }[lang as "en" | "pt"] || {
-    builtBy: "Built by",
-    sourceCode: "Source Code",
-  };
+  }[lang as 'en' | 'pt'] || {
+    builtBy: 'Built by',
+    sourceCode: 'Source Code',
+  }
 
   return (
     <footer className={styles.footer}>
@@ -44,7 +46,7 @@ export function SiteFooter() {
             </Link>
           </div>
           <p className={styles.attribution}>
-            {t.builtBy}{" "}
+            {t.builtBy}{' '}
             <Link
               className={styles.authorLink}
               href="https://github.com/afraniocaires"
@@ -57,5 +59,5 @@ export function SiteFooter() {
         </div>
       </div>
     </footer>
-  );
+  )
 }

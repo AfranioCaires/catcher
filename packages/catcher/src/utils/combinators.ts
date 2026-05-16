@@ -1,5 +1,5 @@
-import { Result } from "../core/types";
-import { err, ok } from "../core/factories";
+import { err, ok } from '../core/factories'
+import { Result } from '../core/types'
 
 /**
  * Combines multiple Results into a single Result containing an array of data.
@@ -12,12 +12,12 @@ export function combine<T extends readonly Result<any, any>[]>(
   { [K in keyof T]: T[K] extends Result<infer U, any> ? U : never },
   T[number] extends Result<any, infer E> ? E : never
 > {
-  const data: any[] = [];
+  const data: any[] = []
   for (const result of results) {
-    if (result.isErr()) return result as any;
-    data.push(result.data);
+    if (result.isErr()) return result as any
+    data.push(result.data)
   }
-  return ok(data) as any;
+  return ok(data) as any
 }
 
 /**
@@ -31,13 +31,13 @@ export function combineAll<T extends readonly Result<any, any>[]>(
   { [K in keyof T]: T[K] extends Result<infer U, any> ? U : never },
   (T[number] extends Result<any, infer E> ? E : never)[]
 > {
-  const data: any[] = [];
-  const errors: any[] = [];
+  const data: any[] = []
+  const errors: any[] = []
   for (const result of results) {
-    if (result.isErr()) errors.push(result.error);
-    else data.push(result.data);
+    if (result.isErr()) errors.push(result.error)
+    else data.push(result.data)
   }
-  return errors.length > 0 ? (err(errors) as any) : (ok(data) as any);
+  return errors.length > 0 ? (err(errors) as any) : (ok(data) as any)
 }
 
 /**
@@ -45,11 +45,11 @@ export function combineAll<T extends readonly Result<any, any>[]>(
  * @param results Array of Results to partition.
  */
 export function partition<T, E>(results: Result<T, E>[]): { ok: T[]; err: E[] } {
-  const oks: T[] = [];
-  const errs: E[] = [];
+  const oks: T[] = []
+  const errs: E[] = []
   for (const result of results) {
-    if (result.isOk()) oks.push(result.data);
-    else errs.push(result.error);
+    if (result.isOk()) oks.push(result.data)
+    else errs.push(result.error)
   }
-  return { ok: oks, err: errs };
+  return { ok: oks, err: errs }
 }

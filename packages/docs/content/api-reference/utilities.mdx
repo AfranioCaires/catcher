@@ -111,15 +111,15 @@ const result = await fromPromise(fetch('https://api.example.com/data'));`}
 <PropTable
   data={[
     {
-      prop: "results",
-      type: "Result<T, E>[]",
+      prop: 'results',
+      type: 'Result<T, E>[]',
       required: true,
-      description: "An array of Results to combine. Short-circuits on the first error.",
+      description: 'An array of Results to combine. Short-circuits on the first error.',
     },
     {
-      prop: "returns",
-      type: "Result<T[], E>",
-      description: "A single Result containing either all data or the first error encountered.",
+      prop: 'returns',
+      type: 'Result<T[], E>',
+      description: 'A single Result containing either all data or the first error encountered.',
     },
   ]}
 />
@@ -129,16 +129,16 @@ const result = await fromPromise(fetch('https://api.example.com/data'));`}
 <PropTable
   data={[
     {
-      prop: "results",
-      type: "Result<T, E>[]",
+      prop: 'results',
+      type: 'Result<T, E>[]',
       required: true,
-      description: "An array of Results to combine. Does not short-circuit.",
+      description: 'An array of Results to combine. Does not short-circuit.',
     },
     {
-      prop: "returns",
-      type: "Result<T[], E[]>",
+      prop: 'returns',
+      type: 'Result<T[], E[]>',
       description:
-        "A single Result containing either all data or an array of all errors encountered.",
+        'A single Result containing either all data or an array of all errors encountered.',
     },
   ]}
 />
@@ -148,15 +148,15 @@ const result = await fromPromise(fetch('https://api.example.com/data'));`}
 <PropTable
   data={[
     {
-      prop: "results",
-      type: "Result<T, E>[]",
+      prop: 'results',
+      type: 'Result<T, E>[]',
       required: true,
-      description: "An array of Results to partition.",
+      description: 'An array of Results to partition.',
     },
     {
-      prop: "returns",
-      type: "{ ok: T[], err: E[] }",
-      description: "An object containing two arrays: one for successes and one for errors.",
+      prop: 'returns',
+      type: '{ ok: T[], err: E[] }',
+      description: 'An object containing two arrays: one for successes and one for errors.',
     },
   ]}
 />
@@ -166,21 +166,21 @@ const result = await fromPromise(fetch('https://api.example.com/data'));`}
 <PropTable
   data={[
     {
-      prop: "value",
-      type: "T | null | undefined",
+      prop: 'value',
+      type: 'T | null | undefined',
       required: true,
-      description: "The value to convert.",
+      description: 'The value to convert.',
     },
     {
-      prop: "error",
-      type: "E",
+      prop: 'error',
+      type: 'E',
       required: true,
-      description: "The error to use if the value is null or undefined.",
+      description: 'The error to use if the value is null or undefined.',
     },
     {
-      prop: "returns",
-      type: "Result<T, E>",
-      description: "A Result object representing the presence or absence of the value.",
+      prop: 'returns',
+      type: 'Result<T, E>',
+      description: 'A Result object representing the presence or absence of the value.',
     },
   ]}
 />
@@ -190,20 +190,20 @@ const result = await fromPromise(fetch('https://api.example.com/data'));`}
 <PropTable
   data={[
     {
-      prop: "fn",
-      type: "(...args) => T",
+      prop: 'fn',
+      type: '(...args) => T',
       required: true,
-      description: "The function that might throw an error.",
+      description: 'The function that might throw an error.',
     },
     {
-      prop: "errorsToCatch",
-      type: "ErrorClass[]",
-      description: "Optional array of Error classes to catch.",
+      prop: 'errorsToCatch',
+      type: 'ErrorClass[]',
+      description: 'Optional array of Error classes to catch.',
     },
     {
-      prop: "returns",
-      type: "(...args) => Result<T, E>",
-      description: "A new function that returns a Result instead of throwing.",
+      prop: 'returns',
+      type: '(...args) => Result<T, E>',
+      description: 'A new function that returns a Result instead of throwing.',
     },
   ]}
 />
@@ -213,20 +213,20 @@ const result = await fromPromise(fetch('https://api.example.com/data'));`}
 <PropTable
   data={[
     {
-      prop: "promise",
-      type: "Promise<T>",
+      prop: 'promise',
+      type: 'Promise<T>',
       required: true,
-      description: "The Promise to wrap.",
+      description: 'The Promise to wrap.',
     },
     {
-      prop: "errorsToCatch",
-      type: "ErrorClass[]",
-      description: "Optional array of Error classes to catch.",
+      prop: 'errorsToCatch',
+      type: 'ErrorClass[]',
+      description: 'Optional array of Error classes to catch.',
     },
     {
-      prop: "returns",
-      type: "Promise<Result<T, E>>",
-      description: "A Promise that resolves to a Result object.",
+      prop: 'returns',
+      type: 'Promise<Result<T, E>>',
+      description: 'A Promise that resolves to a Result object.',
     },
   ]}
 />

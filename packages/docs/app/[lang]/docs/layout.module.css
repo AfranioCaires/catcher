@@ -15,13 +15,13 @@
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-areas: "content";
+  grid-template-areas: 'content';
   min-height: calc(100vh - var(--header-height));
   position: relative;
 }
 
 .docsContainer::after {
-  content: "";
+  content: '';
   position: fixed;
   top: 0;
   bottom: 0;
@@ -35,7 +35,7 @@
 @media (min-width: 1024px) {
   .docsContainer {
     grid-template-columns: 240px 1fr;
-    grid-template-areas: "sidebar content";
+    grid-template-areas: 'sidebar content';
   }
 }
 
@@ -49,7 +49,7 @@
 }
 
 .sidebar::after {
-  content: "";
+  content: '';
   position: fixed;
   top: 0;
   bottom: 0;

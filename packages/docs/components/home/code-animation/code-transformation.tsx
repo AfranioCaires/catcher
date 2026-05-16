@@ -1,12 +1,13 @@
-"use client";
+'use client'
 
-import { useEffect, useState, useMemo } from "react";
-import { useParams } from "next/navigation";
-import { useTheme } from "next-themes";
-import { ShikiMagicMove } from "shiki-magic-move/react";
-import { getSingletonHighlighter } from "shiki";
-import styles from "./code-transformation.module.css";
-import "shiki-magic-move/dist/style.css";
+import { useTheme } from 'next-themes'
+import { useParams } from 'next/navigation'
+import { useEffect, useState, useMemo } from 'react'
+import { getSingletonHighlighter } from 'shiki'
+import { ShikiMagicMove } from 'shiki-magic-move/react'
+
+import styles from './code-transformation.module.css'
+import 'shiki-magic-move/dist/style.css'
 
 const codeBefore = `try {
   const data = await fetchUser(id);
@@ -15,7 +16,7 @@ const codeBefore = `try {
     return null;
   }
   throw error;
-}`;
+}`
 
 const codeAfter = `const [error, data] = await catcher(
   fetchUser(id),
@@ -24,39 +25,39 @@ const codeAfter = `const [error, data] = await catcher(
 
 if (error) return null;
 
-`;
+`
 
 export const CodeTransformation = () => {
-  const [code, setCode] = useState(codeBefore);
-  const [highlighter, setHighlighter] = useState<any>(null);
-  const { lang } = useParams();
-  const { resolvedTheme } = useTheme();
+  const [code, setCode] = useState(codeBefore)
+  const [highlighter, setHighlighter] = useState<any>(null)
+  const { lang } = useParams()
+  const { resolvedTheme } = useTheme()
 
   const content = useMemo(() => {
     const translations = {
       en: {
-        filename: "user-service.ts",
+        filename: 'user-service.ts',
       },
       pt: {
-        filename: "servico-usuario.ts",
+        filename: 'servico-usuario.ts',
       },
-    };
-    return translations[lang as "en" | "pt"] || translations.en;
-  }, [lang]);
+    }
+    return translations[lang as 'en' | 'pt'] || translations.en
+  }, [lang])
 
-  const theme = resolvedTheme === "dark" ? "github-dark" : "github-light";
+  const theme = resolvedTheme === 'dark' ? 'github-dark' : 'github-light'
 
   useEffect(() => {
     getSingletonHighlighter({
-      themes: ["github-dark", "github-light"],
-      langs: ["tsx"],
-    }).then(setHighlighter);
+      themes: ['github-dark', 'github-light'],
+      langs: ['tsx'],
+    }).then(setHighlighter)
 
     const interval = setInterval(() => {
-      setCode((c) => (c === codeBefore ? codeAfter : codeBefore));
-    }, 4500);
-    return () => clearInterval(interval);
-  }, []);
+      setCode((c) => (c === codeBefore ? codeAfter : codeBefore))
+    }, 4500)
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -83,5 +84,5 @@ export const CodeTransformation = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}

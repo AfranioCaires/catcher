@@ -1,11 +1,13 @@
-"use client";
+'use client'
 
-import { Check } from "lucide-react";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import styles from "./copy-button.module.css";
+import { Check } from 'lucide-react'
+import { useState } from 'react'
 
-const COPIED_RESET_DELAY_MS = 700;
+import { cn } from '@/lib/utils'
+
+import styles from './copy-button.module.css'
+
+const COPIED_RESET_DELAY_MS = 700
 
 const CopyIcon = ({ size = 14 }: { size?: number }) => (
   <svg
@@ -16,7 +18,7 @@ const CopyIcon = ({ size = 14 }: { size?: number }) => (
     strokeLinecap="round"
     strokeLinejoin="round"
     strokeWidth="2"
-    style={{ transform: "scaleX(-1)" }}
+    style={{ transform: 'scaleX(-1)' }}
     viewBox="0 0 24 24"
     width={size}
     xmlns="http://www.w3.org/2000/svg"
@@ -39,22 +41,22 @@ const CopyIcon = ({ size = 14 }: { size?: number }) => (
       fill="none"
     />
   </svg>
-);
+)
 
 function CopyButton({ code, className }: { code: string; className?: string }) {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), COPIED_RESET_DELAY_MS);
+      await navigator.clipboard.writeText(code)
+      setCopied(true)
+      setTimeout(() => setCopied(false), COPIED_RESET_DELAY_MS)
     } catch {}
-  };
+  }
 
   return (
     <button
-      aria-label={copied ? "Copied to clipboard" : "Copy code to clipboard"}
+      aria-label={copied ? 'Copied to clipboard' : 'Copy code to clipboard'}
       className={cn(styles.root, styles.header, className)}
       data-copied={copied}
       data-slot="copy-button"
@@ -68,7 +70,7 @@ function CopyButton({ code, className }: { code: string; className?: string }) {
         <Check size={14} />
       </div>
     </button>
-  );
+  )
 }
 
-export { CopyButton };
+export { CopyButton }

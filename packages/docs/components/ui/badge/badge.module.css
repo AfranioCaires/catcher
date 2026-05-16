@@ -25,7 +25,7 @@
     inset 0 0 0 1px var(--ring);
 }
 
-.badge[aria-invalid="true"] {
+.badge[aria-invalid='true'] {
   box-shadow: 0 0 0 1px var(--destructive);
   border-color: var(--destructive);
 }
@@ -126,8 +126,8 @@
 
 .light .default::selection,
 .light .default *::selection,
-[data-theme="light"] .default::selection,
-[data-theme="light"] .default *::selection {
+[data-theme='light'] .default::selection,
+[data-theme='light'] .default *::selection {
   background-color: #fff;
   color: #000;
 }

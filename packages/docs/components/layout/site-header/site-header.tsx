@@ -1,26 +1,28 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { Search } from "@/components/docs/search/search";
-import { LanguageSwitcher } from "@/components/layout/language-switcher/language-switcher";
-import { MobileNav } from "@/components/layout/mobile-nav/mobile-nav";
-import { PaletteSwitcher } from "@/components/layout/palette-switcher/palette-switcher";
-import { ThemeSwitcher } from "@/components/layout/theme-switcher/theme-switcher";
-import { GitHubIcon } from "@/components/shared/github-icon";
-import { Button } from "@/components/ui/button/button";
-import type { PageTree } from "@/lib/source-types";
-import { cn } from "@/lib/utils";
-import styles from "./site-header.module.css";
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+
+import { Search } from '@/components/docs/search/search'
+import { LanguageSwitcher } from '@/components/layout/language-switcher/language-switcher'
+import { MobileNav } from '@/components/layout/mobile-nav/mobile-nav'
+import { PaletteSwitcher } from '@/components/layout/palette-switcher/palette-switcher'
+import { ThemeSwitcher } from '@/components/layout/theme-switcher/theme-switcher'
+import { GitHubIcon } from '@/components/shared/github-icon'
+import { Button } from '@/components/ui/button/button'
+import type { PageTree } from '@/lib/source-types'
+import { cn } from '@/lib/utils'
+
+import styles from './site-header.module.css'
 
 type SiteHeaderProps = {
-  pageTree?: PageTree.Root;
-  isHomePage?: boolean;
-};
+  pageTree?: PageTree.Root
+  isHomePage?: boolean
+}
 
 export function SiteHeader({ pageTree, isHomePage }: SiteHeaderProps) {
-  const { lang } = useParams();
-  const base = lang ? `/${lang}` : "";
+  const { lang } = useParams()
+  const base = lang ? `/${lang}` : ''
 
   return (
     <header className={styles.header} data-slot="site-header">
@@ -28,7 +30,7 @@ export function SiteHeader({ pageTree, isHomePage }: SiteHeaderProps) {
         <div className={cn(styles.innerWrapper, isHomePage ? styles.innerWrapperHomePage : null)}>
           <nav className={styles.nav}>
             <div className={styles.leftSection}>
-              <Link aria-label="Catcher Home" className={styles.logoLink} href={base || "/"}>
+              <Link aria-label="Catcher Home" className={styles.logoLink} href={base || '/'}>
                 Catcher
               </Link>
             </div>
@@ -89,5 +91,5 @@ export function SiteHeader({ pageTree, isHomePage }: SiteHeaderProps) {
         </div>
       </div>
     </header>
-  );
+  )
 }

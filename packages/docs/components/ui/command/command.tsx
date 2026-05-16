@@ -1,20 +1,22 @@
-"use client";
+'use client'
 
-import { Autocomplete } from "@base-ui/react/autocomplete";
-import { Dialog } from "@base-ui/react/dialog";
-import type React from "react";
-import { cn } from "@/lib/utils";
-import styles from "./command.module.css";
+import { Autocomplete } from '@base-ui/react/autocomplete'
+import { Dialog } from '@base-ui/react/dialog'
+import type React from 'react'
+
+import { cn } from '@/lib/utils'
+
+import styles from './command.module.css'
 
 function CommandDialog({ ...props }: Dialog.Root.Props) {
-  return <Dialog.Root {...props} />;
+  return <Dialog.Root {...props} />
 }
 
 function CommandDialogTrigger({ ...props }: Dialog.Trigger.Props) {
-  return <Dialog.Trigger data-slot="command-dialog-trigger" {...props} />;
+  return <Dialog.Trigger data-slot="command-dialog-trigger" {...props} />
 }
 
-const CommandDialogPortal = Dialog.Portal;
+const CommandDialogPortal = Dialog.Portal
 
 function CommandDialogBackdrop({ className, ...props }: Dialog.Backdrop.Props) {
   return (
@@ -23,7 +25,7 @@ function CommandDialogBackdrop({ className, ...props }: Dialog.Backdrop.Props) {
       data-slot="command-dialog-backdrop"
       {...props}
     />
-  );
+  )
 }
 
 function CommandDialogPopup({
@@ -42,11 +44,11 @@ function CommandDialogPopup({
         {children}
       </Dialog.Popup>
     </CommandDialogPortal>
-  );
+  )
 }
 
 function Command({
-  autoHighlight = "always",
+  autoHighlight = 'always',
   keepHighlight = true,
   className,
   ...props
@@ -62,12 +64,12 @@ function Command({
         {...props}
       />
     </div>
-  );
+  )
 }
 
 function CommandInput({
   className,
-  placeholder = "Search...",
+  placeholder = 'Search...',
   ...props
 }: React.ComponentProps<typeof Autocomplete.Input>) {
   return (
@@ -80,13 +82,13 @@ function CommandInput({
         {...props}
       />
     </div>
-  );
+  )
 }
 
 function CommandList({ className, ...props }: React.ComponentProps<typeof Autocomplete.List>) {
   return (
     <Autocomplete.List className={cn(styles.list, className)} data-slot="command-list" {...props} />
-  );
+  )
 }
 
 function CommandEmpty({
@@ -100,9 +102,9 @@ function CommandEmpty({
       data-slot="command-empty"
       {...props}
     >
-      {children || "No results found."}
+      {children || 'No results found.'}
     </Autocomplete.Empty>
-  );
+  )
 }
 
 function CommandGroup({ className, ...props }: React.ComponentProps<typeof Autocomplete.Group>) {
@@ -112,7 +114,7 @@ function CommandGroup({ className, ...props }: React.ComponentProps<typeof Autoc
       data-slot="command-group"
       {...props}
     />
-  );
+  )
 }
 
 function CommandGroupLabel({
@@ -125,17 +127,17 @@ function CommandGroupLabel({
       data-slot="command-group-label"
       {...props}
     />
-  );
+  )
 }
 
 function CommandCollection({ ...props }: React.ComponentProps<typeof Autocomplete.Collection>) {
-  return <Autocomplete.Collection data-slot="command-collection" {...props} />;
+  return <Autocomplete.Collection data-slot="command-collection" {...props} />
 }
 
 function CommandItem({ className, ...props }: React.ComponentProps<typeof Autocomplete.Item>) {
   return (
     <Autocomplete.Item className={cn(styles.item, className)} data-slot="command-item" {...props} />
-  );
+  )
 }
 
 function CommandSeparator({
@@ -148,15 +150,15 @@ function CommandSeparator({
       data-slot="command-separator"
       {...props}
     />
-  );
+  )
 }
 
-function CommandFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn(styles.footer, className)} data-slot="command-footer" {...props} />;
+function CommandFooter({ className, ...props }: React.ComponentProps<'div'>) {
+  return <div className={cn(styles.footer, className)} data-slot="command-footer" {...props} />
 }
 
-function CommandShortcut({ className, ...props }: React.ComponentProps<"kbd">) {
-  return <kbd className={cn(styles.shortcut, className)} data-slot="command-shortcut" {...props} />;
+function CommandShortcut({ className, ...props }: React.ComponentProps<'kbd'>) {
+  return <kbd className={cn(styles.shortcut, className)} data-slot="command-shortcut" {...props} />
 }
 
 export {
@@ -176,4 +178,4 @@ export {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-};
+}

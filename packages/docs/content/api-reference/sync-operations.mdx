@@ -58,20 +58,20 @@ Be aware that JavaScript allows throwing any value, not just Error instances. Th
 <PropTable
   data={[
     {
-      prop: "fn",
-      type: "() => T",
+      prop: 'fn',
+      type: '() => T',
       required: true,
-      description: "The synchronous function to execute.",
+      description: 'The synchronous function to execute.',
     },
     {
-      prop: "errorsToCatch",
-      type: "ErrorClass[]",
-      description: "Optional array of Error classes to catch. If omitted, all errors are caught.",
+      prop: 'errorsToCatch',
+      type: 'ErrorClass[]',
+      description: 'Optional array of Error classes to catch. If omitted, all errors are caught.',
     },
     {
-      prop: "returns",
-      type: "Result<T, E>",
-      description: "A Result object containing either the returned value or the caught error.",
+      prop: 'returns',
+      type: 'Result<T, E>',
+      description: 'A Result object containing either the returned value or the caught error.',
     },
   ]}
 />

@@ -33,20 +33,20 @@
   opacity: 0;
 }
 
-.popup [role="option"] {
+.popup [role='option'] {
   border-radius: 0;
 }
 
-.popup [role="option"]:not([data-selected]) {
+.popup [role='option']:not([data-selected]) {
   padding-left: 31px;
 }
 
-.popup [role="option"]::before {
+.popup [role='option']::before {
   border-radius: 0;
 }
 
-.popup [data-part="item-indicator"],
-.popup [class*="indicator"] {
+.popup [data-part='item-indicator'],
+.popup [class*='indicator'] {
   margin-left: 0;
 }
 
