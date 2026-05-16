@@ -1,0 +1,32 @@
+---
+title: Express e Web Frameworks
+description: Integrando o padrão Result em handlers de rota usando captura filtrada.
+---
+
+## O Problema
+
+A maioria dos frameworks web depende do lançamento de exceções para sinalizar falhas. Frequentemente, você só quer capturar erros específicos e esperados, como um estado "Não Encontrado", enquanto deixa outras falhas críticas inesperadas borbulharem para um manipulador de erros global.
+
+## A Solução
+
+Use o padrão de captura nomeada (desestruturação de tupla) combinado com a filtragem de erros para capturar apenas o `NotFoundError`. Isso mantém sua lógica focada estritamente nos modos de falha esperados.
+
+<CodeBlock
+    filename="server.ts"
+    language="typescript"
+    code={`app.get("/users/:id", async (req, res) => {
+    const [error, user] = await catchError(
+        userService.findById(req.params.id),
+        [NotFoundError]
+    );
+
+    if (error) {
+        return res.status(404).json({ error: error.message });
+    }
+
+    return res.status(200).json(user);
+
+});`}
+/>
+
+Ao fornecer um array de classes de erro como o segundo argumento, você garante que apenas esses tipos específicos sejam capturados. Qualquer outra exceção ainda será lançada normalmente.

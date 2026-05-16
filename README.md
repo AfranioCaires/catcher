@@ -1,57 +1,30 @@
-# Catch Error Lib
+# Catcher Monorepo
 
-A production-ready TypeScript utility for clean error handling using the Result pattern. Supports both async and sync operations with a fluent API.
+This is the monorepo for Catcher, a project focused on clean error handling in TypeScript.
 
-## Features
+## Project Structure
 
-- 🛠 **Dual API**: Use destructuring (tuple/object) or fluent methods.
-- ⚡ **Sync & Async**: Support for `catchError` and `catchErrorSync`.
-- 🛡 **Non-Error support**: Safely catches strings, objects, or any thrown value.
-- 📦 **Zero Dependencies**: Lightweight and fast.
--  TypeScript first.
+- `packages/catcher`: The core library (`@catcher/core`).
+- `packages/docs`: The documentation site (`@catcher/docs`).
 
-## Installation
+## Getting Started
 
-```bash
-npm install catch-error-lib
-```
+1. Install dependencies:
+   ```bash
+   pnpm install
+   ```
 
-## Usage
+2. Build the project:
+   ```bash
+   pnpm build
+   ```
 
-### Basic Destructuring (Async)
+3. Run tests:
+   ```bash
+   pnpm test
+   ```
 
-```typescript
-import { catchError } from 'catch-error-lib';
-
-const [error, data] = await catchError(fetchUser(1));
-if (error) {
-  console.error('Failed to fetch user:', error);
-  return;
-}
-console.log(data.name);
-```
-
-### Fluent API
-
-```typescript
-const result = await catchError(fetchData());
-
-if (result.isOk()) {
-  console.log(result.data);
-}
-
-const data = result.getOrElse(defaultData);
-const value = result.unwrap(); // Throws if result is error
-```
-
-### Synchronous Operations
-
-```typescript
-import { catchErrorSync } from 'catch-error-lib';
-
-const [error, config] = catchErrorSync(() => JSON.parse(rawJson));
-```
-
-## License
-
-MIT
+4. Start development:
+   ```bash
+   pnpm dev
+   ```

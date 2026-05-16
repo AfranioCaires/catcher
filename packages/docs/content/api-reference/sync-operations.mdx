@@ -1,0 +1,77 @@
+---
+title: Sync Operations
+description: Handling synchronous functions cleanly.
+---
+
+For synchronous operations, the library provides `catchErrorSync`. It executes a callback function and catches any errors that occur during its execution.
+
+## Parsing Data
+
+A common use case is safely parsing JSON strings.
+
+<CodeBlock
+  filename="parsing.ts"
+  language="typescript"
+  code={`import { catchErrorSync } from 'Catcher';
+
+const jsonString = '{ invalid: json }';
+const [error, data] = catchErrorSync(() => JSON.parse(jsonString));
+
+if (error) {
+console.log(error.message);
+} else {
+console.log(data);
+}`}
+/>
+
+## Validation Logic
+
+You can also wrap validation functions that might throw exceptions.
+
+<CodeBlock
+  filename="validation.ts"
+  language="typescript"
+  code={`import { catchErrorSync } from 'Catcher';
+
+function validateAge(age: number) {
+if (age < 18) {
+throw new Error('Age must be at least 18');
+}
+return true;
+}
+
+const result = catchErrorSync(() => validateAge(16));
+
+if (result.isErr()) {
+console.error(result.error.message);
+}`}
+/>
+
+## Exception Types
+
+Be aware that JavaScript allows throwing any value, not just Error instances. The `catchErrorSync` function will safely catch strings, numbers, or objects that are thrown.
+
+## Props
+
+### catchErrorSync
+
+<PropTable
+  data={[
+    {
+      prop: "fn",
+      type: "() => T",
+      required: true,
+      description: "The synchronous function to execute.",
+    },
+    {
+      prop: "errorsToCatch",
+      type: "ErrorClass[]",
+      description: "Optional array of Error classes to catch. If omitted, all errors are caught.",
+    },
+    {
+      prop: "returns",
+      type: "Result<T, E>",
+      description: "A Result object containing either the returned value or the caught error.",
+    },
+  ]}
+/>

@@ -1,0 +1,157 @@
+---
+title: Operações Assíncronas
+description: Manipulando promises e requisições concorrentes.
+---
+
+A função `catchError` foi projetada para lidar com tarefas assíncronas encapsulando Promises e retornando um objeto Result padronizado.
+
+## Uso Padrão
+
+Você pode encapsular qualquer Promise, como requisições de rede ou consultas a banco de dados.
+
+<CodeBlock
+  filename="async-fetch.ts"
+  language="typescript"
+  code={`import { catchError } from 'Catcher';
+
+async function fetchUser(id: number) {
+const [error, data] = await catchError(
+fetch(\`https://api.example.com/users/\${id}\`).then(res => res.json())
+);
+
+    if (error) {
+        return null;
+    }
+
+    return data;
+
+}
+`}
+/>
+
+## Timeouts
+
+A biblioteca também fornece `catchErrorWithTimeout` para lidar com operações que podem travar.
+
+<CodeBlock
+  filename="timeout-usage.ts"
+  language="typescript"
+  code={`import { catchErrorWithTimeout } from 'Catcher';
+
+const [error, data] = await catchErrorWithTimeout(
+fetch('https://api.slow-service.com/data'),
+5000
+);
+
+if (error) {
+console.error('A operação falhou ou expirou:', error.message);
+}`}
+/>
+
+## Manipulando Concorrência
+
+Ao lidar com várias promises simultaneamente, você pode encapsular `Promise.all` ou `Promise.allSettled`.
+
+### Promise.all
+
+Se qualquer promise no array falhar, todo o `Promise.all` falha. O `catchError` irá capturar essa falha única.
+
+<CodeBlock
+  filename="promise-all.ts"
+  language="typescript"
+  code={`import { catchError } from 'Catcher';
+
+const [error, data] = await catchError(Promise.all([
+fetch('https://api.example.com/posts/1').then(res => res.json()),
+fetch('https://api.example.com/posts/2').then(res => res.json())
+]));
+
+if (error) {
+throw new Error('Uma ou mais requisições falharam');
+}
+
+console.log(data.length);`}
+/>
+
+### Promise.allSettled
+
+O `Promise.allSettled` nunca é rejeitado. Ele é resolvido com um array de status.
+
+<CodeBlock
+  filename="promise-all-settled.ts"
+  language="typescript"
+  code={`import { catchError } from 'Catcher';
+
+const [error, settledData] = await catchError(Promise.allSettled([
+fetch('https://api.example.com/posts/1').then(res => res.json()),
+fetch('https://invalid-url.example').then(res => res.json())
+]));
+
+if (!error) {
+const successes = settledData.filter(r => r.status === 'fulfilled');
+const failures = settledData.filter(r => r.status === 'rejected');
+
+    console.log(successes.length);
+    console.log(failures.length);
+
+}`}
+/>
+
+## Nota de Performance
+
+O encapsulamento de Promises adiciona uma sobrecarga quase nula. É seguro para uso em ambientes de alto rendimento.
+
+## Props
+
+### catchError
+
+<PropTable
+  data={[
+    {
+      prop: "promise",
+      type: "Promise<T>",
+      required: true,
+      description: "A Promise a ser executada e da qual os erros potenciais serão capturados.",
+    },
+    {
+      prop: "errorsToCatch",
+      type: "ErrorClass[]",
+      description:
+        "Array opcional de classes de Erro para capturar especificamente. Se omitido, todos os erros são capturados.",
+    },
+    {
+      prop: "returns",
+      type: "Promise<Result<T, E>>",
+      description: "Um objeto Result contendo os dados resolvidos ou o erro capturado.",
+    },
+  ]}
+/>
+
+### catchErrorWithTimeout
+
+<PropTable
+  data={[
+    {
+      prop: "promise",
+      type: "Promise<T>",
+      required: true,
+      description: "A Promise a ser executada.",
+    },
+    {
+      prop: "timeoutMs",
+      type: "number",
+      required: true,
+      description: "Duração do timeout em milissegundos.",
+    },
+    {
+      prop: "errorsToCatch",
+      type: "ErrorClass[]",
+      description: "Array opcional de classes de Erro para capturar.",
+    },
+    {
+      prop: "returns",
+      type: "Promise<Result<T, E | Error>>",
+      description: "Retorna um erro se o timeout for atingido antes da promise ser resolvida.",
+    },
+  ]}
+/>

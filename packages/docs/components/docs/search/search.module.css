@@ -1,0 +1,215 @@
+.searchDialog[data-slot="command-dialog-popup"] {
+  width: 100%;
+  max-width: 560px;
+  border-radius: 0;
+  padding: 0;
+  gap: 0;
+  outline: none;
+  box-shadow:
+    0 0 0 1px oklch(from var(--border) l c h / 0.4),
+    var(--shadow-lg);
+}
+
+.searchDialog[data-slot="command-dialog-popup"]:focus-visible,
+.searchDialog[data-slot="command-dialog-popup"]:focus,
+.searchDialog[data-slot="command-dialog-popup"]:focus-within {
+  box-shadow:
+    0 0 0 1px oklch(from var(--border) l c h / 0.4),
+    0 0 0 4px oklch(from var(--border) l c h / 0.6);
+}
+
+[data-theme="dark"] .searchDialog[data-slot="command-dialog-popup"]:focus-visible,
+[data-theme="dark"] .searchDialog[data-slot="command-dialog-popup"]:focus,
+[data-theme="dark"] .searchDialog[data-slot="command-dialog-popup"]:focus-within {
+  box-shadow:
+    0 0 0 1px oklch(from var(--border) l c h / 0.4),
+    0 0 0 4px oklch(from var(--border) l c h / 0.4);
+}
+
+/* Keep focus ring visible during dialog closing animation */
+.searchDialog[data-slot="command-dialog-popup"]:not([data-starting-style]) {
+  box-shadow:
+    0 0 0 1px oklch(from var(--border) l c h / 0.4),
+    0 0 0 4px oklch(from var(--border) l c h / 0.6);
+}
+
+[data-theme="dark"] .searchDialog[data-slot="command-dialog-popup"]:not([data-starting-style]) {
+  box-shadow:
+    0 0 0 1px oklch(from var(--border) l c h / 0.4),
+    0 0 0 4px oklch(from var(--border) l c h / 0.4);
+}
+
+.searchDialog [data-slot="command"] {
+  height: 440px;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchDialog [data-slot="command-input-wrapper"] {
+  box-shadow: inset 0 -0.5px 0 0 oklch(from var(--border) l c h / 0.5);
+  border-radius: 0;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.commandInput {
+  border-radius: 0;
+}
+
+.searchDialog [data-slot="command-item"] {
+  min-height: 2.5rem;
+  padding: 0.625rem 0.375rem;
+  font-weight: 400;
+  line-height: normal;
+  border: 1px solid transparent;
+}
+
+.searchDialog [data-slot="command-item"] svg {
+  color: var(--muted-foreground);
+}
+
+.searchDialog [data-slot="command-group-label"] {
+  text-transform: none;
+}
+
+.searchDialog [data-slot="command-item"]:hover,
+.searchDialog [data-slot="command-item"][data-highlighted] {
+  background-color: var(--mix-card-50-bg);
+}
+
+.searchDialog [data-slot="command-item"]:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  z-index: 1;
+}
+
+.searchDialog [data-slot="command-list"] {
+  flex: 1 1 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: oklch(from var(--border) l c h / 0.5) transparent;
+  min-height: 0;
+  max-height: none;
+  padding: 0.25rem;
+}
+
+.searchDialog [data-slot="command-list"]::-webkit-scrollbar {
+  width: 6px;
+}
+
+.searchDialog [data-slot="command-list"]::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.searchDialog [data-slot="command-list"]::-webkit-scrollbar-thumb {
+  background: oklch(from var(--border) l c h / 0.5);
+  border-radius: 3px;
+}
+
+.searchDialog [data-slot="command-list"]::-webkit-scrollbar-thumb:hover {
+  background: oklch(from var(--border) l c h / 0.7);
+}
+
+.searchDialog [data-slot="command-footer"] {
+  margin-top: auto;
+  margin-right: -0.25rem;
+  margin-bottom: -0.25rem;
+  margin-left: -0.25rem;
+}
+
+.commandItemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.commandItemTitle {
+  font-size: 0.875rem;
+  font-weight: 450;
+  color: var(--foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.commandItemDescription {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.commandFooterItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.commandFooterText {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  font-weight: 400;
+}
+
+.commandFooterKbd {
+  font-size: 0.9375rem;
+}
+
+.searchButton[data-slot="button"] {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  background-color: var(--mix-card-50-bg);
+  border: 0.5px solid oklch(from var(--border) l c h / 0.8);
+  border-radius: 0;
+  min-width: 200px;
+  height: 36px;
+}
+
+.searchButton[data-slot="button"]:hover {
+  background-color: oklch(from var(--accent) l c h / 0.5);
+  color: var(--foreground);
+}
+
+.searchIcon {
+  color: var(--muted-foreground);
+  flex-shrink: 0;
+}
+
+.searchButton:hover .searchIcon {
+  color: var(--foreground);
+}
+
+.searchText {
+  flex: 1;
+  text-align: left;
+  font-weight: 400;
+}
+
+.searchKbd {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .searchButton {
+    min-width: auto;
+  }
+
+  .searchText {
+    display: none;
+  }
+
+  .searchKbd {
+    display: none;
+  }
+}

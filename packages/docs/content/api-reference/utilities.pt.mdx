@@ -1,0 +1,232 @@
+---
+title: Utilitários e Combinadores
+description: Funções para combinar, particionar e adaptar valores.
+---
+
+A biblioteca expõe várias funções utilitárias independentes, além dos catchers principais. Essas funções ajudam a agregar múltiplos Results ou adaptar estruturas externas para Results.
+
+## Combinadores
+
+Os combinadores ajudam a gerenciar arrays de objetos `Result`.
+
+### `combine`
+
+Combina um array de Results em um único Result. Se todos forem bem-sucedidos, retorna `ok` com um array dos dados. Se **qualquer** Result for uma falha, ele retorna imediatamente o **primeiro** erro encontrado.
+
+<CodeBlock
+  filename="combine.ts"
+  language="typescript"
+  code={`import { combine, ok, err } from 'Catcher';
+
+const combined = combine([ok(1), ok(2), ok(3)]);
+console.log(combined.unwrap());
+
+const withError = combine([ok(1), err('Falhou'), ok(3)]);
+console.log(withError.unwrapErr()); `}
+/>
+
+### `combineAll`
+
+Semelhante ao `combine`, mas não interrompe a execução no primeiro erro. Ele coleta **todos** os erros.
+
+<CodeBlock
+  filename="batch.ts"
+  language="typescript"
+  code={`import { combineAll, ok, err } from 'Catcher';
+
+const result = combineAll([ok(1), err('Erro1'), err('Erro2')]);
+
+if (result.isErr()) {
+console.log(result.error);
+}`}
+/>
+
+### `partition`
+
+Divide um array de Results em dois arrays separados: um para os valores bem-sucedidos e outro para os erros. Nunca falha.
+
+<CodeBlock
+  filename="partition.ts"
+  language="typescript"
+  code={`import { partition, ok, err } from 'Catcher';
+
+const { ok: data, err: errors } = partition([ok(1), err('Falha'), ok(3)]);
+
+console.log(data);
+console.log(errors); `}
+/>
+
+## Adaptadores
+
+Adaptadores convertem outros padrões de programação para o formato `Result`.
+
+### `fromNullable`
+
+Converte um valor anulável (`null` ou `undefined`) em um Result.
+
+<CodeBlock
+  filename="nullable.ts"
+  language="typescript"
+  code={`import { fromNullable } from 'Catcher';
+
+const user = null;
+const result = fromNullable(user, new Error('Usuário não encontrado'));
+
+console.log(result.isErr()); `}
+/>
+
+### `fromThrowable`
+
+Encapsula uma função síncrona que pode lançar exceções em uma que retorna um `Result`.
+
+<CodeBlock
+  filename="throwable.ts"
+  language="typescript"
+  code={`import { fromThrowable } from 'Catcher';
+
+const safeParse = fromThrowable(JSON.parse);
+const result = safeParse('{ invalid }');
+
+if (result.isErr()) {
+console.error('Falha ao analisar:', result.error.message);
+}`}
+/>
+
+### `fromPromise`
+
+Um alias para `catchError`. Ele encapsula uma Promise e retorna um `AsyncResult`.
+
+<CodeBlock
+  filename="promise-alias.ts"
+  language="typescript"
+  code={`import { fromPromise } from 'Catcher';
+
+const result = await fromPromise(fetch('https://api.example.com/data'));`}
+/>
+
+## Props
+
+### combine
+
+<PropTable
+  data={[
+    {
+      prop: "results",
+      type: "Result<T, E>[]",
+      required: true,
+      description: "Um array de Results para combinar. Interrompe no primeiro erro.",
+    },
+    {
+      prop: "returns",
+      type: "Result<T[], E>",
+      description: "Um único Result contendo todos os dados ou o primeiro erro encontrado.",
+    },
+  ]}
+/>
+
+### combineAll
+
+<PropTable
+  data={[
+    {
+      prop: "results",
+      type: "Result<T, E>[]",
+      required: true,
+      description: "Um array de Results para combinar. Não interrompe no primeiro erro.",
+    },
+    {
+      prop: "returns",
+      type: "Result<T[], E[]>",
+      description:
+        "Um único Result contendo todos os dados ou um array com todos os erros encontrados.",
+    },
+  ]}
+/>
+
+### partition
+
+<PropTable
+  data={[
+    {
+      prop: "results",
+      type: "Result<T, E>[]",
+      required: true,
+      description: "Um array de Results para particionar.",
+    },
+    {
+      prop: "returns",
+      type: "{ ok: T[], err: E[] }",
+      description: "Um objeto contendo dois arrays: um para sucessos e outro para erros.",
+    },
+  ]}
+/>
+
+### fromNullable
+
+<PropTable
+  data={[
+    {
+      prop: "value",
+      type: "T | null | undefined",
+      required: true,
+      description: "O valor a ser convertido.",
+    },
+    {
+      prop: "error",
+      type: "E",
+      required: true,
+      description: "O erro a ser usado se o valor for nulo ou indefinido.",
+    },
+    {
+      prop: "returns",
+      type: "Result<T, E>",
+      description: "Um objeto Result representando a presença ou ausência do valor.",
+    },
+  ]}
+/>
+
+### fromThrowable
+
+<PropTable
+  data={[
+    {
+      prop: "fn",
+      type: "(...args) => T",
+      required: true,
+      description: "A função que pode lançar um erro.",
+    },
+    {
+      prop: "errorsToCatch",
+      type: "ErrorClass[]",
+      description: "Array opcional de classes Error para capturar.",
+    },
+    {
+      prop: "returns",
+      type: "(...args) => Result<T, E>",
+      description: "Uma nova função que retorna um Result em vez de lançar exceções.",
+    },
+  ]}
+/>
+
+### fromPromise
+
+<PropTable
+  data={[
+    {
+      prop: "promise",
+      type: "Promise<T>",
+      required: true,
+      description: "A Promise para encapsular.",
+    },
+    {
+      prop: "errorsToCatch",
+      type: "ErrorClass[]",
+      description: "Array opcional de classes Error para capturar.",
+    },
+    {
+      prop: "returns",
+      type: "Promise<Result<T, E>>",
+      description: "Uma Promise que resolve para um objeto Result.",
+    },
+  ]}
+/>

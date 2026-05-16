@@ -1,0 +1,72 @@
+---
+title: Conceitos Principais
+description: Entendendo o padrão Result e a API dupla.
+---
+
+A `Catcher` é construída em torno do padrão Result. Em vez de lançar exceções que interrompem o fluxo de controle, as operações retornam um objeto Result que encapsula um resultado bem-sucedido ou um erro.
+
+## API Dupla
+
+O objeto Result retornado pela biblioteca implementa tanto propriedades de objeto padrão quanto propriedades de iterador. Isso permite que você consuma o resultado de duas maneiras distintas, dependendo da sua preferência.
+
+### Desestruturação (Tupla)
+
+Esta abordagem imita o estilo de tratamento de erros encontrado em linguagens como Go.
+
+<CodeBlock
+  filename="tuple-usage.ts"
+  language="typescript"
+  code={`import { catchErrorSync } from 'Catcher';
+
+const [error, data] = catchErrorSync(() => JSON.parse('{"valid": true}'));
+
+if (error) {
+throw new Error('Parse failed');
+}
+
+console.log(data.valid);`}
+/>
+
+### API de Objeto
+
+Esta abordagem usa métodos fluentes para verificar o status e recuperar valores.
+
+<CodeBlock
+  filename="object-api.ts"
+  language="typescript"
+  code={`import { catchErrorSync } from 'Catcher';
+
+const result = catchErrorSync(() => JSON.parse('{"valid": true}'));
+
+if (result.isOk()) {
+console.log(result.data.valid);
+} else {
+console.error(result.error);
+}`}
+/>
+
+## Métodos Fluentes
+
+Ao usar a API de Objeto, vários métodos auxiliares estão disponíveis no objeto Result.
+
+### `getOrElse`
+
+Retorna os dados em caso de sucesso, ou um valor de fallback fornecido caso a operação tenha falhado.
+
+<CodeBlock
+  filename="recovery.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => JSON.parse('invalid'));
+const parsedData = result.getOrElse({ default: true });`}
+/>
+
+### `unwrap`
+
+Retorna os dados em caso de sucesso, mas lança o erro encapsulado se a operação tiver falhado.
+
+<CodeBlock
+  filename="unwrap.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => JSON.parse('{"valid": true}'));
+const data = result.unwrap();`}
+/>

@@ -1,0 +1,16 @@
+packages:
+  - 'packages/*'
+
+allowBuilds:
+  esbuild: false
+  sharp: false
+
+pnpm:
+  onlyBuiltDependencies:
+    - esbuild
+    - msw
+    - sharp
+    - "@rolldown/binding"
+    - "@rolldown/binding-darwin-arm64"
+    - "@img/sharp-libvips-darwin-arm64"
+    - "@img/sharp-darwin-arm64"
