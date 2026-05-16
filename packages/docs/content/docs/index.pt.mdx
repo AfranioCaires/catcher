@@ -1,0 +1,69 @@
+---
+title: Instalação
+description: Comece a usar o Catcher.
+---
+
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+# Primeiros Passos
+
+O **Catcher** fornece uma maneira robusta de lidar com erros usando o padrão Result, eliminando a necessidade de blocos de controle profundamente aninhados.
+
+<Steps>
+<Step>
+### Instale o pacote
+
+Use o gerenciador de pacotes de sua preferência para adicionar a biblioteca ao seu projeto.
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+  <Tab value="npm">
+    ```bash
+    npm install Catcher
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm add Catcher
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    yarn add Catcher
+    ```
+  </Tab>
+  <Tab value="bun">
+    ```bash
+    bun add Catcher
+    ```
+  </Tab>
+</Tabs>
+</Step>
+
+<Step>
+### Implementação Básica
+
+Importe a função e envolva sua promise.
+
+```typescript
+import { catchError } from "Catcher";
+
+async function fetchUser(userId: string) {
+  const [error, data] = await catchError(fetch(`https://api.example.com/users/${userId}`));
+
+  if (error) {
+    throw new Error("Network failure");
+  }
+
+  return data.json();
+}
+```
+
+</Step>
+</Steps>
+
+<Callout title="Integração com TypeScript" type="info">
+  A biblioteca é totalmente tipada e infere os tipos de retorno automaticamente com base na função
+  fornecida.
+</Callout>

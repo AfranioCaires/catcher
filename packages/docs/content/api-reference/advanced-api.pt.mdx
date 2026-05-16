@@ -1,0 +1,175 @@
+---
+title: API Avançada
+description: Encadeamento, mapeamento e side-effects em objetos Result.
+---
+
+O objeto `Result` fornece uma API fluente e rica fortemente inspirada em programação funcional. Esses métodos permitem encadear operações, transformar dados e disparar efeitos colaterais (side-effects) sem quebrar o fluxo de controle.
+
+## Métodos de Result
+
+## Métodos de Transformação
+
+### `map`
+
+Transforma os dados de sucesso usando uma função fornecida. Se o resultado for um erro, ele ignora a função e retorna o erro como está.
+
+<CodeBlock
+  filename="map-usage.ts"
+  language="typescript"
+  code={`import { catchErrorSync } from 'Catcher';
+
+const result = catchErrorSync(() => JSON.parse('{"count": 5}'));
+
+const doubled = result.map(data => data.count \* 2);
+
+console.log(doubled.unwrap()); `}
+/>
+
+### `mapErr`
+
+Transforma o erro usando uma função fornecida. Se o resultado for um sucesso, ele retorna o sucesso como está.
+
+<CodeBlock
+  filename="error-mapping.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => { throw new Error('Não encontrado') });
+
+const customErrorResult = result.mapErr(err => new CustomError(err.message));`}
+/>
+
+## Métodos de Encadeamento
+
+### `andThen` / `flatMap`
+
+Encadeia outra operação que também retorna um `Result`. Se a primeira operação falhar, a operação encadeada é ignorada. Ambos `andThen` e `flatMap` são aliases idênticos.
+
+<CodeBlock
+  filename="chaining.ts"
+  language="typescript"
+  code={`const processData = (raw: string) => {
+    return catchErrorSync(() => JSON.parse(raw))
+        .andThen(parsed => catchErrorSync(() => validateSchema(parsed)));
+};`}
+/>
+
+### `orElse`
+
+Recupera-se de um erro retornando um novo `Result`. Se o resultado original for um sucesso, ele ignora a função e retorna o sucesso como está.
+
+<CodeBlock
+  filename="recovery.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => fetchFromCache())
+    .orElse(() => catchErrorSync(() => fetchFromDatabase()));`}
+/>
+
+## Métodos de Side-Effect
+
+### `tap`
+
+Executa um efeito colateral (como um log) se o resultado for um sucesso. Ele não modifica o `Result` e o retorna inalterado, permitindo continuar o encadeamento.
+
+<CodeBlock
+  filename="side-effects.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => computeValue())
+    .tap(data => console.log('Computado com sucesso:', data))
+    .map(data => data * 2);`}
+/>
+
+### `tapErr`
+
+Executa um efeito colateral se o resultado for um erro.
+
+<CodeBlock
+  filename="error-logging.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => riskyOperation())
+    .tapErr(err => console.error('Operação falhou:', err.message));`}
+/>
+
+## Métodos Utilitários
+
+### `unwrapErr`
+
+Retorna o erro contido se o resultado for uma falha. Lança os dados contidos se for um sucesso (o oposto de `unwrap`).
+
+### `toPromise`
+
+Converte o `Result` de volta para uma Promise padrão. Resolve com os dados em caso de sucesso, ou rejeita com o erro em caso de falha.
+
+<CodeBlock
+  filename="promise-conversion.ts"
+  language="typescript"
+  code={`const result = catchErrorSync(() => 42);
+const value = await result.toPromise();`}
+/>
+
+## Props
+
+### Métodos de Result
+
+<PropTable
+  data={[
+    {
+      prop: "isOk()",
+      type: "boolean",
+      description: "Retorna true se o resultado for um sucesso. Atua como type guard.",
+    },
+    {
+      prop: "isErr()",
+      type: "boolean",
+      description: "Retorna true se o resultado for uma falha. Atua como type guard.",
+    },
+    {
+      prop: "unwrap()",
+      type: "T",
+      description: "Retorna os dados em caso de sucesso, lança o erro em caso de falha.",
+    },
+    {
+      prop: "unwrapErr()",
+      type: "E",
+      description: "Retorna o erro em caso de falha, lança os dados em caso de sucesso.",
+    },
+    {
+      prop: "getOrElse(defaultValue)",
+      type: "T | D",
+      description: "Retorna os dados em caso de sucesso, ou o padrão fornecido em caso de falha.",
+    },
+    {
+      prop: "map(fn)",
+      type: "Result<U, E>",
+      description: "Transforma os dados de sucesso usando a função fornecida.",
+    },
+    {
+      prop: "mapErr(fn)",
+      type: "Result<T, F>",
+      description: "Transforma o erro usando a função fornecida.",
+    },
+    {
+      prop: "andThen(fn)",
+      type: "Result<U, E | F>",
+      description: "Encadeia outra operação que retorna um Result.",
+    },
+    {
+      prop: "orElse(fn)",
+      type: "Result<T | U, F>",
+      description: "Recupera-se de um erro retornando um novo Result.",
+    },
+    {
+      prop: "tap(fn)",
+      type: "Result<T, E>",
+      description: "Executa um efeito colateral em caso de sucesso. Retorna o Result original.",
+    },
+    {
+      prop: "tapErr(fn)",
+      type: "Result<T, E>",
+      description: "Executa um efeito colateral em caso de falha. Retorna o Result original.",
+    },
+    {
+      prop: "toPromise()",
+      type: "Promise<T>",
+      description: "Converte o Result em uma Promise (resolve dados, rejeita erro).",
+    },
+  ]}
+/>

@@ -1,0 +1,12 @@
+{
+  "title": "API Reference",
+  "pages": [
+    "core-concepts",
+    "sync-operations",
+    "async-operations",
+    "batch-processing",
+    "error-filtering",
+    "advanced-api",
+    "utilities"
+  ]
+}

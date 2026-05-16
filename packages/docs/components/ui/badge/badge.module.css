@@ -1,0 +1,133 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.5px solid oklch(from var(--border) l c h / 0.8);
+  font-weight: 400;
+  width: fit-content;
+  white-space: nowrap;
+  flex-shrink: 0;
+  gap: 0.375rem;
+  transition:
+    color 150ms ease,
+    box-shadow 150ms ease;
+  overflow: hidden;
+}
+
+.badge svg {
+  pointer-events: none;
+}
+
+.badge:focus-visible {
+  border-color: var(--ring);
+  box-shadow:
+    0 0 0 3px var(--ring),
+    inset 0 0 0 1px var(--ring);
+}
+
+.badge[aria-invalid="true"] {
+  box-shadow: 0 0 0 1px var(--destructive);
+  border-color: var(--destructive);
+}
+
+.default {
+  border-color: transparent;
+  background-color: var(--foreground);
+  color: var(--primary-foreground);
+}
+
+.default::selection,
+.default *::selection {
+  background-color: oklch(0 0 0);
+  color: var(--foreground);
+}
+
+.secondary {
+  border-color: transparent;
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.destructive {
+  border-color: transparent;
+  background-color: var(--secondary);
+  color: var(--destructive);
+}
+
+.destructive:focus-visible {
+  box-shadow:
+    0 0 0 3px var(--destructive),
+    inset 0 0 0 1px var(--destructive);
+}
+
+.success {
+  border-color: transparent;
+  background-color: var(--secondary);
+  color: var(--success);
+}
+
+.success:focus-visible {
+  box-shadow:
+    0 0 0 3px var(--success),
+    inset 0 0 0 1px var(--success);
+}
+
+.info {
+  border-color: transparent;
+  background-color: var(--secondary);
+  color: var(--info);
+}
+
+.info:focus-visible {
+  box-shadow:
+    0 0 0 3px var(--info),
+    inset 0 0 0 1px var(--info);
+}
+
+.outline {
+  color: var(--foreground);
+  border-color: var(--border);
+  background-color: transparent;
+}
+
+.outline:hover {
+  background-color: var(--card);
+}
+
+.iconContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  padding: 0.125rem;
+  margin-right: 0.25rem;
+}
+
+.sm {
+  padding: 0.0625rem 0.375rem;
+  font-size: 0.625rem;
+  line-height: 15px;
+  border-radius: var(--radius);
+}
+
+.md {
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  line-height: 14px;
+  border-radius: var(--radius);
+}
+
+.lg {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: var(--radius-lg);
+}
+
+.light .default::selection,
+.light .default *::selection,
+[data-theme="light"] .default::selection,
+[data-theme="light"] .default *::selection {
+  background-color: #fff;
+  color: #000;
+}

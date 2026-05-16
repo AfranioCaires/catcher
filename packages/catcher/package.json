@@ -1,0 +1,25 @@
+{
+  "name": "@catcher/core",
+  "version": "1.0.0",
+  "description": "A TypeScript utility for clean error handling using a Result pattern.",
+  "keywords": [],
+  "license": "MIT",
+  "author": "",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.5",
+    "tsup": "^8.0.0",
+    "typescript": "6.0.3",
+    "vitest": "^4.1.5"
+  }
+}

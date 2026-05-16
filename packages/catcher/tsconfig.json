@@ -5,13 +5,13 @@
     "moduleResolution": "bundler",
     "ignoreDeprecations": "6.0",
     "strict": true,
+    "declaration": true,
+    "rootDir": "src",
+    "outDir": "dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "paths": {
-      "@catcher/core": ["packages/catcher/src/index.ts"]
-    }
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules", "**/dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "tests/**/*"]
 }

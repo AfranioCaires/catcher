@@ -1,0 +1,119 @@
+.root {
+  display: flex;
+  width: 100%;
+  max-width: 14rem;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--foreground);
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  outline: 0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--mix-card-15-bg);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 150ms ease-out;
+  border: 1px solid var(--border);
+
+  &:hover {
+    background-color: var(--mix-card-50-bg);
+  }
+
+  &:active {
+    background-color: var(--mix-card-15-bg);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ring);
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    &:hover {
+      background-color: var(--muted);
+    }
+  }
+
+  &[data-panel-open] .chevron path:first-child {
+    transform: translate(0, -10px);
+  }
+
+  &[data-panel-open] .chevron path:last-child {
+    transform: translate(0, 10px);
+  }
+}
+
+.chevron {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+
+  & path:first-child {
+    transition: transform 200ms var(--ease-out-expo);
+    transform-origin: center;
+  }
+
+  & path:last-child {
+    transition: transform 200ms var(--ease-out-expo);
+    transform-origin: center;
+  }
+}
+
+.panel {
+  display: flex;
+  height: var(--collapsible-panel-height);
+  flex-direction: column;
+  justify-content: end;
+  overflow: hidden;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 150ms ease-out;
+  width: 100%;
+  box-sizing: border-box;
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    height: 0;
+  }
+
+  &[data-closed] {
+    height: 0;
+    border: none;
+    animation: slideUp 250ms var(--ease-out-expo);
+  }
+
+  &[data-panel-open] {
+    animation: slideDown 250ms var(--ease-out-expo);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--collapsible-panel-height);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: var(--collapsible-panel-height);
+  }
+  to {
+    height: 0;
+  }
+}

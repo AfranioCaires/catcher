@@ -1,0 +1,64 @@
+.headingWithAnchor {
+  position: relative;
+  width: fit-content;
+  color: var(--docs-heading);
+}
+
+.trigger {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  color: inherit;
+  border-radius: 4px;
+  outline: none;
+  padding: 0.125rem 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.trigger:hover {
+  color: var(--foreground);
+  background-color: transparent;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition:
+    opacity 0.15s var(--ease-out-expo),
+    transform 0.2s var(--ease-out-expo),
+    color 0.15s var(--ease-out-expo);
+  color: var(--muted-foreground);
+  transform: scale(0.95);
+  will-change: opacity, transform;
+  position: absolute;
+  left: 0;
+  transform-origin: center;
+}
+
+.trigger:hover .icon,
+.trigger:focus-visible .icon {
+  opacity: 1;
+  transform: translateX(-100%) translateX(-0.5rem) scale(1);
+  color: var(--foreground);
+}
+
+.trigger:active .icon {
+  color: var(--foreground);
+  opacity: 1;
+}
+
+.popover {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+}
