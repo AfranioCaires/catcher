@@ -1,0 +1,36 @@
+name: Core Library CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/catcher/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'tsconfig.json'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/catcher/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'tsconfig.json'
+
+jobs:
+  test:
+    name: Build & Test Core
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - name: Build Core
+        run: pnpm --filter @catcher/core build
+      - name: Test Core
+        run: pnpm --filter @catcher/core test
