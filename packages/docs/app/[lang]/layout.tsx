@@ -7,7 +7,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import Script from "next/script";
 import { i18nUI } from "@/lib/layout.shared";
 
 export const metadata: Metadata = {
@@ -60,11 +59,6 @@ export default async function RootLayout({
         <link href="/icon.svg" rel="icon" type="image/svg+xml" />
         <link href="/favicon.ico" rel="icon" sizes="any" />
         <link href="/favicon.svg" rel="shortcut icon" />
-        <Script
-          crossOrigin="anonymous"
-          src="//unpkg.com/react-scan/dist/auto.global.js"
-          strategy="beforeInteractive"
-        />
       </head>
       <body>
         <div className="root">
