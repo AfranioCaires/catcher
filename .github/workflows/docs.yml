@@ -1,0 +1,32 @@
+name: Documentation CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/docs/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/docs/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+
+jobs:
+  build:
+    name: Build Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - name: Build Docs
+        run: pnpm --filter @catcher/docs build
