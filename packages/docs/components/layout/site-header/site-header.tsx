@@ -66,7 +66,7 @@ export function SiteHeader({ pageTree, isHomePage }: SiteHeaderProps) {
               nativeButton={false}
               render={
                 <Link
-                  href="https://github.com/preetecool/Catcher"
+                  href="https://github.com/afraniocaires/catcher"
                   rel="noopener noreferrer"
                   target="_blank"
                 />

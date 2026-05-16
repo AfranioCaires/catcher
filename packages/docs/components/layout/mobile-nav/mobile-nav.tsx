@@ -121,7 +121,7 @@ export function MobileNav({ tree }: MobileNavProps) {
                     <a
                       aria-label="View source on GitHub"
                       className={styles.iconLink}
-                      href="https://github.com/preetecool/Catcher"
+                      href="https://github.com/afraniocaires/catcher"
                       rel="noopener noreferrer"
                       target="_blank"
                     >

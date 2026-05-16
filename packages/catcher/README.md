@@ -25,12 +25,12 @@ npm install @catcher/core
 This approach mimics the error handling style found in languages like Go.
 
 ```typescript
-import { catchErrorSync } from '@catcher/core';
+import { catchErrorSync } from "@catcher/core";
 
 const [error, data] = catchErrorSync(() => JSON.parse('{"valid": true}'));
 
 if (error) {
-  console.error('Parse failed', error);
+  console.error("Parse failed", error);
   return;
 }
 
@@ -42,7 +42,7 @@ console.log(data.valid);
 This approach uses fluent methods to check the status and retrieve values.
 
 ```typescript
-import { catchError } from '@catcher/core';
+import { catchError } from "@catcher/core";
 
 const result = await catchError(fetchUser(1));
 
@@ -58,13 +58,17 @@ if (result.isOk()) {
 ### Async Operations
 
 #### catchError(promise, errorsToCatch?)
+
 Wraps a Promise and returns a standardized Result object.
 
 ```typescript
-const [error, data] = await catchError(fetch('https://api.example.com/data').then(res => res.json()));
+const [error, data] = await catchError(
+  fetch("https://api.example.com/data").then((res) => res.json()),
+);
 ```
 
 #### catchErrorWithTimeout(promise, timeoutMs, errorsToCatch?)
+
 Handles operations that might hang by adding a timeout.
 
 ```typescript
@@ -74,6 +78,7 @@ const [error, data] = await catchErrorWithTimeout(fetchData(), 5000);
 ### Sync Operations
 
 #### catchErrorSync(fn, errorsToCatch?)
+
 Executes a synchronous function and catches any errors.
 
 ```typescript
