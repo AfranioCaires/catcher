@@ -2,11 +2,27 @@
   "name": "@catcher/core",
   "version": "1.0.0",
   "description": "A TypeScript utility for clean error handling using a Result pattern.",
-  "keywords": [],
+  "keywords": [
+    "error-handling",
+    "result-pattern",
+    "typescript",
+    "async",
+    "safe-catch"
+  ],
   "license": "MIT",
   "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afraniocaires/catcher.git",
+    "directory": "packages/catcher"
+  },
+  "bugs": {
+    "url": "https://github.com/afraniocaires/catcher/issues"
+  },
+  "homepage": "https://github.com/afraniocaires/catcher/tree/main/packages/catcher#readme",
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
