@@ -1,21 +1,24 @@
 name: Publish to npm
 
 on:
-  release:
-    types: [published]
-  workflow_dispatch: # Permite disparar manualmente para testar
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # Obrigatório para Trusted Publishing
+      id-token: write
     steps:
       - uses: actions/checkout@v4
+      
       - uses: pnpm/action-setup@v4
         with:
           version: 11
+          
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
@@ -28,4 +31,5 @@ jobs:
         run: pnpm --filter @catcherjs/core build
 
       - name: Publish to npm
-        run: pnpm publish --filter @catcherjs/core --access public --no-git-checks --provenance
+        run: npm publish --access public --provenance
+        working-directory: packages/catcher
