@@ -41,7 +41,7 @@ export async function catchErrorWithTimeout<
   promiseOrFn: Promise<T> | (() => Promise<T>),
   timeoutMs: number,
   errorsToCatch?: E[],
-): Promise<Result<T, InstanceType<E>>> {
+): Promise<Result<T, InstanceType<E> | Error>> {
   let timeoutId: any
   const promise = typeof promiseOrFn === 'function' ? promiseOrFn() : promiseOrFn
 
@@ -52,7 +52,8 @@ export async function catchErrorWithTimeout<
   })
 
   try {
-    return await catchError(Promise.race([promise, timeoutPromise]), errorsToCatch)
+    const filters = errorsToCatch ? ([...errorsToCatch, Error] as any) : undefined
+    return await catchError(Promise.race([promise, timeoutPromise]), filters)
   } finally {
     clearTimeout(timeoutId)
   }
