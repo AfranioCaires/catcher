@@ -67,7 +67,7 @@ const getIcon = (url: string, type?: string) => {
 }
 
 const mdRenderer = createMarkdownRenderer({
-  remarkRehypeOptions: { allowDangerousHtml: true },
+  remarkRehypeOptions: { allowDangerousHtml: false },
 })
 
 const mdComponents = {
