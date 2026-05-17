@@ -91,4 +91,11 @@ describe('catchErrorWithTimeout', () => {
     expect(res.isErr()).toBe(true)
     expect(res.unwrapErr()).toBeInstanceOf(CustomError)
   })
+
+  it('should catch timeout error even when specific errorsToCatch are provided', async () => {
+    const p = new Promise((resolve) => setTimeout(() => resolve('ok'), 100))
+    const res = await catchErrorWithTimeout(p, 10, [CustomError])
+    expect(res.isErr()).toBe(true)
+    expect(res.unwrapErr().message).toContain('timed out')
+  })
 })

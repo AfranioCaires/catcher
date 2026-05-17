@@ -24,14 +24,17 @@ export function fromThrowable<T, E extends new (...args: any[]) => Error, Args e
 }
 
 /**
- * Wraps a Promise into a Result.
+ * Wraps a Promise or a function that returns a Promise into a Result.
  * Alias for catchError, providing a more descriptive name for certain contexts.
- * @param promise The promise to wrap.
+ * @param promiseOrFn The promise or function to wrap.
  * @param errorsToCatch Optional array of Error classes to catch.
  */
 export function fromPromise<
   T,
   E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
->(promise: Promise<T>, errorsToCatch?: E[]): Promise<Result<T, InstanceType<E>>> {
-  return catchError(promise, errorsToCatch)
+>(
+  promiseOrFn: Promise<T> | (() => Promise<T>),
+  errorsToCatch?: E[],
+): Promise<Result<T, InstanceType<E>>> {
+  return catchError(promiseOrFn, errorsToCatch)
 }

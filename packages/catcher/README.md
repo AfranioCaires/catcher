@@ -57,23 +57,19 @@ if (result.isOk()) {
 
 ### Async Operations
 
-#### catchError(promise, errorsToCatch?)
+#### catchError(promiseOrFn, errorsToCatch?)
 
-Wraps a Promise and returns a standardized Result object.
-
-```typescript
-const [error, data] = await catchError(
-  fetch('https://api.example.com/data').then((res) => res.json()),
-)
-```
-
-#### catchErrorWithTimeout(promise, timeoutMs, errorsToCatch?)
-
-Handles operations that might hang by adding a timeout.
+Wraps a Promise or a function that returns a Promise and returns a standardized Result object.
 
 ```typescript
-const [error, data] = await catchErrorWithTimeout(fetchData(), 5000)
+const [error, data] = await catchError(fetchData())
+
+const [error, data] = await catchError(() => fetchData())
 ```
+
+#### catchErrorWithTimeout(promiseOrFn, timeoutMs, errorsToCatch?)
+
+Handles operations that might hang by adding a timeout. Accepts a Promise or a function that returns a Promise.
 
 ### Sync Operations
 
