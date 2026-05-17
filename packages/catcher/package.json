@@ -1,6 +1,6 @@
 {
   "name": "@catcherjs/core",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A TypeScript utility for clean error handling using a Result pattern.",
   "keywords": [
     "async",
@@ -27,6 +27,10 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "test": "vitest run",
