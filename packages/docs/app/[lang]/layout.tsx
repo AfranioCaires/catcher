@@ -72,7 +72,7 @@ export default async function RootLayout({
               storageKey="theme"
             >
               <PaletteProvider>
-                <RootProvider i18n={i18nUI.provider(lang)}>
+                <RootProvider i18n={i18nUI.provider(lang)} search={{ enabled: false }}>
                   {children}
                   <Analytics />
                 </RootProvider>

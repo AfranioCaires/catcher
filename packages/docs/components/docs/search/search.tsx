@@ -1,10 +1,11 @@
 'use client'
 
+import { createMarkdownRenderer } from 'fumadocs-core/content/md'
 import { useDocsSearch } from 'fumadocs-core/search/client'
-import { Component, FileText, Puzzle } from 'lucide-react'
+import { Astroid, ChevronRight, Component, FileText, Hash, Info, Puzzle, Zap } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { EnterArrowIcon } from '@/components/ui/arrow-icon/arrow-icon'
 import {
@@ -23,7 +24,7 @@ import {
 } from '@/components/ui/command/command'
 import { Kbd } from '@/components/ui/kbd/kbd'
 import { useKeyboardShortcut } from '@/hooks/use-keyboard-shortcut'
-import type { PageTree } from '@/lib/source-types'
+import { cn } from '@/lib/utils'
 
 import { SearchTrigger } from './search-trigger'
 
@@ -31,9 +32,10 @@ import styles from './search.module.css'
 
 type SearchResult = {
   id: string
-  type: string
+  type: 'page' | 'heading' | 'text'
   content: string
   url: string
+  breadcrumbs?: string[]
 }
 
 type TreeItem = {
@@ -43,22 +45,38 @@ type TreeItem = {
   group: string
 }
 
-export type SearchProps = {
-  tree?: PageTree.Root
+const ICON_MAPPING: Record<string, React.ReactNode> = {
+  start: <Zap size={16} />,
+  intro: <Info size={16} />,
+  docs: <Info size={16} />,
+  'agents-skills': <Astroid size={16} />,
 }
 
-const getIcon = (url: string) => {
-  switch (true) {
-    case url.includes('/ui/'):
-      return <Puzzle size={16} />
-    case url.includes('/blocks/'):
-      return <Component size={16} />
-    default:
-      return <FileText size={16} />
-  }
+const getIcon = (url: string, type?: string) => {
+  if (type === 'heading') return <Hash size={16} />
+
+  if (url.includes('/ui/')) return <Puzzle size={16} />
+  if (url.includes('/blocks/')) return <Component size={16} />
+
+  const segments = url.split('/').filter(Boolean)
+  const slug = segments[segments.length - 1]
+
+  if (ICON_MAPPING[slug]) return ICON_MAPPING[slug]
+
+  return <FileText size={16} />
 }
 
-export function Search({ tree }: SearchProps) {
+const mdRenderer = createMarkdownRenderer({
+  remarkRehypeOptions: { allowDangerousHtml: true },
+})
+
+const mdComponents = {
+  mark(props: any) {
+    return <mark {...props} className={styles.highlight} />
+  },
+}
+
+export function Search({ tree }: { tree?: any }) {
   const { lang } = useParams()
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
@@ -92,7 +110,8 @@ export function Search({ tree }: SearchProps) {
     footer: 'Go to page',
   }
 
-  useKeyboardShortcut({ key: 'k', metaKey: true, ctrlKey: true }, () => setOpen(true))
+  useKeyboardShortcut({ key: 'k', metaKey: true }, () => setOpen(true))
+  useKeyboardShortcut({ key: 'k', ctrlKey: true }, () => setOpen(true))
 
   useEffect(
     () => () => {
@@ -140,12 +159,12 @@ export function Search({ tree }: SearchProps) {
 
     const groups: { name: string; items: TreeItem[] }[] = []
 
-    tree.children.forEach((group: PageTree.Node) => {
+    tree.children.forEach((group: any) => {
       if (group.type !== 'folder') return
 
-      const items: TreeItem[] = (group.children as PageTree.Node[])
-        .filter((item: PageTree.Node): item is PageTree.Item => item.type === 'page')
-        .map((item: PageTree.Item) => ({
+      const items: TreeItem[] = (group.children as any[])
+        .filter((item: any) => item.type === 'page')
+        .map((item: any) => ({
           id: item.url,
           name: item.name?.toString() || '',
           url: item.url,
@@ -169,7 +188,7 @@ export function Search({ tree }: SearchProps) {
     }
 
     return query.data.filter(
-      (item, index, self) =>
+      (item: any, index: number, self: any[]) =>
         !(item.type === 'text' && item.content.trim().split(/\s+/).length <= 1) &&
         index === self.findIndex((t) => t.content === item.content),
     ) as SearchResult[]
@@ -226,8 +245,33 @@ export function Search({ tree }: SearchProps) {
                             }
                             value={result}
                           >
-                            {getIcon(result.url)}
-                            {result.content}
+                            <div className={styles.resultItem}>
+                              <div className={styles.resultIcon}>
+                                {getIcon(result.url, result.type)}
+                              </div>
+                              <div className={styles.resultContent}>
+                                {result.breadcrumbs && result.breadcrumbs.length > 0 && (
+                                  <div className={styles.resultBreadcrumbs}>
+                                    {result.breadcrumbs.map((bc, i) => (
+                                      <Fragment key={i}>
+                                        {i > 0 && (
+                                          <ChevronRight
+                                            className={styles.breadcrumbSeparator}
+                                            size={12}
+                                          />
+                                        )}
+                                        <span className={styles.breadcrumbItem}>{bc}</span>
+                                      </Fragment>
+                                    ))}
+                                  </div>
+                                )}
+                                <div className={cn(styles.resultText)}>
+                                  <mdRenderer.Markdown components={mdComponents}>
+                                    {result.content}
+                                  </mdRenderer.Markdown>
+                                </div>
+                              </div>
+                            </div>
                           </CommandItem>
                         )}
                       </CommandCollection>
