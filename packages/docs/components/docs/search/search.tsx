@@ -190,7 +190,7 @@ export function Search({ tree }: { tree?: any }) {
     return query.data.filter(
       (item: any, index: number, self: any[]) =>
         !(item.type === 'text' && item.content.trim().split(/\s+/).length <= 1) &&
-        index === self.findIndex((t) => t.content === item.content),
+        index === self.findIndex((t) => t.id === item.id),
     ) as SearchResult[]
   }, [query.data])
 
