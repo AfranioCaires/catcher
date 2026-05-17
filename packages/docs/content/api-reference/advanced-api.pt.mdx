@@ -16,7 +16,7 @@ Transforma os dados de sucesso usando uma função fornecida. Se o resultado for
 <CodeBlock
   filename="map-usage.ts"
   language="typescript"
-  code={`import { catchErrorSync } from 'Catcher';
+  code={`import { catchErrorSync } from '@catcherjs/core';
 
 const result = catchErrorSync(() => JSON.parse('{"count": 5}'));
 

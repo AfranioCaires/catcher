@@ -12,7 +12,7 @@ Use `catchErrorAll` for an array of Promises or asynchronous functions. It waits
 <CodeBlock
   filename="batch-async.ts"
   language="typescript"
-  code={`import { catchErrorAll } from 'Catcher';
+  code={`import { catchErrorAll } from '@catcherjs/core';
 
 async function processTasks() {
 const tasks = [
@@ -41,7 +41,7 @@ Use `catchErrorAllSync` for an array of synchronous functions. It executes them 
 <CodeBlock
   filename="batch-sync.ts"
   language="typescript"
-  code={`import { catchErrorAllSync } from 'Catcher';
+  code={`import { catchErrorAllSync } from '@catcherjs/core';
 
 function parseMultiple() {
 const inputs = [

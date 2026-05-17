@@ -20,22 +20,22 @@ Use your preferred package manager to add the library to your project.
 <Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
   <Tab value="npm">
     ```bash
-    npm install Catcher
+    npm install @catcherjs/core
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add Catcher
+    pnpm add @catcherjs/core
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add Catcher
+    yarn add @catcherjs/core
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add Catcher
+    bun add @catcherjs/core
     ```
   </Tab>
 </Tabs>
@@ -47,7 +47,7 @@ Use your preferred package manager to add the library to your project.
 Import the function and wrap your promise.
 
 ```typescript
-import { catchError } from 'Catcher'
+import { catchError } from '@catcherjs/core'
 
 async function fetchUser(userId: string) {
   const [error, data] = await catchError(fetch(`https://api.example.com/users/${userId}`))

@@ -12,7 +12,7 @@ You can wrap any Promise, such as network requests or database queries.
 <CodeBlock
   filename="async-fetch.ts"
   language="typescript"
-  code={`import { catchError } from 'Catcher';
+  code={`import { catchError } from '@catcherjs/core';
 
 async function fetchUser(id: number) {
 const [error, data] = await catchError(
@@ -36,7 +36,7 @@ The library also provides `catchErrorWithTimeout` to handle operations that migh
 <CodeBlock
   filename="timeout-usage.ts"
   language="typescript"
-  code={`import { catchErrorWithTimeout } from 'Catcher';
+  code={`import { catchErrorWithTimeout } from '@catcherjs/core';
 
 const [error, data] = await catchErrorWithTimeout(
 fetch('https://api.slow-service.com/data'),
@@ -59,7 +59,7 @@ If any promise in the array fails, the entire `Promise.all` fails. `catchError` 
 <CodeBlock
   filename="promise-all.ts"
   language="typescript"
-  code={`import { catchError } from 'Catcher';
+  code={`import { catchError } from '@catcherjs/core';
 
 const [error, data] = await catchError(Promise.all([
 fetch('https://api.example.com/posts/1').then(res => res.json()),
@@ -80,7 +80,7 @@ console.log(data.length);`}
 <CodeBlock
   filename="promise-all-settled.ts"
   language="typescript"
-  code={`import { catchError } from 'Catcher';
+  code={`import { catchError } from '@catcherjs/core';
 
 const [error, settledData] = await catchError(Promise.allSettled([
 fetch('https://api.example.com/posts/1').then(res => res.json()),

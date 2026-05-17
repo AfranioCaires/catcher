@@ -12,7 +12,7 @@ A common use case is safely parsing JSON strings.
 <CodeBlock
   filename="parsing.ts"
   language="typescript"
-  code={`import { catchErrorSync } from 'Catcher';
+  code={`import { catchErrorSync } from '@catcherjs/core';
 
 const jsonString = '{ invalid: json }';
 const [error, data] = catchErrorSync(() => JSON.parse(jsonString));
@@ -31,7 +31,7 @@ You can also wrap validation functions that might throw exceptions.
 <CodeBlock
   filename="validation.ts"
   language="typescript"
-  code={`import { catchErrorSync } from 'Catcher';
+  code={`import { catchErrorSync } from '@catcherjs/core';
 
 function validateAge(age: number) {
 if (age < 18) {

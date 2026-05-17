@@ -1,4 +1,4 @@
-# @catcher/core
+# @catcherjs/core
 
 A production-ready TypeScript utility for clean error handling. Inspired by Go's explicit error handling and Rust's Result pattern, Catcher helps you write safer, more readable code by treating errors as values.
 
@@ -13,9 +13,9 @@ A production-ready TypeScript utility for clean error handling. Inspired by Go's
 ## Installation
 
 ```bash
-pnpm add @catcher/core
+pnpm add @catcherjs/core
 # or
-npm install @catcher/core
+npm install @catcherjs/core
 ```
 
 ## Core Concepts
@@ -25,7 +25,7 @@ npm install @catcher/core
 This approach mimics the error handling style found in languages like Go.
 
 ```typescript
-import { catchErrorSync } from '@catcher/core'
+import { catchErrorSync } from '@catcherjs/core'
 
 const [error, data] = catchErrorSync(() => JSON.parse('{"valid": true}'))
 
@@ -42,7 +42,7 @@ console.log(data.valid)
 This approach uses fluent methods to check the status and retrieve values.
 
 ```typescript
-import { catchError } from '@catcher/core'
+import { catchError } from '@catcherjs/core'
 
 const result = await catchError(fetchUser(1))
 

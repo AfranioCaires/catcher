@@ -16,7 +16,7 @@ Esta abordagem imita o estilo de tratamento de erros encontrado em linguagens co
 <CodeBlock
   filename="tuple-usage.ts"
   language="typescript"
-  code={`import { catchErrorSync } from 'Catcher';
+  code={`import { catchErrorSync } from '@catcherjs/core';
 
 const [error, data] = catchErrorSync(() => JSON.parse('{"valid": true}'));
 
@@ -34,7 +34,7 @@ Esta abordagem usa métodos fluentes para verificar o status e recuperar valores
 <CodeBlock
   filename="object-api.ts"
   language="typescript"
-  code={`import { catchErrorSync } from 'Catcher';
+  code={`import { catchErrorSync } from '@catcherjs/core';
 
 const result = catchErrorSync(() => JSON.parse('{"valid": true}'));
 

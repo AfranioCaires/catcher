@@ -38,7 +38,7 @@ importers:
       '@base-ui/react':
         specifier: 1.4.1
         version: 1.4.1(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@catcher/core':
+      '@catcherjs/core':
         specifier: workspace:*
         version: link:../catcher
       '@shikijs/rehype':
