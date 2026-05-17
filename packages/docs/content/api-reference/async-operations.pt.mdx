@@ -12,7 +12,7 @@ Você pode encapsular qualquer Promise, como requisições de rede ou consultas 
 <CodeBlock
   filename="async-fetch.ts"
   language="typescript"
-  code={`import { catchError } from 'Catcher';
+  code={`import { catchError } from '@catcherjs/core';
 
 async function fetchUser(id: number) {
 const [error, data] = await catchError(
@@ -36,7 +36,7 @@ A biblioteca também fornece `catchErrorWithTimeout` para lidar com operações 
 <CodeBlock
   filename="timeout-usage.ts"
   language="typescript"
-  code={`import { catchErrorWithTimeout } from 'Catcher';
+  code={`import { catchErrorWithTimeout } from '@catcherjs/core';
 
 const [error, data] = await catchErrorWithTimeout(
 fetch('https://api.slow-service.com/data'),
@@ -59,7 +59,7 @@ Se qualquer promise no array falhar, todo o `Promise.all` falha. O `catchError` 
 <CodeBlock
   filename="promise-all.ts"
   language="typescript"
-  code={`import { catchError } from 'Catcher';
+  code={`import { catchError } from '@catcherjs/core';
 
 const [error, data] = await catchError(Promise.all([
 fetch('https://api.example.com/posts/1').then(res => res.json()),
@@ -80,7 +80,7 @@ O `Promise.allSettled` nunca é rejeitado. Ele é resolvido com um array de stat
 <CodeBlock
   filename="promise-all-settled.ts"
   language="typescript"
-  code={`import { catchError } from 'Catcher';
+  code={`import { catchError } from '@catcherjs/core';
 
 const [error, settledData] = await catchError(Promise.allSettled([
 fetch('https://api.example.com/posts/1').then(res => res.json()),

@@ -31,7 +31,7 @@ This project is a monorepo managed by [pnpm](https://pnpm.io/).
 
 ### Project Structure
 
-- `packages/catcher`: The core library (`@catcher/core`).
+- `packages/catcher`: The core library (`@catcherjs/core`).
 - `packages/docs`: The documentation website.
 
 ### Running Tests
@@ -43,7 +43,7 @@ We use [Vitest](https://vitest.dev/) for testing.
 pnpm test
 
 # Run tests in watch mode for the core library
-pnpm --filter @catcher/core test:watch
+pnpm --filter @catcherjs/core test:watch
 ```
 
 ### Linting and Formatting

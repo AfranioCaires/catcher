@@ -16,7 +16,7 @@ Combina um array de Results em um único Result. Se todos forem bem-sucedidos, r
 <CodeBlock
   filename="combine.ts"
   language="typescript"
-  code={`import { combine, ok, err } from 'Catcher';
+  code={`import { combine, ok, err } from '@catcherjs/core';
 
 const combined = combine([ok(1), ok(2), ok(3)]);
 console.log(combined.unwrap());
@@ -32,7 +32,7 @@ Semelhante ao `combine`, mas não interrompe a execução no primeiro erro. Ele 
 <CodeBlock
   filename="batch.ts"
   language="typescript"
-  code={`import { combineAll, ok, err } from 'Catcher';
+  code={`import { combineAll, ok, err } from '@catcherjs/core';
 
 const result = combineAll([ok(1), err('Erro1'), err('Erro2')]);
 
@@ -48,7 +48,7 @@ Divide um array de Results em dois arrays separados: um para os valores bem-suce
 <CodeBlock
   filename="partition.ts"
   language="typescript"
-  code={`import { partition, ok, err } from 'Catcher';
+  code={`import { partition, ok, err } from '@catcherjs/core';
 
 const { ok: data, err: errors } = partition([ok(1), err('Falha'), ok(3)]);
 
@@ -67,7 +67,7 @@ Converte um valor anulável (`null` ou `undefined`) em um Result.
 <CodeBlock
   filename="nullable.ts"
   language="typescript"
-  code={`import { fromNullable } from 'Catcher';
+  code={`import { fromNullable } from '@catcherjs/core';
 
 const user = null;
 const result = fromNullable(user, new Error('Usuário não encontrado'));
@@ -82,7 +82,7 @@ Encapsula uma função síncrona que pode lançar exceções em uma que retorna 
 <CodeBlock
   filename="throwable.ts"
   language="typescript"
-  code={`import { fromThrowable } from 'Catcher';
+  code={`import { fromThrowable } from '@catcherjs/core';
 
 const safeParse = fromThrowable(JSON.parse);
 const result = safeParse('{ invalid }');
@@ -99,7 +99,7 @@ Um alias para `catchError`. Ele encapsula uma Promise e retorna um `AsyncResult`
 <CodeBlock
   filename="promise-alias.ts"
   language="typescript"
-  code={`import { fromPromise } from 'Catcher';
+  code={`import { fromPromise } from '@catcherjs/core';
 
 const result = await fromPromise(fetch('https://api.example.com/data'));`}
 />

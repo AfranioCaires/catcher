@@ -20,22 +20,22 @@ Use o gerenciador de pacotes de sua preferência para adicionar a biblioteca ao 
 <Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
   <Tab value="npm">
     ```bash
-    npm install Catcher
+    npm install @catcherjs/core
     ```
   </Tab>
   <Tab value="pnpm">
     ```bash
-    pnpm add Catcher
+    pnpm add @catcherjs/core
     ```
   </Tab>
   <Tab value="yarn">
     ```bash
-    yarn add Catcher
+    yarn add @catcherjs/core
     ```
   </Tab>
   <Tab value="bun">
     ```bash
-    bun add Catcher
+    bun add @catcherjs/core
     ```
   </Tab>
 </Tabs>
@@ -47,7 +47,7 @@ Use o gerenciador de pacotes de sua preferência para adicionar a biblioteca ao 
 Importe a função e envolva sua promise.
 
 ```typescript
-import { catchError } from 'Catcher'
+import { catchError } from '@catcherjs/core'
 
 async function fetchUser(userId: string) {
   const [error, data] = await catchError(fetch(`https://api.example.com/users/${userId}`))

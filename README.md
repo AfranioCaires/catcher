@@ -15,7 +15,7 @@ A production-ready TypeScript utility for clean error handling. Inspired by Go's
 
 This repository is organized as a monorepo using pnpm workspaces:
 
-- `packages/catcher`: The core library (@catcher/core).
+- `packages/catcher`: The core library (@catcherjs/core).
 - `packages/docs`: The official documentation and examples.
 
 ## Getting Started
@@ -23,13 +23,13 @@ This repository is organized as a monorepo using pnpm workspaces:
 ### Installation
 
 ```bash
-pnpm add @catcher/core
+pnpm add @catcherjs/core
 ```
 
 ### Basic Usage
 
 ```typescript
-import { catchError } from '@catcher/core';
+import { catchError } from '@catcherjs/core';
 
 const [error, data] = await catchError(fetchUser(id));
 

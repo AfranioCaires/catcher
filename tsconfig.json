@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@catcher/core": ["packages/catcher/src/index.ts"]
+      "@catcherjs/core": ["packages/catcher/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "**/dist"]

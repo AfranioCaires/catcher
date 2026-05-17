@@ -12,7 +12,7 @@ Você pode fornecer um array de classes Error como um argumento secundário. Se 
 <CodeBlock
   filename="error-filter.ts"
   language="typescript"
-  code={`import { catchErrorSync } from 'Catcher';
+  code={`import { catchErrorSync } from '@catcherjs/core';
 
 class DatabaseError extends Error {
 name = 'DatabaseError';
@@ -46,7 +46,7 @@ Você pode passar várias classes para lidar com diferentes modos de falha esper
 <CodeBlock
   filename="combined-filters.ts"
   language="typescript"
-  code={`import { catchErrorSync } from 'Catcher';
+  code={`import { catchErrorSync } from '@catcherjs/core';
 
 const [error, data] = catchErrorSync(
 () => performComplexTask(),

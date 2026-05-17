@@ -16,7 +16,7 @@ Combines an array of Results into a single Result. If all succeed, it returns `o
 <CodeBlock
   filename="combine.ts"
   language="typescript"
-  code={`import { combine, ok, err } from 'Catcher';
+  code={`import { combine, ok, err } from '@catcherjs/core';
 
 const combined = combine([ok(1), ok(2), ok(3)]);
 console.log(combined.unwrap());
@@ -32,7 +32,7 @@ Similar to `combine`, but it does not short-circuit. It collects **all** errors.
 <CodeBlock
   filename="batch.ts"
   language="typescript"
-  code={`import { combineAll, ok, err } from 'Catcher';
+  code={`import { combineAll, ok, err } from '@catcherjs/core';
 
 const result = combineAll([ok(1), err('Err1'), err('Err2')]);
 
@@ -48,7 +48,7 @@ Splits an array of Results into two separate arrays: one for the successful valu
 <CodeBlock
   filename="partition.ts"
   language="typescript"
-  code={`import { partition, ok, err } from 'Catcher';
+  code={`import { partition, ok, err } from '@catcherjs/core';
 
 const { ok: data, err: errors } = partition([ok(1), err('Fail'), ok(3)]);
 
@@ -67,7 +67,7 @@ Converts a nullable value (`null` or `undefined`) into a Result.
 <CodeBlock
   filename="nullable.ts"
   language="typescript"
-  code={`import { fromNullable } from 'Catcher';
+  code={`import { fromNullable } from '@catcherjs/core';
 
 const user = null;
 const result = fromNullable(user, new Error('User not found'));
@@ -82,7 +82,7 @@ Wraps a synchronous function into one that returns a `Result` instead of throwin
 <CodeBlock
   filename="throwable.ts"
   language="typescript"
-  code={`import { fromThrowable } from 'Catcher';
+  code={`import { fromThrowable } from '@catcherjs/core';
 
 const safeParse = fromThrowable(JSON.parse);
 const result = safeParse('{ invalid }');
@@ -99,7 +99,7 @@ An alias for `catchError`. It wraps a Promise and returns an `AsyncResult`.
 <CodeBlock
   filename="promise-alias.ts"
   language="typescript"
-  code={`import { fromPromise } from 'Catcher';
+  code={`import { fromPromise } from '@catcherjs/core';
 
 const result = await fromPromise(fetch('https://api.example.com/data'));`}
 />
