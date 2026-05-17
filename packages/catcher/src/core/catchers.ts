@@ -2,16 +2,19 @@ import { err, ok } from './factories'
 import { Result } from './types'
 
 /**
- * Executes a Promise and wraps its outcome in a Result.
- * @param promise The Promise to execute.
+ * Executes a Promise or a function that returns a Promise and wraps its outcome in a Result.
+ * @param promiseOrFn The Promise or function to execute.
  * @param errorsToCatch Optional array of Error classes to catch.
  */
 export async function catchError<
   T,
   E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
->(promise: Promise<T>, errorsToCatch?: E[]): Promise<Result<T, InstanceType<E>>> {
+>(
+  promiseOrFn: Promise<T> | (() => Promise<T>),
+  errorsToCatch?: E[],
+): Promise<Result<T, InstanceType<E>>> {
   try {
-    const data = await promise
+    const data = await (typeof promiseOrFn === 'function' ? promiseOrFn() : promiseOrFn)
     return ok(data) as any
   } catch (error: any) {
     if (
@@ -26,8 +29,8 @@ export async function catchError<
 }
 
 /**
- * Executes a Promise with a timeout and wraps its outcome in a Result.
- * @param promise The Promise to execute.
+ * Executes a Promise or a function that returns a Promise with a timeout and wraps its outcome in a Result.
+ * @param promiseOrFn The Promise or function to execute.
  * @param timeoutMs Timeout in milliseconds.
  * @param errorsToCatch Optional array of Error classes to catch.
  */
@@ -35,11 +38,13 @@ export async function catchErrorWithTimeout<
   T,
   E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
 >(
-  promise: Promise<T>,
+  promiseOrFn: Promise<T> | (() => Promise<T>),
   timeoutMs: number,
   errorsToCatch?: E[],
-): Promise<Result<T, InstanceType<E> | Error>> {
+): Promise<Result<T, InstanceType<E>>> {
   let timeoutId: any
+  const promise = typeof promiseOrFn === 'function' ? promiseOrFn() : promiseOrFn
+
   const timeoutPromise = new Promise<never>((_, reject) => {
     timeoutId = setTimeout(() => {
       reject(new Error(`Operation timed out after ${timeoutMs}ms`))

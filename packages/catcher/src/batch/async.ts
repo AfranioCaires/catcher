@@ -5,11 +5,16 @@ import { Result } from '../core/types'
 /** Allowed input types for batch catchErrorAll operations. */
 export type CatchErrorAllInput<T> =
   | Promise<T>
-  | readonly [Promise<T>]
-  | readonly [Promise<T>, (new (...args: any[]) => Error)[]]
-  | readonly [Promise<T>, (new (...args: any[]) => Error)[], (error: any) => T | void]
+  | (() => Promise<T>)
+  | readonly [Promise<T> | (() => Promise<T>)]
+  | readonly [Promise<T> | (() => Promise<T>), (new (...args: any[]) => Error)[]]
+  | readonly [
+      Promise<T> | (() => Promise<T>),
+      (new (...args: any[]) => Error)[],
+      (error: any) => T | void,
+    ]
   | {
-      promise: Promise<T>
+      promise: Promise<T> | (() => Promise<T>)
       timeoutMs?: number
       errorsToCatch?: (new (...args: any[]) => Error)[]
       handler?: (error: any) => T | void
@@ -31,22 +36,22 @@ export function catchErrorAll<T extends readonly CatchErrorAllInput<any>[]>(
 export function catchErrorAll<T extends readonly CatchErrorAllInput<any>[]>(inputs: [...T]) {
   return Promise.all(
     inputs.map(async (input) => {
-      let promise: Promise<any>
+      let promiseOrFn: Promise<any> | (() => Promise<any>)
       let timeoutMs: number | undefined
       let errorsToCatch: (new (...args: any[]) => Error)[] | undefined
       let handler: ((error: any) => any | void) | undefined
 
-      if (input instanceof Promise) {
-        promise = input
+      if (input instanceof Promise || typeof input === 'function') {
+        promiseOrFn = input as any
       } else if (Array.isArray(input)) {
-        ;[promise, errorsToCatch, handler] = input as any
+        ;[promiseOrFn, errorsToCatch, handler] = input as any
       } else {
-        ;({ promise, timeoutMs, errorsToCatch, handler } = input as any)
+        ;({ promise: promiseOrFn, timeoutMs, errorsToCatch, handler } = input as any)
       }
 
       const result = await (timeoutMs !== undefined
-        ? catchErrorWithTimeout(promise, timeoutMs, errorsToCatch)
-        : catchError(promise, errorsToCatch))
+        ? catchErrorWithTimeout(promiseOrFn, timeoutMs, errorsToCatch)
+        : catchError(promiseOrFn, errorsToCatch))
 
       if (result.isErr() && handler) {
         const fallback = handler(result.error)
