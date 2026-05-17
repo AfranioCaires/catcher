@@ -1,5 +1,5 @@
 {
-  "name": "@catcher/core",
+  "name": "@catcherjs/core",
   "version": "1.0.0",
   "description": "A TypeScript utility for clean error handling using a Result pattern.",
   "keywords": [
