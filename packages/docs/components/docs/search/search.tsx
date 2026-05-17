@@ -76,6 +76,12 @@ const mdComponents = {
   },
 }
 
+/**
+ * Renders the documentation search trigger and searchable dialog that shows remote search results or a browsable page tree.
+ *
+ * @param tree - Optional page tree object whose `children` (folders with `page` items) are used to build the browseable groups shown when no search query is entered.
+ * @returns A React element containing the search trigger button and the command-style search dialog with results and tree groups.
+ */
 export function Search({ tree }: { tree?: any }) {
   const { lang } = useParams()
   const [open, setOpen] = useState(false)

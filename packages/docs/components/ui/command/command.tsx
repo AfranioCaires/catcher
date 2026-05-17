@@ -28,6 +28,14 @@ function CommandDialogBackdrop({ className, ...props }: Dialog.Backdrop.Props) {
   )
 }
 
+/**
+ * Renders a dialog popup inside a portal together with its backdrop.
+ *
+ * Renders a Dialog.Popup wrapped in the CommandDialogPortal and a CommandDialogBackdrop.
+ *
+ * @param backdropClassName - Optional CSS class name applied to the backdrop element
+ * @returns A React element containing the backdrop and the dialog popup
+ */
 function CommandDialogPopup({
   className,
   backdropClassName,

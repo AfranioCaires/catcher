@@ -46,6 +46,13 @@ export const metadata: Metadata = {
   },
 }
 
+/**
+ * Root layout component that renders the HTML document and wraps the app's UI with global providers for fonts, styles, theme, palette, and UI root.
+ *
+ * @param params - Promise resolving to route parameters; must include `lang`, the page language code
+ * @param children - The application content to be rendered inside the root providers
+ * @returns The top-level HTML structure containing the provided children wrapped by global providers and including analytics
+ */
 export default async function RootLayout({
   params,
   children,
