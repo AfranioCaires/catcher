@@ -1,0 +1,31 @@
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch: # Permite disparar manualmente para testar
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Obrigatório para Trusted Publishing
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: pnpm install --frozen-lockfile
+      
+      - name: Build Core
+        run: pnpm --filter @catcherjs/core build
+
+      - name: Publish to npm
+        run: pnpm publish --filter @catcherjs/core --access public --no-git-checks --provenance
