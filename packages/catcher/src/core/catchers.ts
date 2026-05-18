@@ -60,15 +60,19 @@ export async function catchErrorWithTimeout<
   errorsToCatch?: E[],
 ): Promise<Result<T, InstanceType<E> | Error>> {
   let timeoutId: any
-  const promise = typeof promiseOrFn === 'function' ? (promiseOrFn as Function)() : promiseOrFn
-
-  const timeoutPromise = new Promise<never>((_, reject) => {
-    timeoutId = setTimeout(() => {
-      reject(new Error(`Operation timed out after ${timeoutMs}ms`))
-    }, timeoutMs)
-  })
 
   try {
+    const promise =
+      typeof promiseOrFn === 'function'
+        ? Promise.resolve().then(() => (promiseOrFn as Function)())
+        : promiseOrFn
+
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      timeoutId = setTimeout(() => {
+        reject(new Error(`Operation timed out after ${timeoutMs}ms`))
+      }, timeoutMs)
+    })
+
     const filters = errorsToCatch ? ([...errorsToCatch, Error] as any) : undefined
     return await catchError(Promise.race([promise, timeoutPromise]), filters)
   } finally {

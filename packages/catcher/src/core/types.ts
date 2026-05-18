@@ -111,9 +111,9 @@ export type ResultFailure<T, E> = {
  * Discriminated union representing either success (ok) or failure (err).
  * Narrowed by checking the `error` property or using `isOk()` / `isErr()` methods.
  */
-export type Result<T, E = Error> = ResultSuccess<T, E> | ResultFailure<T, E>
+export type Result<T, E = unknown> = ResultSuccess<T, E> | ResultFailure<T, E>
 
 /**
  * Utility type for Results wrapped in a Promise.
  */
-export type AsyncResult<T, E = any> = Promise<Result<T, E>>
+export type AsyncResult<T, E = unknown> = Promise<Result<T, E>>
