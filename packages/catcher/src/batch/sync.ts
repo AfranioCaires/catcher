@@ -26,6 +26,20 @@ export function catchErrorAllSync<T extends readonly CatchErrorAllSyncInput<any>
   [K in keyof T]: Result<InferInputSync<T[K]>, Error>
 }
 
+/**
+ * Execute multiple synchronous callables (or callable descriptors) and collect their results.
+ *
+ * For each entry in `inputs` the callable is invoked and its outcome is returned as a `Result`:
+ * - On success the `Result` contains the callable's return value.
+ * - On thrown `Error` the `Result` contains that error; if a handler is provided and returns a value other than `undefined`,
+ *   that value is used as a successful fallback instead of the error.
+ *
+ * @param inputs - An array/tuple of callable inputs. Each element may be provided as:
+ *   - a function `() => R`,
+ *   - a tuple `[() => R, errorsToCatch? , handler?]` where `errorsToCatch` is an array of `Error` constructors to catch and `handler` is `(error) => R | void`,
+ *   - or an object `{ fn: () => R, errorsToCatch?: ErrorConstructor[], handler?: (error) => R | void }`.
+ * @returns A tuple with the same shape as `inputs` where each element is `Result<R, Error>`: the callable's return value on success or the thrown `Error` on failure (subject to handler fallbacks).
+ */
 export function catchErrorAllSync<T extends readonly CatchErrorAllSyncInput<any>[]>(
   inputs: [...T],
 ) {

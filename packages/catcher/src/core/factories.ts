@@ -1,16 +1,20 @@
 import { Result, ResultFailure, ResultMethods, ResultSuccess } from './types'
 
 /**
- * Creates a successful Result containing the provided data.
- * @param data The success value.
+ * Creates a successful Result that contains the provided value.
+ *
+ * @param data - The success value to store in the Result.
+ * @returns A Result representing success that contains `data`.
  */
 export function ok<T>(data: T): Result<T, never> {
   return makeResult<T, never>(undefined, data, OK_SYMBOL)
 }
 
 /**
- * Creates a failed Result containing the provided error.
- * @param error The error value.
+ * Create a failed Result that encapsulates the provided error.
+ *
+ * @param error - The failure value to store in the Result
+ * @returns A `Result` in the error state containing `error`
  */
 export function err<E>(error: E): Result<never, E> {
   return makeResult(error, undefined, 'err') as any
@@ -24,6 +28,19 @@ const OK_SYMBOL = Symbol('ok')
  */
 export function makeResult<T, E>(error: E, data: undefined, status: typeof OK_SYMBOL | 'err'): ResultFailure<T, E>
 export function makeResult<T, E>(error: undefined, data: T, status: typeof OK_SYMBOL): ResultSuccess<T, E>
+/**
+ * Create a Result value representing either success or failure.
+ *
+ * The returned value is an array-like Result<T, E> with numeric indices [error, data],
+ * enumerables for `error` and `data`, and all standard Result methods attached
+ * (isOk, isErr, unwrap, unwrapErr, getOrElse, map, mapErr, andThen/flatMap,
+ * orElse, tap, tapErr, toPromise).
+ *
+ * @param error - The failure payload when creating an error Result; pass `undefined` for a success Result.
+ * @param data - The success payload when creating a success Result; optional for error Results.
+ * @param status - Discriminator that determines intended status: use `OK_SYMBOL` to permit a success Result or `'err'` to force an error Result. A Result is considered successful only when `status === OK_SYMBOL` and `error === undefined`.
+ * @returns A Result<T, E> representing either success (containing `data`) or failure (containing `error`).
+ */
 export function makeResult<T, E>(error: E | undefined, data?: T, status: typeof OK_SYMBOL | 'err' = OK_SYMBOL): Result<T, E> {
   const isOkStatus = status === OK_SYMBOL && error === undefined
 
