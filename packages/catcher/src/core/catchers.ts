@@ -65,7 +65,7 @@ export async function catchErrorWithTimeout<
     const promise =
       typeof promiseOrFn === 'function'
         ? Promise.resolve().then(() => (promiseOrFn as Function)())
-        : promiseOrFn
+        : Promise.resolve(promiseOrFn)
 
     const timeoutPromise = new Promise<never>((_, reject) => {
       timeoutId = setTimeout(() => {
