@@ -9,12 +9,20 @@ import { Result } from './types'
 export async function catchError<
   T,
   E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
+>(promise: Promise<T>, errorsToCatch?: E[]): Promise<Result<T, InstanceType<E>>>
+export async function catchError<
+  T,
+  E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
+>(fn: () => T | Promise<T>, errorsToCatch?: E[]): Promise<Result<T, InstanceType<E>>>
+export async function catchError<
+  T,
+  E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
 >(
-  promiseOrFn: Promise<T> | (() => Promise<T>),
+  promiseOrFn: Promise<T> | (() => T | Promise<T>),
   errorsToCatch?: E[],
 ): Promise<Result<T, InstanceType<E>>> {
   try {
-    const data = await (typeof promiseOrFn === 'function' ? promiseOrFn() : promiseOrFn)
+    const data = await (typeof promiseOrFn === 'function' ? (promiseOrFn as Function)() : promiseOrFn)
     return ok(data) as any
   } catch (error: any) {
     if (
@@ -38,12 +46,12 @@ export async function catchErrorWithTimeout<
   T,
   E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
 >(
-  promiseOrFn: Promise<T> | (() => Promise<T>),
+  promiseOrFn: Promise<T> | (() => T | Promise<T>),
   timeoutMs: number,
   errorsToCatch?: E[],
 ): Promise<Result<T, InstanceType<E> | Error>> {
   let timeoutId: any
-  const promise = typeof promiseOrFn === 'function' ? promiseOrFn() : promiseOrFn
+  const promise = typeof promiseOrFn === 'function' ? (promiseOrFn as Function)() : promiseOrFn
 
   const timeoutPromise = new Promise<never>((_, reject) => {
     timeoutId = setTimeout(() => {

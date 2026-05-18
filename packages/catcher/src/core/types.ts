@@ -89,33 +89,29 @@ export interface ResultMethods<T, E> {
 
 /**
  * Represents a successful operation result.
- * Structured as an object that mimics a tuple for destructuring support.
  */
 export type ResultSuccess<T, E = never> = {
   readonly error: undefined
   readonly data: T
   readonly 0: undefined
   readonly 1: T
-} & ResultMethods<T, E> &
-  Iterable<undefined | T>
+} & ResultMethods<T, E> & [undefined, T]
 
 /**
  * Represents a failed operation result.
- * Structured as an object that mimics a tuple for destructuring support.
  */
 export type ResultFailure<T, E> = {
   readonly error: E
   readonly data: undefined
   readonly 0: E
   readonly 1: undefined
-} & ResultMethods<T, E> &
-  Iterable<E | undefined>
+} & ResultMethods<T, E> & [E, undefined]
 
 /**
  * Discriminated union representing either success (ok) or failure (err).
  * Narrowed by checking the `error` property or using `isOk()` / `isErr()` methods.
  */
-export type Result<T, E = any> = ResultSuccess<T, E> | ResultFailure<T, E>
+export type Result<T, E = Error> = ResultSuccess<T, E> | ResultFailure<T, E>
 
 /**
  * Utility type for Results wrapped in a Promise.
