@@ -49,7 +49,7 @@ describe('catchErrorAll (Async Batch)', () => {
       },
     ])
     expect(r1.isErr()).toBe(true)
-    expect(r1.error.message).toContain('timed out')
+    expect(r1.error?.message).toContain('timed out')
   })
 
   it('should support tuple syntax', async () => {
@@ -72,9 +72,7 @@ describe('catchErrorAll (Async Batch)', () => {
     const [r1] = await catchErrorAll([
       {
         promise: p1,
-        handler: () => {
-          /* returns undefined */
-        },
+        handler: () => {},
       },
     ])
     expect(r1.isErr()).toBe(true)
