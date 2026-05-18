@@ -23,7 +23,7 @@ type InferInputSync<T> = T extends CatchErrorAllSyncInput<infer R> ? R : never
 export function catchErrorAllSync<T extends readonly CatchErrorAllSyncInput<any>[]>(
   inputs: [...T],
 ): {
-  [K in keyof T]: Result<InferInputSync<T[K]>, any>
+  [K in keyof T]: Result<InferInputSync<T[K]>, Error>
 }
 
 export function catchErrorAllSync<T extends readonly CatchErrorAllSyncInput<any>[]>(

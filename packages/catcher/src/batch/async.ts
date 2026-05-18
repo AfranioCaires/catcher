@@ -30,7 +30,7 @@ type InferInput<T> = T extends CatchErrorAllInput<infer R> ? R : never
 export function catchErrorAll<T extends readonly CatchErrorAllInput<any>[]>(
   inputs: [...T],
 ): Promise<{
-  [K in keyof T]: Result<InferInput<T[K]>, any>
+  [K in keyof T]: Result<InferInput<T[K]>, Error>
 }>
 
 export function catchErrorAll<T extends readonly CatchErrorAllInput<any>[]>(inputs: [...T]) {
@@ -50,8 +50,8 @@ export function catchErrorAll<T extends readonly CatchErrorAllInput<any>[]>(inpu
       }
 
       const result = await (timeoutMs !== undefined
-        ? catchErrorWithTimeout(promiseOrFn, timeoutMs, errorsToCatch)
-        : catchError(promiseOrFn, errorsToCatch))
+        ? catchErrorWithTimeout(promiseOrFn as any, timeoutMs, errorsToCatch)
+        : catchError(promiseOrFn as any, errorsToCatch))
 
       if (result.isErr() && handler) {
         const fallback = handler(result.error)
