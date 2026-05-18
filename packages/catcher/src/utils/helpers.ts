@@ -16,7 +16,11 @@ export function fromNullable<T, E>(value: T | null | undefined, error: E): Resul
  * @param fn The function to wrap.
  * @param errorsToCatch Optional array of Error classes to catch. If omitted, catches all errors.
  */
-export function fromThrowable<T, E extends new (...args: any[]) => Error, Args extends any[]>(
+export function fromThrowable<
+  T,
+  E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
+  Args extends any[] = any[],
+>(
   fn: (...args: Args) => T,
   errorsToCatch?: E[],
 ): (...args: Args) => Result<T, InstanceType<E>> {
@@ -32,9 +36,17 @@ export function fromThrowable<T, E extends new (...args: any[]) => Error, Args e
 export function fromPromise<
   T,
   E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
+>(promise: Promise<T>, errorsToCatch?: E[]): Promise<Result<T, InstanceType<E>>>
+export function fromPromise<
+  T,
+  E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
+>(fn: () => T | Promise<T>, errorsToCatch?: E[]): Promise<Result<T, InstanceType<E>>>
+export function fromPromise<
+  T,
+  E extends new (...args: any[]) => Error = new (...args: any[]) => Error,
 >(
-  promiseOrFn: Promise<T> | (() => Promise<T>),
+  promiseOrFn: Promise<T> | (() => T | Promise<T>),
   errorsToCatch?: E[],
 ): Promise<Result<T, InstanceType<E>>> {
-  return catchError(promiseOrFn, errorsToCatch)
+  return catchError(promiseOrFn as any, errorsToCatch)
 }
