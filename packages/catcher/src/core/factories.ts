@@ -20,7 +20,7 @@ const OK_SYMBOL = Symbol('ok')
 
 /**
  * Internal factory to create the Result object.
- * Implements the hybrid Object/Tuple/Iterable structure.
+ * Implements the hybrid Object/Tuple structure.
  */
 export function makeResult<T, E>(error: E, data: undefined, status: typeof OK_SYMBOL | 'err'): ResultFailure<T, E>
 export function makeResult<T, E>(error: undefined, data: T, status: typeof OK_SYMBOL): ResultSuccess<T, E>
