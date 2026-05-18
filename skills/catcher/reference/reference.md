@@ -33,12 +33,12 @@ function catchErrorSync<T, E extends ErrorClass>(
 ```ts
 type CatchErrorAllInput<T> =
   | Promise<T>
-  | (() => Promise<T>)
-  | readonly [Promise<T> | (() => Promise<T>)]
-  | readonly [Promise<T> | (() => Promise<T>), ErrorClass[]]
-  | readonly [Promise<T> | (() => Promise<T>), ErrorClass[], (error: any) => T | void]
+  | (() => T | Promise<T>)
+  | readonly [Promise<T> | (() => T | Promise<T>)]
+  | readonly [Promise<T> | (() => T | Promise<T>), ErrorClass[]]
+  | readonly [Promise<T> | (() => T | Promise<T>), ErrorClass[], (error: any) => T | void]
   | {
-      promise: Promise<T> | (() => Promise<T>);
+      promise: Promise<T> | (() => T | Promise<T>);
       timeoutMs?: number;
       errorsToCatch?: ErrorClass[];
       handler?: (error: any) => T | void;
