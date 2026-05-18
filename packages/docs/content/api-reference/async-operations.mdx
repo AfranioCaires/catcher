@@ -108,10 +108,10 @@ Wrapping Promises adds negligible overhead. It is safe to use in high-throughput
 <PropTable
   data={[
     {
-      prop: 'promise',
-      type: 'Promise<T>',
+      prop: 'promiseOrFn',
+      type: 'Promise<T> | (() => T | Promise<T>)',
       required: true,
-      description: 'The Promise to execute and catch potential errors from.',
+      description: 'The Promise or function returning a value or Promise to execute and catch potential errors from.',
     },
     {
       prop: 'errorsToCatch',
@@ -132,10 +132,10 @@ Wrapping Promises adds negligible overhead. It is safe to use in high-throughput
 <PropTable
   data={[
     {
-      prop: 'promise',
-      type: 'Promise<T>',
+      prop: 'promiseOrFn',
+      type: 'Promise<T> | (() => T | Promise<T>)',
       required: true,
-      description: 'The Promise to execute.',
+      description: 'The Promise or function returning a value or Promise to execute.',
     },
     {
       prop: 'timeoutMs',

@@ -7,7 +7,7 @@ The `Catcher` is built around the Result pattern. Instead of throwing exceptions
 
 ## Dual API
 
-The Result object returned by the library implements both standard object properties and iterator properties. This allows you to consume the result in two distinct ways, depending on your preference.
+The Result object returned by the library implements both standard object properties and a true tuple union structure (`[E, undefined] | [undefined, T]`). This allows you to consume the result in two distinct ways with perfect TypeScript type narrowing.
 
 ### Destructuring (Tuple)
 

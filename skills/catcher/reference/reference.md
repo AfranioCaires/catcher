@@ -4,7 +4,7 @@
 
 ```ts
 async function catchError<T, E extends ErrorClass>(
-  promise: Promise<T>,
+  promiseOrFn: Promise<T> | (() => T | Promise<T>),
   errorsToCatch?: E[],
 ): Promise<Result<T, InstanceType<E>>>;
 ```
@@ -13,7 +13,7 @@ async function catchError<T, E extends ErrorClass>(
 
 ```ts
 async function catchErrorWithTimeout<T, E extends ErrorClass>(
-  promise: Promise<T>,
+  promiseOrFn: Promise<T> | (() => T | Promise<T>),
   timeoutMs: number,
   errorsToCatch?: E[],
 ): Promise<Result<T, InstanceType<E> | Error>>;
@@ -33,11 +33,12 @@ function catchErrorSync<T, E extends ErrorClass>(
 ```ts
 type CatchErrorAllInput<T> =
   | Promise<T>
-  | readonly [Promise<T>]
-  | readonly [Promise<T>, ErrorClass[]]
-  | readonly [Promise<T>, ErrorClass[], (error: any) => T | void]
+  | (() => T | Promise<T>)
+  | readonly [Promise<T> | (() => T | Promise<T>)]
+  | readonly [Promise<T> | (() => T | Promise<T>), ErrorClass[]]
+  | readonly [Promise<T> | (() => T | Promise<T>), ErrorClass[], (error: any) => T | void]
   | {
-      promise: Promise<T>;
+      promise: Promise<T> | (() => T | Promise<T>);
       timeoutMs?: number;
       errorsToCatch?: ErrorClass[];
       handler?: (error: any) => T | void;
@@ -45,7 +46,7 @@ type CatchErrorAllInput<T> =
 
 function catchErrorAll<T extends readonly CatchErrorAllInput<any>[]>(
   inputs: [...T],
-): Promise<{ [K in keyof T]: Result<InferInput<T[K]>, any> }>;
+): Promise<{ [K in keyof T]: Result<InferInput<T[K]>, Error> }>;
 ```
 
 ## catchErrorAllSync
@@ -60,7 +61,7 @@ type CatchErrorAllSyncInput<T> =
 
 function catchErrorAllSync<T extends readonly CatchErrorAllSyncInput<any>[]>(
   inputs: [...T],
-): { [K in keyof T]: Result<InferInputSync<T[K]>, any> };
+): { [K in keyof T]: Result<InferInputSync<T[K]>, Error> };
 ```
 
 ## combine
@@ -103,8 +104,8 @@ function fromThrowable<T, E extends ErrorClass, Args extends any[]>(
 ## fromPromise
 
 ```ts
-function fromPromise<T, E extends ErrorClass>(
-  promise: Promise<T>,
+async function fromPromise<T, E extends ErrorClass>(
+  promiseOrFn: Promise<T> | (() => T | Promise<T>),
   errorsToCatch?: E[],
 ): Promise<Result<T, InstanceType<E>>>;
 ```

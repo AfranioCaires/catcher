@@ -98,4 +98,24 @@ describe('catchErrorWithTimeout', () => {
     expect(res.isErr()).toBe(true)
     expect(res.unwrapErr().message).toContain('timed out')
   })
+
+  it('should handle synchronous return values correctly and not bypass timeout logic', async () => {
+    const res = await catchErrorWithTimeout(() => 'sync success', 100)
+    expect(res.isOk()).toBe(true)
+    expect(res.data).toBe('sync success')
+  })
+
+  it('should catch synchronous throws from the provided function', async () => {
+    const res = await catchErrorWithTimeout(() => {
+      throw new Error('sync throw')
+    }, 100)
+    expect(res.isErr()).toBe(true)
+    expect(res.unwrapErr().message).toBe('sync throw')
+  })
+
+  it('should handle direct non-promise values correctly', async () => {
+    const res = await catchErrorWithTimeout('direct value' as any, 100)
+    expect(res.isOk()).toBe(true)
+    expect(res.data).toBe('direct value')
+  })
 })

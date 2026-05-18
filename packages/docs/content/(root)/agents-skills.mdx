@@ -79,12 +79,12 @@ Result, AsyncResult,
 
 ## 1. Fundamental Types
 
-| Type                | Description                   |
-| ------------------- | ----------------------------- |
-| Result<T, E>        | Success (ok) or failure (err) |
-| AsyncResult<T, E>   | Promise<Result<T, E>>         |
-| ResultSuccess<T, E> | Success result (type guard)   |
-| ResultFailure<T, E> | Failure result (type guard)   |
+| Type                | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| Result<T, E>        | Success (ok) or failure (err) [E, undefined] \| [undefined, T] |
+| AsyncResult<T, E>   | Promise<Result<T, E>>                             |
+| ResultSuccess<T, E> | Success result (type guard)                       |
+| ResultFailure<T, E> | Failure result (type guard)                       |
 
 \`\`\`ts
 const success = ok(42);
@@ -95,18 +95,18 @@ const failure = err(new Error("Oops"));
 
 ## 2. Catching Errors
 
-### catchError - Promise → Result
+### catchError - Promise or Function → Result
 
 \`\`\`ts
 const result = await catchError(fetch("/api/data"));
 
-const result2 = await catchError(fetchUser(id), [NetworkError, TimeoutError]);
+const result2 = await catchError(() => fetchUser(id), [NetworkError, TimeoutError]);
 \`\`\`
 
 ### catchErrorWithTimeout - with timeout
 
 \`\`\`ts
-const result = await catchErrorWithTimeout(longOperation(), 5000);
+const result = await catchErrorWithTimeout(() => longOperation(), 5000);
 \`\`\`
 
 ### catchErrorSync - synchronous function → Result
@@ -127,7 +127,11 @@ if (result.isOk()) console.log(result.data);
 if (result.isErr()) console.log(result.error);
 
 const [error, data] = result;
-if (error) { }
+if (error) { 
+  console.log(error.message);
+} else {
+  console.log(data.status);
+}
 
 result.data;
 result.error;
@@ -299,7 +303,7 @@ if (errors.length > 0) return err(errors);
 
 \`\`\`ts
 async function catchError<T, E extends ErrorClass>(
-promise: Promise<T>,
+promiseOrFn: Promise<T> | (() => T | Promise<T>),
 errorsToCatch?: E[]
 ): Promise<Result<T, InstanceType<E>>>
 \`\`\`
@@ -308,7 +312,7 @@ errorsToCatch?: E[]
 
 \`\`\`ts
 async function catchErrorWithTimeout<T, E extends ErrorClass>(
-promise: Promise<T>,
+promiseOrFn: Promise<T> | (() => T | Promise<T>),
 timeoutMs: number,
 errorsToCatch?: E[]
 ): Promise<Result<T, InstanceType<E> | Error>>
@@ -328,14 +332,15 @@ errorsToCatch?: E[]
 \`\`\`ts
 type CatchErrorAllInput<T> =
 | Promise<T>
-| readonly [Promise<T>]
-| readonly [Promise<T>, ErrorClass[]]
-| readonly [Promise<T>, ErrorClass[], (error: any) => T | void]
-| { promise: Promise<T>; timeoutMs?: number; errorsToCatch?: ErrorClass[]; handler?: (error: any) => T | void }
+| (() => T | Promise<T>)
+| readonly [Promise<T> | (() => T | Promise<T>)]
+| readonly [Promise<T> | (() => T | Promise<T>), ErrorClass[]]
+| readonly [Promise<T> | (() => T | Promise<T>), ErrorClass[], (error: any) => T | void]
+| { promise: Promise<T> | (() => T | Promise<T>); timeoutMs?: number; errorsToCatch?: ErrorClass[]; handler?: (error: any) => T | void }
 
 function catchErrorAll<T extends readonly CatchErrorAllInput<any>[]>(
 inputs: [...T]
-): Promise<{ [K in keyof T]: Result<InferInput<T[K]>, any> }>
+): Promise<{ [K in keyof T]: Result<InferInput<T[K]>, Error> }>
 \`\`\`
 
 ## catchErrorAllSync
@@ -350,7 +355,7 @@ type CatchErrorAllSyncInput<T> =
 
 function catchErrorAllSync<T extends readonly CatchErrorAllSyncInput<any>[]>(
 inputs: [...T]
-): { [K in keyof T]: Result<InferInputSync<T[K]>, any> }
+): { [K in keyof T]: Result<InferInputSync<T[K]>, Error> }
 \`\`\`
 
 ## combine
@@ -393,11 +398,12 @@ errorsToCatch?: E[]
 ## fromPromise
 
 \`\`\`ts
-function fromPromise<T, E extends ErrorClass>(
-promise: Promise<T>,
+async function fromPromise<T, E extends ErrorClass>(
+promiseOrFn: Promise<T> | (() => T | Promise<T>),
 errorsToCatch?: E[]
 ): Promise<Result<T, InstanceType<E>>>
 \`\`\`
+
 
 ## ok / err
 

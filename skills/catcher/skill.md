@@ -37,12 +37,12 @@ import {
 
 ## 1. Fundamental Types
 
-| Type                | Description                   |
-| ------------------- | ----------------------------- |
-| Result<T, E>        | Success (ok) or failure (err) |
-| AsyncResult<T, E>   | Promise<Result<T, E>>         |
-| ResultSuccess<T, E> | Success result (type guard)   |
-| ResultFailure<T, E> | Failure result (type guard)   |
+| Type                | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| Result<T, E>        | Success (ok) or failure (err) [E, undefined] \| [undefined, T] |
+| AsyncResult<T, E>   | Promise<Result<T, E>>                             |
+| ResultSuccess<T, E> | Success result (type guard)                       |
+| ResultFailure<T, E> | Failure result (type guard)                       |
 
 ```ts
 const success = ok(42);
@@ -53,18 +53,18 @@ const failure = err(new Error("Oops"));
 
 ## 2. Catching Errors
 
-### catchError - Promise → Result
+### catchError - Promise or Function → Result
 
 ```ts
 const result = await catchError(fetch("/api/data"));
 
-const result2 = await catchError(fetchUser(id), [NetworkError, TimeoutError]);
+const result2 = await catchError(() => fetchUser(id), [NetworkError, TimeoutError]);
 ```
 
 ### catchErrorWithTimeout - with timeout
 
 ```ts
-const result = await catchErrorWithTimeout(longOperation(), 5000);
+const result = await catchErrorWithTimeout(() => longOperation(), 5000);
 ```
 
 ### catchErrorSync - synchronous function → Result
@@ -84,9 +84,11 @@ const result = await catchError(getUser(id));
 if (result.isOk()) console.log(result.data);
 if (result.isErr()) console.log(result.error);
 
-const [error, data] = result;
+const [error, data] = result; // Perfect narrowing: if (error) -> data is undefined
 if (error) {
-  /* handle error */
+  console.log(error.message);
+} else {
+  console.log(data.status);
 }
 
 result.data;

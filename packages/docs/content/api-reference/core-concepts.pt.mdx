@@ -5,9 +5,10 @@ description: Entendendo o padrão Result e a API dupla.
 
 A `Catcher` é construída em torno do padrão Result. Em vez de lançar exceções que interrompem o fluxo de controle, as operações retornam um objeto Result que encapsula um resultado bem-sucedido ou um erro.
 
-## API Dupla
+## Dual API
 
-O objeto Result retornado pela biblioteca implementa tanto propriedades de objeto padrão quanto propriedades de iterador. Isso permite que você consuma o resultado de duas maneiras distintas, dependendo da sua preferência.
+O objeto Result retornado pela biblioteca implementa tanto propriedades de objeto padrão quanto uma estrutura de união de tupla real (`[E, undefined] | [undefined, T]`). Isso permite que você consuma o resultado de duas maneiras distintas com um estreitamento (narrowing) de tipo TypeScript perfeito.
+
 
 ### Desestruturação (Tupla)
 
