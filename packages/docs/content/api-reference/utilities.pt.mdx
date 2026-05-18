@@ -214,9 +214,9 @@ const result = await fromPromise(fetch('https://api.example.com/data'));`}
   data={[
     {
       prop: 'promiseOrFn',
-      type: 'Promise<T> | (() => Promise<T>)',
+      type: 'Promise<T> | (() => T | Promise<T>)',
       required: true,
-      description: 'A Promise ou função que retorna uma Promise a ser encapsulada.',
+      description: 'A Promise ou função que retorna um valor ou Promise a ser encapsulada.',
     },
     {
       prop: 'errorsToCatch',

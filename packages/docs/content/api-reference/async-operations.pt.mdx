@@ -109,9 +109,9 @@ O encapsulamento de Promises adiciona uma sobrecarga quase nula. É seguro para 
   data={[
     {
       prop: 'promiseOrFn',
-      type: 'Promise<T> | (() => Promise<T>)',
+      type: 'Promise<T> | (() => T | Promise<T>)',
       required: true,
-      description: 'A Promise ou função que retorna uma Promise a ser executada e da qual os erros potenciais serão capturados.',
+      description: 'A Promise ou função que retorna um valor ou Promise a ser executada e da qual os erros potenciais serão capturados.',
     },
     {
       prop: 'errorsToCatch',
@@ -133,9 +133,9 @@ O encapsulamento de Promises adiciona uma sobrecarga quase nula. É seguro para 
   data={[
     {
       prop: 'promiseOrFn',
-      type: 'Promise<T> | (() => Promise<T>)',
+      type: 'Promise<T> | (() => T | Promise<T>)',
       required: true,
-      description: 'A Promise ou função que retorna uma Promise a ser executada.',
+      description: 'A Promise ou função que retorna um valor ou Promise a ser executada.',
     },
     {
       prop: 'timeoutMs',

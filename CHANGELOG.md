@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - **Robust Status Handling**: Fixed a critical bug where throwing `undefined` or `null` was incorrectly treated as a successful operation.
 - **Type Narrowing**: Fixed an issue where destructuring `Result` as an object `{ data, error }` or tuple `[error, data]` would lose type narrowing.
+- **Synchronous Throws in Timeouts**: Fixed a bug where synchronous exceptions thrown by functions passed to `catchErrorWithTimeout` would escape the handler.
 
 ### Changed
 
